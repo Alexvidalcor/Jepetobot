@@ -71,7 +71,7 @@ Para desactivar el entorno de Python generado:
 deactivate
 ```
 
-**Deploy en AWS (necesario tener CDK preinstalado):**
+**Deploy en AWS (necesario tener CDK preinstalado) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
 
 Dentro del directorio "AWS_IaC", modificar los stacks de "tel_bot_aws_stack.py" como se desee. Posteriormente ejecutar:
 
