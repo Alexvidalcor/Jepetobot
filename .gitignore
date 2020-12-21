@@ -1,0 +1,21 @@
+venv/
+geckodriver.log
+test.ipynb
+__pycache__
+auth.py
+.venv
+cdk.json
+source.bat
+__init__.py
+
+
+*.swp
+package-lock.json
+__pycache__
+.pytest_cache
+.env
+*.egg-info
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
