@@ -3,6 +3,8 @@
 
 _Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtube._
 
+_Se incluye soporte para despliegue en AWS_
+
 
 ## Comenzando 🚀
 
