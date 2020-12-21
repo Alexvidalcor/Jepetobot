@@ -12,6 +12,7 @@ def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,text=GetSubs())
 
 if __name__ == '__main__':
+
     updater = Updater(token=token, use_context=True)
     dispatcher = updater.dispatcher
 
