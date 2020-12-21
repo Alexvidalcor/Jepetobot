@@ -1,2 +1,5 @@
-beautifulsoup4      4.9.3
-python-telegram-bot 13.1
+selenium
+python-telegram-bot==13.1
+
+aws-cdk.core==1.79.0
+aws-cdk.aws-ec2
