@@ -102,10 +102,10 @@ _Instalación de Python3 y librerías necesarias_
 
 ```
 sudo yum install python3
+
 sudo pip3 install python-telegram-bot
 sudo pip3 install selenium
 sudo pip3 install webdriver-manager
-
 ```
 
 
