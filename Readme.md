@@ -81,6 +81,33 @@ cdk synth
 cdk deploy
 ```
 
+**Para deploy manual en AWS (EC2 con AMI de "Amazon Linux 2")**
+
+Ejecutar los siguientes comandos en la instancia EC2:
+
+_Instalación de Google Chrome (Gracias a [UnderstandingData](https://understandingdata.com/install-google-chrome-selenium-ec2-aws/))_
+
+```
+sudo curl https://intoli.com/install-google-chrome.sh | bash
+sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
+```
+
+_Comprobación de instalación_
+
+```
+google-chrome – version && which google-chrome
+```
+
+_Instalación de Python3 y librerías necesarias_
+
+```
+sudo yum install python3
+sudo pip3 install python-telegram-bot
+sudo pip3 install selenium
+sudo pip3 install webdriver-manager
+
+```
+
 
 ## Construido con 🛠️
 
