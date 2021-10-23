@@ -6,24 +6,6 @@ _Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtu
 _Se incluye soporte para despliegue en AWS_
 
 
-## Comenzando 🚀
-
-_Para SO basados en Debian y Fedora._
-
-Ver **Despliegue** para conocer como desplegar el proyecto.
-
-
-### Pre-requisitos 📋
-
-_Acceso a los recursos del repositorio:_
-
-```
-git clone https://github.com/Alexvidalcor/TelegramBot_YT
-
-cd TelegramBot_YT/
-```
-
-
 ## Ejecución del programa 🚀
 
 ### Instalación Distribución de Linux basada en Debian 
@@ -38,16 +20,6 @@ python3 src/install.py
 ```
 
 ## Despliegue 📦
-
-**Deploy en local:**
-
-Ejecutar el archivo "EnvCreate.py" para implementar un entorno virtual de Python con las dependencias necesarias (a través de "requirements.txt").
-
-Para desactivar el entorno de Python generado:
-
-```
-deactivate
-```
 
 **Deploy en AWS (rama AWS del repositorio) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
 
