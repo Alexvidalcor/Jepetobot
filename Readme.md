@@ -24,40 +24,18 @@ cd TelegramBot_YT/
 ```
 
 
-### Instalación 🔧
+## Ejecución del programa 🚀
 
-_Pasos para instalación de entorno y ejecución de programa._
+### Instalación Distribución de Linux basada en Debian 
 
-* Caso distribuciones basadas en Debian:
-
-```
-python3 EnvCreate.py
-```
-
-* Caso Fedora:
-```
-python EnvCreate.py
-```
-
-_Activar el entorno Python generado:_
+_Pasos a seguir (comandos de terminal):_
 
 ```
-source <NombreEntorno>/bin/activate
+git clone https://github.com/Alexvidalcor/ExamMaker
+cd ExamMaker/
+python3 src/install.py
+./execute.sh
 ```
-_Ejecución del programa._
-
-* Caso distribuciones basadas en Debian:
-
-```
-python3 main.py
-```
-
-* Caso Fedora:
-
-```
-python main.py
-```
-
 
 ## Despliegue 📦
 
@@ -71,7 +49,9 @@ Para desactivar el entorno de Python generado:
 deactivate
 ```
 
-**Deploy en AWS (necesario tener CDK preinstalado) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
+**Deploy en AWS (rama AWS del repositorio) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
+
+Necesario tener CDK preinstalado.
 
 Dentro del directorio "AWS_IaC", modificar los stacks de "tel_bot_aws_stack.py" como se desee. Posteriormente ejecutar:
 
