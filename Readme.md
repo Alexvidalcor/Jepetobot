@@ -8,7 +8,7 @@ _Se incluye soporte para despliegue en AWS_
 
 ## Ejecución del programa 🚀
 
-### Instalación Distribución de Linux basada en Debian 
+### Distribución de Linux basada en Debian 
 
 _Pasos a seguir (comandos de terminal):_
 
