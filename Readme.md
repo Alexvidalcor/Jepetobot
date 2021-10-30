@@ -21,7 +21,7 @@ python3 src/install.py
 
 ## Despliegue 📦
 
-**Deploy en AWS (rama AWS del repositorio) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
+**Deploy en AWS (rama AWS del repositorio) [EN DESARROLLO - NO SE RECOMIENDA SU USO]:**
 
 Necesario tener CDK preinstalado.
 
