@@ -20,3 +20,4 @@ __pycache__
 # CDK asset staging directory
 .cdk.staging
 cdk.out
+workspace.code-workspace
