@@ -1,5 +1,5 @@
 
-# [En desarrollo] YoutubeBOT
+# [En desarrollo] TelegramBot
 
 _Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtube._
 
