@@ -26,5 +26,4 @@ __pycache__
 
 # Visual studio code stuff
 workspace.code-workspace
-.devcontainer/devcontainer.json
-.devcontainer/Dockerfile
+.devcontainer/*
