@@ -1,3 +1,5 @@
+# Python libraries needed
 selenium
 python-telegram-bot
+webdriver-manager
 
