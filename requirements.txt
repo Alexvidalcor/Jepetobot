@@ -1,5 +1,8 @@
+# Python libraries
 selenium
-python-telegram-bot==13.1
+python-telegram-bot
+webdriver-manager
 
-aws-cdk.core==1.79.0
+# AWS libraries
+aws-cdk.core
 aws-cdk.aws-ec2
