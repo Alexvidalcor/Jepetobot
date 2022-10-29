@@ -16,15 +16,13 @@ package-lock.json
 cdk.json
 source.bat
 
+# CDK asset staging directory
+.cdk.staging
+cdk.out
 
 # Python stuff
 .pytest_cache
 __pycache__
-
-
-# CDK asset staging directory
-.cdk.staging
-cdk.out
 
 # Visual studio code stuff
 workspace.code-workspace
