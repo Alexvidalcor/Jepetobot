@@ -10,14 +10,22 @@ _Se incluye soporte para despliegue en AWS_
 
 ### Distribución de Linux basada en Debian 
 
-_Pasos a seguir (comandos de terminal):_
+_Instalación Manual (comandos de terminal):_
 
 ```
-git clone https://github.com/Alexvidalcor/ExamMaker
-cd ExamMaker/
-python3 src/install.py
-./execute.sh
+git clone https://github.com/Alexvidalcor/TelegramBot
+cd TelegramBot/
+python3 src/installation/install.py
+./src/installation/execute.sh
 ```
+
+_Instalación mediante Docker (se requiere tener Docker instalado previamente):_
+```
+git clone https://github.com/Alexvidalcor/TelegramBot
+docker build -t telegrambot . 
+docker run -d -it --name telegrambot_cont telegrambot
+```
+
 
 ## Despliegue 📦
 
