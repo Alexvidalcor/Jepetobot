@@ -4,5 +4,8 @@ python-telegram-bot
 webdriver-manager
 
 # AWS libraries
-aws-cdk.core
-aws-cdk.aws-ec2
+aws-cdk-lib
+constructs
+
+# AWS dev libraries
+pytest
