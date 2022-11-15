@@ -41,7 +41,7 @@ class CdkVpcEc2Stack(Stack):
             }
         }, {
             "DeviceName": "/dev/sdb",
-            "Ebs": {"VolumeSize": "30"}
+            "Ebs": {"VolumeSize": "10"}
         }
         ])  # by default VolumeType is gp2, VolumeSize 8GB
         host.connections.allow_from_any_ipv4(
