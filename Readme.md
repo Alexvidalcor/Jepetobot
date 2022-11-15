@@ -1,5 +1,5 @@
 
-# [En desarrollo] TelegramBot
+# [DEVELOPING BRANCH] [DONT USE] TelegramBot
 
 _Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtube._
 
