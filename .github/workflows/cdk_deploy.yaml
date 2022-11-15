@@ -1,0 +1,43 @@
+# This is experimental, don't use!
+name: Deploy EC2 Instance
+
+on: [push]
+
+jobs:
+  aws-cdk-deploy:
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "18"
+
+    - name: Configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
+        role-session-name: OIDCSession
+        aws-region: 'us-east-1'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        npm install -g aws-cdk@2.50.0
+        cdk --version
+    
+    - name: Deploy Stack
+      run: cdk deploy --require-approval never
+      env:
+        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        VPC_ID: ${{ secrets.VPC_ID }}
+        AMI_NAME: ${{ secrets.AMI_NAME }}
+        ALLOW_PORTS: ${{ secrets.ALLOW_PORTS }}
+        GLOBAL_ALLOW_PORTS: ${{ secrets.GLOBAL_ALLOW_PORTS }}
+        KEY_NAME: ${{ secrets.KEY_NAME }}
+        USER_DATA: ${{ secrets.USER_DATA }}
+        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        ALLOW_IP: ${{ secrets.ALLOW_IP }}
