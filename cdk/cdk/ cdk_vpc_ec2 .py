@@ -2,12 +2,31 @@ from aws_cdk import CfnOutput, Stack
 import aws_cdk.aws_ec2 as ec2
 from constructs import Construct
 
+instance_name = "name_instance",
 vpc_id = "MY-VPC-ID"  # Import an Exist VPC
 ec2_type = "t2.micro"
 key_name = "id_rsa"
-linux_ami = ec2.GenericLinuxImage({
-    "eu-west-1": "ami-0ee415e1b8b71305f"
-})
+sg = "sg"
+
+
+# linux_ami = ec2.GenericLinuxImage({
+#     "eu-west-1": "ami-0ee415e1b8b71305f"
+# })
+
+tags: {
+    group: 'group',
+    name: 'name'
+  }
+
+
+amazon_linux = ec2.MachineImage.latest_amazon_linux(
+    cpu_type=ec2.AmazonLinuxCpuType.X86_64,
+    edition=ec2.AmazonLinuxEdition.STANDARD,
+    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX,
+    storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE,
+)
+
+
 with open("./user_data/install_docker.sh") as f:
     user_data = f.read()
 
@@ -16,21 +35,20 @@ class CdkVpcEc2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str) -> None:
 
-        # The code that defines your stack goes here
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpc_id)
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2_type),
-                            instance_name="mySingleHost",
+                            instance_name=instance_name,
                             machine_image=linux_ami,
                             vpc=vpc,
                             key_name=key_name,
-                            vpc_subnets=ec2.SubnetSelection(
-                                subnet_type=ec2.SubnetType.PUBLIC),
+                            security_group=sg,
+                            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(user_data)
                             )
-        # ec2.Instance has no property of BlockDeviceMappings, add via lower layer cdk api:
+
         host.instance.add_property_override("BlockDeviceMappings", [{
             "DeviceName": "/dev/xvda",
             "Ebs": {
@@ -41,13 +59,12 @@ class CdkVpcEc2Stack(Stack):
             }
         }, {
             "DeviceName": "/dev/sdb",
-            "Ebs": {"VolumeSize": "10"}
+            "Ebs": {
+                "VolumeSize": "10",
+                "VolumeType": "gp2"
+                }
         }
-        ])  # by default VolumeType is gp2, VolumeSize 8GB
-        host.connections.allow_from_any_ipv4(
-            ec2.Port.tcp(22), "Allow ssh from internet")
-        host.connections.allow_from_any_ipv4(
-            ec2.Port.tcp(80), "Allow http from internet")
+        ])
 
         CfnOutput(self, "Output",
-                       value=host.instance_public_ip)
+                  value=host.instance_public_ip)

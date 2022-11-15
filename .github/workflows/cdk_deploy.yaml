@@ -5,7 +5,7 @@ on: [push]
 
 jobs:
   aws-cdk-deploy:
-    runs-on: ubuntu-latest
+    runs-on: debian-latest
     environment: Development
 
     steps:
@@ -13,14 +13,14 @@ jobs:
       uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
-        node-version: "18"
+        node-version: "18.12.1"
 
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
         role-session-name: OIDCSession
-        aws-region: 'us-east-1'
+        aws-region: 'eu-west-1'
 
     - name: Install dependencies
       run: |
