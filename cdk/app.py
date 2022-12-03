@@ -1,6 +1,6 @@
 # #AWS libraries
 from aws_cdk import App, Environment, Tags
-from stacks.ec2_stack import Ec2Stack
+import aws_cdk.aws_ec2 as ec2AWS
 
 # Python libraries
 import os

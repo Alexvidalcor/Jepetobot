@@ -1,5 +1,6 @@
 # AWS libraries
 from aws_cdk import CfnOutput, Stack
+import aws_cdk.aws_ec2 as ec2AWS
 from constructs import Construct
 
 #Python libraries
@@ -27,7 +28,7 @@ with open("./user_data/install_docker.sh") as f:
 
 
 # EC2 configuration
-class Ec2Stack(Stack)
+class ec2AWS(Stack):
 
     def __init__(self, scope: Construct, id: str) -> None:
 
