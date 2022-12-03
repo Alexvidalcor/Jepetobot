@@ -1,13 +1,13 @@
 # AWS libraries
 from aws_cdk import (
-    Stack, 
+    Stack,
     CfnOutput,
     aws_ec2 as ec2
 )
 
 from constructs import Construct
 
-#Python libraries
+# Python libraries
 import os
 
 # Variables from Github Secrets
@@ -19,7 +19,7 @@ sg = os.environ["AWS_SG"]
 
 
 # AMI used
-amazonLinux= ec2.MachineImage.latest_amazon_linux(
+amazonLinux = ec2.MachineImage.latest_amazon_linux(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
     edition=ec2.AmazonLinuxEdition.STANDARD,
     generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022
@@ -33,7 +33,7 @@ with open("./user_data/install_docker.sh") as f:
 # EC2 configuration
 class EC2InstanceStack(Stack):
 
-    def __init__(self, scope: Construct, id: str) -> None:
+    def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
@@ -46,7 +46,8 @@ class EC2InstanceStack(Stack):
                             vpc=vpc,
                             key_name=keyName,
                             security_group=sg,
-                            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+                            vpc_subnets=ec2.SubnetSelection(
+                                subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(userData)
                             )
 
@@ -63,7 +64,7 @@ class EC2InstanceStack(Stack):
             "Ebs": {
                 "VolumeSize": "10",
                 "VolumeType": "gp2"
-                }
+            }
         }
         ])
 
