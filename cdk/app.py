@@ -26,7 +26,9 @@ EC2InstanceLayer = EC2InstanceStack(app, "cdk-ec2", env=awsEnv)
 
 
 # Add tags
-Tags.of(EC2InstanceLayer).add("Group", "group_name").add(awsTagGroupName, awsTagName)
+Tags.of(EC2InstanceLayer).add("Group", awsTagGroupName)
+Tags.of(EC2InstanceLayer).add("Name", awsTagName)
+
 
 # Execute deploy
 app.synth()
