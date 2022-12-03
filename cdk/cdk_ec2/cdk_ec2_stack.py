@@ -17,10 +17,6 @@ ec2Type = "t2.micro"
 keyName = os.environ["AWS_KEY"]
 sgID = os.environ["AWS_SG"]
 
-
-print(instanceName)
-
-
 # AMI used
 amazonLinux = ec2.MachineImage.latest_amazon_linux(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
@@ -40,9 +36,8 @@ class EC2InstanceStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
-        print("VPC",vpc)
         sg = ec2.SecurityGroup.from_lookup_by_id(self,'SG', security_group_id=sgID)
-        print("SG", sg)
+
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
@@ -56,7 +51,6 @@ class EC2InstanceStack(Stack):
                                 subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(userData)
                             )
-        print("host OK")
 
         host.instance.add_property_override("BlockDeviceMappings", [{
             "DeviceName": "/dev/xvda",
@@ -75,9 +69,6 @@ class EC2InstanceStack(Stack):
         }
         ])
 
-        print("storage OK")
 
         CfnOutput(self, "Output",
                   value=host.instance_public_ip)
-
-        print("END")
