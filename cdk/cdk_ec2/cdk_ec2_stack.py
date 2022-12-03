@@ -37,6 +37,7 @@ class EC2InstanceStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
+        sg = ec2.SecurityGroup.from_lookup_by_id(self, security_group_id=sg)
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
