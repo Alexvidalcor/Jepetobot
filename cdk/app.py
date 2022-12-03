@@ -6,7 +6,7 @@ from aws_cdk import (
 )
 
 #Stack importation
-from cdk_ec2.cdk_ec2_stack import Ec2InstanceStack
+from cdk_ec2.cdk_ec2_stack import EC2InstanceStack
 
 # Python libraries
 import os
