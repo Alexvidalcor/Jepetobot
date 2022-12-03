@@ -43,9 +43,9 @@ class EC2InstanceStack(Stack):
                                 instance_type_identifier=ec2Type),
                             instance_name=instanceName[0],
                             machine_image=amazonLinux,
-                            vpc=vpc[0],
-                            key_name=keyName[0],
-                            security_group=sg[0],
+                            vpc=vpc,
+                            key_name=keyName,
+                            security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(userData)
