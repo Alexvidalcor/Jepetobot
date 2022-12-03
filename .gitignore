@@ -13,7 +13,6 @@ auth.py
 test.ipynb
 geckodriver.log
 package-lock.json
-cdk.json
 source.bat
 
 # CDK asset staging directory
