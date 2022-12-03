@@ -3,6 +3,10 @@ name: Deploy EC2 Instance
 
 on: [push]
 
+permissions:
+      id-token: write
+      contents: read  
+
 jobs:
   aws-cdk-deploy:
     runs-on: debian-latest
@@ -20,7 +24,7 @@ jobs:
       with:
         role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
         role-session-name: OIDCSession
-        aws-region: 'eu-west-1'
+        aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Install dependencies
       run: |
@@ -33,11 +37,8 @@ jobs:
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-        VPC_ID: ${{ secrets.VPC_ID }}
-        AMI_NAME: ${{ secrets.AMI_NAME }}
-        ALLOW_PORTS: ${{ secrets.ALLOW_PORTS }}
-        GLOBAL_ALLOW_PORTS: ${{ secrets.GLOBAL_ALLOW_PORTS }}
-        KEY_NAME: ${{ secrets.KEY_NAME }}
-        USER_DATA: ${{ secrets.USER_DATA }}
-        BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
-        ALLOW_IP: ${{ secrets.ALLOW_IP }}
+        AWS_TAG_GROUP_NAME: ${{ secrets.AWS_TAG_GROUP_NAME }}
+        AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+        AWS_VPC_ID: ${{ secrets.VPC_ID }}
+        AWS_KEY: ${{ secrets.AWS_KEY }}
+        AWS_SG: ${{ secrets.AWS_SG }}

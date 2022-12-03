@@ -1,52 +1,49 @@
+# AWS libraries
 from aws_cdk import CfnOutput, Stack
 import aws_cdk.aws_ec2 as ec2
 from constructs import Construct
 
-instance_name = "name_instance",
-vpc_id = "MY-VPC-ID"  # Import an Exist VPC
-ec2_type = "t2.micro"
-key_name = "id_rsa"
-sg = "sg"
+#Python libraries
+import os
+
+# Variables from Github Secrets
+instanceName = "name_instance",
+vpcId = os.environ("AWS_VPC_ID")  # Import an Exist VPC
+ec2Type = "t2.micro"
+keyName = os.environ("AWS_KEY")
+sg = os.environ("AWS_SG")
 
 
-# linux_ami = ec2.GenericLinuxImage({
-#     "eu-west-1": "ami-0ee415e1b8b71305f"
-# })
-
-tags: {
-    group: 'group',
-    name: 'name'
-  }
-
-
-amazon_linux = ec2.MachineImage.latest_amazon_linux(
+# AMI used
+amazonLinux= ec2.MachineImage.latest_amazon_linux(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
     edition=ec2.AmazonLinuxEdition.STANDARD,
-    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX,
+    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022,
     storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE,
 )
 
-
+# User data imported
 with open("./user_data/install_docker.sh") as f:
-    user_data = f.read()
+    userData = f.read()
 
 
+# EC2 configuration
 class CdkVpcEc2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str) -> None:
 
-        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpc_id)
+        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
-                                instance_type_identifier=ec2_type),
-                            instance_name=instance_name,
-                            machine_image=linux_ami,
+                                instance_type_identifier=ec2Type),
+                            instance_name=instanceName,
+                            machine_image=amazonLinux,
                             vpc=vpc,
-                            key_name=key_name,
+                            key_name=keyName,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
-                            user_data=ec2.UserData.custom(user_data)
+                            user_data=ec2.UserData.custom(userData)
                             )
 
         host.instance.add_property_override("BlockDeviceMappings", [{
