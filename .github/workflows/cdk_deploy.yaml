@@ -15,7 +15,6 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-      working-directory: ./cdk
     - uses: actions/setup-node@v3
       with:
         node-version: "18.12.1"
@@ -34,6 +33,7 @@ jobs:
         cdk --version
     
     - name: Deploy Stack
+      working-directory: ./cdk
       run: cdk deploy --require-approval never
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}

@@ -20,7 +20,7 @@ ec2AWS(app, "cdk-vpc-ec2", env=awsEnv)
 
 
 # Add tags
-Tags.of(CdkVpcEc2Stack).add("Group", "group_name").add(awsTagGroupName , awsTagName)
+Tags.of(ec2AWS).add("Group", "group_name").add(awsTagGroupName , awsTagName)
 
 # Execute deploy
 app.synth()
