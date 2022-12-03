@@ -41,7 +41,7 @@ class EC2InstanceStack(Stack):
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=instanceName,
+                            instance_name="Test",
                             machine_image=amazonLinux,
                             vpc=vpc,
                             key_name=keyName,
