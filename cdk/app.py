@@ -16,7 +16,7 @@ awsEnv = Environment(account= awsAccount, region=awsRegion)
 
 # Execute stack
 app = App()
-ec2AWS(app, "cdk-vpc-ec2", env=awsEnv)
+ec2AWS(app, "cdk_ec2", env=awsEnv)
 
 
 # Add tags
