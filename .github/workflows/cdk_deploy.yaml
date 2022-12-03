@@ -43,3 +43,4 @@ jobs:
         AWS_VPC_ID: ${{ secrets.VPC_ID }}
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_SG: ${{ secrets.AWS_SG }}
+        AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}

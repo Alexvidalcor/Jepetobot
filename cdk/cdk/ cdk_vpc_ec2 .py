@@ -7,11 +7,11 @@ from constructs import Construct
 import os
 
 # Variables from Github Secrets
-instanceName = "name_instance",
-vpcId = os.environ("AWS_VPC_ID")  # Import an Exist VPC
+instanceName = os.environ["AWS_NAME_INSTANCE"],
+vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
 ec2Type = "t2.micro"
-keyName = os.environ("AWS_KEY")
-sg = os.environ("AWS_SG")
+keyName = os.environ["AWS_KEY"]
+sg = os.environ["AWS_SG"]
 
 
 # AMI used

@@ -6,10 +6,10 @@ import aws_cdk.aws_ec2 as ec2AWS
 import os
 
 # Variables from Github Secrets
-awsAccount = os.environ("AWS_ACCOUNT")
-awsRegion = os.environ("AWS_REGION")
-awsTagGroupName = os.environ("AWS_TAG_GROUP_NAME")
-awsTagName = os.environ("AWS_TAG_NAME")
+awsAccount = os.environ["AWS_ACCOUNT"]
+awsRegion = os.environ["AWS_REGION"]
+awsTagGroupName = os.environ["AWS_TAG_GROUP_NAME"]
+awsTagName = os.environ["AWS_TAG_NAME"]
 
 # Set AWS environment
 awsEnv = Environment(account= awsAccount, region=awsRegion)
