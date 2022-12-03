@@ -35,7 +35,7 @@ class EC2InstanceStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        vpc = ec2.Vpc.from_lookup(self, "VPC", vpcId)
+        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
         sg = ec2.SecurityGroup.from_security_group_id(self, "SG", sgID, mutable=False)
 
 
