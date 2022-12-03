@@ -37,9 +37,9 @@ class EC2InstanceStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
-        print(vpc)
+        print("VPC",vpc)
         sg = ec2.SecurityGroup.from_lookup_by_id(self,'SG', security_group_id=sgID)
-        print(sg)
+        print("SG",sg[0])
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
@@ -53,6 +53,7 @@ class EC2InstanceStack(Stack):
                                 subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(userData)
                             )
+        print("host OK")
 
         host.instance.add_property_override("BlockDeviceMappings", [{
             "DeviceName": "/dev/xvda",
