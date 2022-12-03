@@ -1,5 +1,12 @@
 # #AWS libraries
-from aws_cdk import App, Environment, Tags, aws_ec2
+from aws_cdk import (
+    App, 
+    Environment, 
+    Tags, 
+    Stack, 
+    CfnOutput, 
+    aws_ec2 as ec2
+)
 
 # Python libraries
 import os
@@ -15,11 +22,11 @@ awsEnv = Environment(account= awsAccount, region=awsRegion)
 
 # Execute stack
 app = App()
-aws_ec2(app, "cdk_ec2", env=awsEnv)
+EC2InstanceStack(app, "cdk_ec2", env=awsEnv)
 
 
 # Add tags
-Tags.of(aws_ec2).add("Group", "group_name").add(awsTagGroupName , awsTagName)
+Tags.of(EC2InstanceStack).add("Group", "group_name").add(awsTagGroupName , awsTagName)
 
 # Execute deploy
 app.synth()

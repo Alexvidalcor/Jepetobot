@@ -1,5 +1,4 @@
 # AWS libraries
-from aws_cdk import CfnOutput, Stack
 from constructs import Construct
 
 #Python libraries
@@ -27,9 +26,10 @@ with open("./user_data/install_docker.sh") as f:
 
 
 # EC2 configuration
-class aws_ec2(Stack):
+class EC2InstanceStack(Stack):
 
     def __init__(self, scope: Construct, id: str) -> None:
+        super().__init__(scope, id, **kwargs)
 
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
 
