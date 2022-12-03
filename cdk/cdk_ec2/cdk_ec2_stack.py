@@ -39,7 +39,7 @@ class EC2InstanceStack(Stack):
         vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId)
         print("VPC",vpc)
         sg = ec2.SecurityGroup.from_lookup_by_id(self,'SG', security_group_id=sgID)
-        print("SG",sg[0])
+        print("SG")
 
         host = ec2.Instance(self, "myEC2",
                             instance_type=ec2.InstanceType(
