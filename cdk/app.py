@@ -1,6 +1,6 @@
 # #AWS libraries
 from aws_cdk import App, Environment, Tags
-from cdk_vpc_ec2.cdk_vpc_ec2_stack import CdkVpcEc2Stack
+import aws_cdk.aws_ec2 as ec2AWS
 
 # Python libraries
 import os
@@ -11,12 +11,16 @@ awsRegion = os.environ("AWS_REGION")
 awsTagGroupName = os.environ("AWS_TAG_GROUP_NAME")
 awsTagName = os.environ("AWS_TAG_NAME")
 
-# Set 
+# Set AWS environment
 awsEnv = Environment(account= awsAccount, region=awsRegion)
 
+# Execute stack
 app = App()
-CdkVpcEc2Stack(app, "cdk-vpc-ec2", env=awsEnv)
+ec2AWS(app, "cdk-vpc-ec2", env=awsEnv)
 
+
+# Add tags
 Tags.of(CdkVpcEc2Stack).add("Group", "group_name").add(awsTagGroupName , awsTagName)
 
+# Execute deploy
 app.synth()
