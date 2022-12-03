@@ -22,8 +22,7 @@ sg = os.environ["AWS_SG"]
 amazonLinux= ec2.MachineImage.latest_amazon_linux(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
     edition=ec2.AmazonLinuxEdition.STANDARD,
-    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022,
-    storage=ec2.AmazonLinuxStorage.GENERAL_PURPOSE,
+    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022
 )
 
 # User data imported
