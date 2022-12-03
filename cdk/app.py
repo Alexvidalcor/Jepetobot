@@ -2,10 +2,7 @@
 from aws_cdk import (
     App, 
     Environment, 
-    Tags, 
-    Stack, 
-    CfnOutput, 
-    aws_ec2 as ec2
+    Tags
 )
 
 # Python libraries

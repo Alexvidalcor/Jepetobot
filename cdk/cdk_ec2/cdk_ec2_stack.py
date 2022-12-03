@@ -1,4 +1,10 @@
 # AWS libraries
+from aws_cdk import (
+    Stack, 
+    CfnOutput,
+    aws_ec2 as ec2
+)
+
 from constructs import Construct
 
 #Python libraries
