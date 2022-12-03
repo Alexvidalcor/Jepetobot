@@ -22,11 +22,11 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 
 # Execute stack
 app = App()
-EC2InstanceStack(app, "cdk-ec2", env=awsEnv)
+EC2InstanceLayer = EC2InstanceStack(app, "cdk-ec2", env=awsEnv)
 
 
 # Add tags
-Tags.of(EC2InstanceStack).add("Group", "group_name").add(awsTagGroupName, awsTagName)
+Tags.of(EC2InstanceLayer).add("Group", "group_name").add(awsTagGroupName, awsTagName)
 
 # Execute deploy
 app.synth()
