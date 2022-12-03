@@ -22,7 +22,7 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-to-assume: ${{ secrets.DEPLOYMENT_ROLE }}
+        role-to-assume: ${{ secrets.AWS_DEPLOYMENT_ROLE }}
         role-session-name: OIDCSession
         aws-region: ${{ secrets.AWS_REGION }}
 
