@@ -10,7 +10,7 @@ from constructs import Construct
 # Python libraries
 import os
 
-# Only in local
+# Only in local. Only uncomment if needed.
 # from dotenv import load_dotenv
 # load_dotenv(".env")
 
