@@ -32,8 +32,8 @@ jobs:
     - name: Deploy Stack
       run: |
         cdk bootstrap
-        cdk synth
-        cdk deploy --require-approval never
+        cdk synth --verbose
+        cdk deploy --require-approval never --verbose
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
