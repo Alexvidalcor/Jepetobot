@@ -26,12 +26,12 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        npm install -g aws-cdk@2.50.0
+        npm install -g aws-cdk@2.53.0
         cdk --version
     
     - name: Deploy Stack
       run: |
-        cdk bootstrap --trust
+        cdk bootstrap --trust ${{ secrets.AWS_ACCOUNT }}
         cdk synth
         cdk deploy --require-approval never
       working-directory: ./cdk
