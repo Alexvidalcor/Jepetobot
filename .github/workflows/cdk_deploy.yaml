@@ -3,7 +3,6 @@ name: Deploy EC2 Instance
 
 on: [push]
 
-
 jobs:
   aws-cdk-deploy:
     runs-on: ubuntu-latest

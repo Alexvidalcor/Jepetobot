@@ -10,6 +10,10 @@ from constructs import Construct
 # Python libraries
 import os
 
+# Only in local
+# from dotenv import load_dotenv
+# load_dotenv(".env")
+
 # Variables from Github Secrets
 instanceName = os.environ["AWS_NAME_INSTANCE"],
 vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
@@ -69,6 +73,6 @@ class EC2InstanceStack(Stack):
         }
         ])
 
-
-        CfnOutput(self, "Output",
-                  value=host.instance_public_ip)
+        # Print public ip of the instance
+        # CfnOutput(self, "Output",
+        #           value=host.instance_public_ip)
