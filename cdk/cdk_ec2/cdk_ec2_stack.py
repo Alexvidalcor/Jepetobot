@@ -10,10 +10,6 @@ from constructs import Construct
 # Python libraries
 import os
 
-# Only in local
-from dotenv import load_dotenv
-load_dotenv(".env")
-
 # Variables from Github Secrets
 instanceName = os.environ["AWS_NAME_INSTANCE"],
 vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
