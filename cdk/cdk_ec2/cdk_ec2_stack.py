@@ -10,10 +10,14 @@ from constructs import Construct
 # Python libraries
 import os
 
+# Only in local
+from dotenv import load_dotenv
+load_dotenv(".env")
+
 # Variables from Github Secrets
 instanceName = os.environ["AWS_NAME_INSTANCE"],
 vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
-ec2Type = "t2.micro"
+ec2Type = "t3.micro"
 keyName = os.environ["AWS_KEY"]
 sgID = os.environ["AWS_SG"]
 
@@ -21,7 +25,7 @@ sgID = os.environ["AWS_SG"]
 amazonLinux = ec2.MachineImage.latest_amazon_linux(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
     edition=ec2.AmazonLinuxEdition.STANDARD,
-    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2022
+    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 )
 
 # User data imported
