@@ -31,8 +31,8 @@ jobs:
     
     - name: Deploy Stack
       run: |
-        cdk bootstrap
-        cdk synth
+        # cdk bootstrap
+        # cdk synth
         cdk deploy --require-approval never
       working-directory: ./cdk
       env:
