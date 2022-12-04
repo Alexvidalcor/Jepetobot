@@ -31,7 +31,7 @@ jobs:
     
     - name: Deploy Stack
       run: |
-        cdk bootstrap --trust=${{ secrets.AWS_ACCOUNT }} --cloudformation-execution-policies=arn:aws:iam::aws:policy/AdministratorAccess
+        cdk bootstrap
         cdk synth
         cdk deploy --require-approval never
       working-directory: ./cdk
