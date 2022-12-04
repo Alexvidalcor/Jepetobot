@@ -40,7 +40,7 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
         AWS_TAG_GROUP_NAME: ${{ secrets.AWS_TAG_GROUP_NAME }}
         AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
-        AWS_VPC_ID: ${{ secrets.VPC_ID }}
+        AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_SG: ${{ secrets.AWS_SG }}
         AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}
