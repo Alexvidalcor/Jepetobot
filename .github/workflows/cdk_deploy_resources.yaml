@@ -1,7 +1,7 @@
 # This is experimental, don't use!
 name: Deploy EC2 Instance
 
-on: [push]
+on: workflow_dispatch
 
 jobs:
   aws-cdk-deploy:
