@@ -33,4 +33,3 @@ def GetSubs():
     subCounter = driver.find_element_by_id("subscriber-count").text
     driver.close()
     return subCounter
-
