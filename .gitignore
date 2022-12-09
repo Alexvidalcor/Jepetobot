@@ -13,6 +13,7 @@ auth.py
 test.ipynb
 geckodriver.log
 package-lock.json
+cdk.json
 source.bat
 
 # CDK asset staging directory
@@ -26,4 +27,3 @@ __pycache__
 # Visual studio code stuff
 workspace.code-workspace
 .devcontainer/*
-cdk/cdk.context.json

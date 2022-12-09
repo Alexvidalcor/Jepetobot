@@ -1,4 +1,6 @@
+
 # Python libraries
+
 selenium
 python-telegram-bot
 webdriver-manager
@@ -9,3 +11,4 @@ constructs
 
 # AWS dev libraries
 pytest
+
