@@ -5,9 +5,13 @@ on:
    workflow_dispatch:
      inputs:
        reusableStack:
-         description: 'Always detect changes between layers'
-         required: true
-         default: "False"
+        type: choice
+        description: 'Always detect changes between layers'
+        options: 
+        - True
+        - False
+        required: true
+        default: False
 
 jobs:
   aws-cdk-deploy:
