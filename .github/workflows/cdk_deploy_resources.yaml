@@ -37,6 +37,10 @@ jobs:
         pip install -r requirements.txt
         npm install -g aws-cdk
         cdk --version
+
+    - name: Saving Github actions variables
+      run: |
+        REUSABLE_STACK=${{ github.event.inputs.reusableStack }}
     
     - name: Deploy Stack
       run: |
