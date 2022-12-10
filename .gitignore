@@ -17,8 +17,9 @@ cdk.json
 source.bat
 
 # CDK asset staging directory
-.cdk.staging
 cdk.out
+cdk/cdk.context.json
+
 
 # Python stuff
 .pytest_cache
