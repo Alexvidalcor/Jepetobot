@@ -1,7 +1,13 @@
 # This is experimental, don't use!
 name: Deploy Resources
 
-on: workflow_dispatch
+on:
+   workflow_dispatch:
+     inputs:
+       reusableStack:
+         description: 'Always detect changes between layers'
+         required: true
+         default: "False"
 
 jobs:
   aws-cdk-deploy:

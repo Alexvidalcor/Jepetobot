@@ -14,8 +14,8 @@ from cdk_ec2.cdk_ec2_stack import EC2InstanceStack
 # Python libraries
 import os
 
-# Custom importation
-import public_env as penv
+# Custom importation. Only when running locally, emulate github actions inputs
+import public_env as penv 
 
 # Variables from Github Secrets
 awsAccount = os.environ["AWS_ACCOUNT"]
@@ -23,8 +23,14 @@ awsRegion = os.environ["AWS_REGION"]
 awsTagGroupName = os.environ["AWS_TAG_GROUP_NAME"]
 awsTagName = os.environ["AWS_TAG_NAME"]
 
-# Extra variables
-if penv.reusableStack == True:
+# Differentiate between local variables and Github actions
+if penv.execGithubActions:
+    reusableStack = ${{ github.event.inputs.myInput }}
+else:
+    reusableStack = penv.reusableStack
+
+# Extra variables. Only in local.
+if reusableStack:
     timestamp = datetime.fromtimestamp(1887639468)
 else:
     timestamp = "managed"
