@@ -2,3 +2,4 @@
 
 reusableStack = False
 execGithubActions = True
+showPublicIp = False

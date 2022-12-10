@@ -9,10 +9,14 @@ from constructs import Construct
 
 # Python libraries
 import os
+from dotenv import load_dotenv
 
-# Only in local. Only uncomment if needed.
-# from dotenv import load_dotenv
-# load_dotenv(".env")
+# Custom importation. Only when running locally, emulate github actions inputs
+import public_env as penv 
+
+# Local secrets. Only run in your local.
+if penv.execGithubActions == False:
+    load_dotenv(".env")
 
 # Variables from Github Secrets
 instanceName = os.environ["AWS_NAME_INSTANCE"],
@@ -31,7 +35,6 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
 # User data imported
 with open("user_data/install_docker.sh") as f:
     userData = f.read()
-
 
 # EC2 configuration
 class EC2InstanceStack(Stack):
@@ -74,5 +77,6 @@ class EC2InstanceStack(Stack):
         ])
 
         # Print public ip of the instance
-        # CfnOutput(self, "Output",
-        #           value=host.instance_public_ip)
+        if penv.showPublicIp:
+            CfnOutput(self, "Output",
+                    value=host.instance_public_ip)
