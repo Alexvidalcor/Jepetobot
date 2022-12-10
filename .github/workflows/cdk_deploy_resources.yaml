@@ -40,6 +40,7 @@ jobs:
 
     - name: Saving Github actions variables
       run: |
+        echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
         REUSABLE_STACK=${{ github.event.inputs.reusableStack }}
     
     - name: Deploy Stack
