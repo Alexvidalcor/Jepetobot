@@ -6,7 +6,7 @@ from aws_cdk import (
 )
 
 # Python libraries
-from datetime import datetime
+import random
 
 # Stack importation
 from cdk_ec2.cdk_ec2_stack import EC2InstanceStack
@@ -31,7 +31,7 @@ else:
 
 # Extra variables. Only in local.
 if reusableStack:
-    timestamp = datetime.fromtimestamp(1887639468)
+    timestamp = random.randint(0,999999)
 else:
     timestamp = "managed"
 
