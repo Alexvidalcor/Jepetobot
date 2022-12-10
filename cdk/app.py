@@ -25,7 +25,7 @@ awsTagName = os.environ["AWS_TAG_NAME"]
 
 # Differentiate between local variables and Github actions
 if penv.execGithubActions:
-    reusableStack = os.environ["${{ github.event.inputs.myInput }}"]
+    reusableStack = os.environ["${{ github.event.inputs.reusableStack }}"]
 else:
     reusableStack = penv.reusableStack
 
