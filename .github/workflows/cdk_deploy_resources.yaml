@@ -38,10 +38,9 @@ jobs:
         npm install -g aws-cdk
         cdk --version
 
-    - name: Saving Github actions variables
+    - name: Show Github actions variables
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
-        REUSABLE_STACK=${{ github.event.inputs.reusableStack }}
     
     - name: Deploy Stack
       run: |
@@ -58,3 +57,5 @@ jobs:
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_SG: ${{ secrets.AWS_SG }}
         AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}
+        # ------
+        REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
