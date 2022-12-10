@@ -29,7 +29,7 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
 )
 
 # User data imported
-with open("./user_data/install_docker.sh") as f:
+with open("user_data/install_docker.sh") as f:
     userData = f.read()
 
 
