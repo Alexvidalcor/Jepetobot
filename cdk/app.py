@@ -14,6 +14,9 @@ from cdk_ec2.cdk_ec2_stack import EC2InstanceStack
 # Python libraries
 import os
 
+# Custom importation. Only when running locally, emulate github actions inputs
+import public_env as penv 
+
 # Variables from Github Secrets
 awsAccount = os.environ["AWS_ACCOUNT"]
 awsRegion = os.environ["AWS_REGION"]
