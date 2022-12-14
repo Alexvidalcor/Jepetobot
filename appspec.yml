@@ -20,11 +20,10 @@ hooks:
 
   AfterInstall:
     - location: scripts/docker_config.sh
-      timeout: 800
+      timeout: 900
       runas: ec2-user
 
   ApplicationStart:
     - location: scripts/start_server.sh
-    - location: scripts/create_test_db.sh
       timeout: 300
-      runas: root
+      runas: ec2-user
