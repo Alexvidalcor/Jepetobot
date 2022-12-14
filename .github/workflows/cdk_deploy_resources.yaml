@@ -46,12 +46,11 @@ jobs:
       run: |
         # cdk bootstrap
         # cdk synth
-        cdk deploy --require-approval never --debug
+        cdk deploy --require-approval never --all
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-        AWS_TAG_GROUP_NAME: ${{ secrets.AWS_TAG_GROUP_NAME }}
         AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
         AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
         AWS_KEY: ${{ secrets.AWS_KEY }}

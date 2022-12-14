@@ -8,8 +8,10 @@ from aws_cdk import (
 # Python libraries
 import random
 
-# Stack importation
-from cdk_ec2.cdk_ec2_stack import EC2InstanceStack
+# Stacks importation
+from cdk_ec2.cdk_ec2_stack import Ec2Stack
+from cdk_codedeploy.cdk_codedeploy_stack import CodeDeployStack
+from cdk_s3.cdk_s3_stack import S3stack
 
 # Python libraries
 import os
@@ -20,7 +22,6 @@ import public_env as penv
 # Variables from Github Secrets
 awsAccount = os.environ["AWS_ACCOUNT"]
 awsRegion = os.environ["AWS_REGION"]
-awsTagGroupName = os.environ["AWS_TAG_GROUP_NAME"]
 awsTagName = os.environ["AWS_TAG_NAME"]
 
 # Differentiate between local variables and Github actions
@@ -40,11 +41,20 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 
 # Execute stack
 app = App()
-EC2InstanceLayer = EC2InstanceStack(app, f"cdk-ec2-deploy-{timestamp}", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"cdk-ec2-deploy-{timestamp}", env=awsEnv)
+CodeDeployLayer = CodeDeployStack(app, f"cdk-code-deploy-{timestamp}", env=awsEnv)
+S3Layer = S3stack(app, f"cdk-s3-deploy-{timestamp}", env=awsEnv)
 
 # Add tags
-Tags.of(EC2InstanceLayer).add("Group", awsTagGroupName)
-Tags.of(EC2InstanceLayer).add("Name", awsTagName)
+Tags.of(Ec2Layer).add("Group", awsTagName)
+Tags.of(Ec2Layer).add("Name", awsTagName+"ec2")
+
+Tags.of(CodeDeployLayer).add("Group", awsTagName)
+Tags.of(CodeDeployLayer).add("Name", awsTagName+"codedeploy")
+
+Tags.of(S3Layer).add("Group", awsTagName)
+Tags.of(S3Layer).add("Name", awsTagName+"s3")
+
 
 # Execute deploy
 app.synth()

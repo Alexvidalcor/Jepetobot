@@ -38,7 +38,7 @@ with open("./user_data/install_docker.sh") as f:
 
 
 # EC2 configuration
-class EC2InstanceStack(Stack):
+class Ec2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
@@ -47,7 +47,7 @@ class EC2InstanceStack(Stack):
         sg = ec2.SecurityGroup.from_security_group_id(self, "SG", sgID, mutable=False)
 
 
-        host = ec2.Instance(self, "myEC2",
+        host = ec2.Instance(self, penv.appName + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
                             instance_name=instanceName[0],
