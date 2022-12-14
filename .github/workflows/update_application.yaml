@@ -23,7 +23,7 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Compress Repository
-      run: zip -r CompressedRepo.zip .
+      run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo.zip .
 
     - name: Upload compressed file to S3
       run: aws s3 cp CompressedRepo.zip s3://$AWS_BUCKET_NAME/ --region $AWS_REGION
