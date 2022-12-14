@@ -36,6 +36,7 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
 with open("./user_data/install_docker.sh") as f:
     userData = f.read()
 
+
 # EC2 configuration
 class EC2InstanceStack(Stack):
 

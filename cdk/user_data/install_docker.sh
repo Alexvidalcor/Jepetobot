@@ -1,8 +1,4 @@
-'''
-Shebang is added automatically
-You dont need to use sudo inside user data.
-'''
-#! /bin/sh
+#!/bin/bash
 yum update -y
 amazon-linux-extras install docker
 service docker start
