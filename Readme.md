@@ -29,45 +29,15 @@ docker run -d -it --name telegrambot_cont telegrambot
 
 ## Despliegue 📦
 
-**Deploy en AWS (rama AWS del repositorio) [EN DESARROLLO - NO SE RECOMIENDA SU USO]:**
+**Deploy en AWS (dentro de carpeta cdk) [EN DESARROLLO - NO SE RECOMIENDA SU USO]:**
 
-Necesario tener CDK preinstalado.
-
-Dentro del directorio "AWS_IaC", modificar los stacks de "tel_bot_aws_stack.py" como se desee. Posteriormente ejecutar:
+Necesario tener CDK preinstalado. Ejecutar:
 
 ```
 cdk synth
 
-cdk deploy
+cdk deploy --all
 ```
-
-**Para deploy manual en AWS (EC2 con AMI de "Amazon Linux 2")**
-
-Ejecutar los siguientes comandos en la instancia EC2:
-
-_Instalación de Google Chrome (Gracias a [UnderstandingData](https://understandingdata.com/install-google-chrome-selenium-ec2-aws/))_
-
-```
-sudo curl https://intoli.com/install-google-chrome.sh | bash
-sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
-```
-
-_Comprobación de instalación_
-
-```
-google-chrome – version && which google-chrome
-```
-
-_Instalación de Python3 y librerías necesarias_
-
-```
-sudo yum install python3
-
-sudo pip3 install python-telegram-bot
-sudo pip3 install selenium
-sudo pip3 install webdriver-manager
-```
-
 
 ## Construido con 🛠️
 
@@ -83,3 +53,5 @@ Este proyecto está bajo la Licencia (GNU GPL-V3) - mira el archivo [LICENSE.md]
 
 ---
 ⌨️ con ❤️ por [Alexvidalcor](https://github.com/Alexvidalcor) 😊
+
+.

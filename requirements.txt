@@ -1,7 +1,7 @@
+
 # Python libraries
-selenium
 python-telegram-bot
-webdriver-manager
+
 
 # AWS libraries
 aws-cdk-lib
@@ -9,3 +9,4 @@ constructs
 
 # AWS dev libraries
 pytest
+

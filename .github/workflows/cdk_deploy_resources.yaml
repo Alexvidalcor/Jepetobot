@@ -1,8 +1,17 @@
 # This is experimental, don't use!
-name: Deploy EC2 Instance
+name: Deploy Resources
 
 on:
-  workflow_dispatch: {}
+   workflow_dispatch:
+     inputs:
+       reusableStack:
+        type: choice
+        description: 'Always detect changes between layers'
+        options: 
+        - True
+        - False
+        required: true
+        default: False
 
 jobs:
   aws-cdk-deploy:
@@ -26,21 +35,26 @@ jobs:
     - name: Install dependencies
       run: |
         pip install -r requirements.txt
-        npm install -g aws-cdk@2.53.0
+        npm install -g aws-cdk
         cdk --version
+
+    - name: Show Github actions variables
+      run: |
+        echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
     
     - name: Deploy Stack
       run: |
         # cdk bootstrap
         # cdk synth
-        cdk deploy --require-approval never
+        cdk deploy --require-approval never --all
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
-        AWS_TAG_GROUP_NAME: ${{ secrets.AWS_TAG_GROUP_NAME }}
         AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
         AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_SG: ${{ secrets.AWS_SG }}
         AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}
+        # ------
+        REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
