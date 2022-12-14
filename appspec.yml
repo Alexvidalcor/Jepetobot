@@ -20,7 +20,7 @@ hooks:
 
   AfterInstall:
     - location: scripts/docker_config.sh
-      timeout: 300
+      timeout: 800
       runas: ec2-user
 
   ApplicationStart:
