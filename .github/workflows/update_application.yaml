@@ -10,7 +10,8 @@ jobs:
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
-
+      AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+      
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
@@ -23,9 +24,13 @@ jobs:
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Compress Repository
-      run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo.zip .
+      run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo-$GITHUB_RUN_NUMBER.zip .
 
     - name: Upload compressed file to S3
-      run: aws s3 cp CompressedRepo.zip s3://$AWS_BUCKET_NAME/ --region $AWS_REGION
+      run: aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$AWS_BUCKET_NAME/ --region $AWS_REGION
+
+    - name: Codedeploy execution
+      run: |
+        aws deploy create-deployment --application-name $AWS_TAG_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name $AWS_TAG_NAME-deploygroup --s3-location bucket=$AWS_BUCKET_NAME,bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip
       
     
