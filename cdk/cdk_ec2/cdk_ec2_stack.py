@@ -24,6 +24,7 @@ vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
 ec2Type = "t3.micro"
 keyName = os.environ["AWS_KEY"]
 sgID = os.environ["AWS_SG"]
+awsRegion = os.environ["AWS_REGION"]
 
 # AMI used
 amazonLinux = ec2.MachineImage.latest_amazon_linux(
@@ -35,6 +36,7 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
 # User data imported
 with open("./user_data/install_docker.sh") as f:
     userData = f.read()
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
 
 
 # EC2 configuration
