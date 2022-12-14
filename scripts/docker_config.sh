@@ -1,3 +1,3 @@
 #!/bin/bash
-
-docker build -t appcontainer -f /home/ec2-user/application/Dockerfile .
+cd /home/ec2-user/application/
+docker build -t appcontainer  .
