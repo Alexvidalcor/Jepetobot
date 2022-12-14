@@ -1,21 +1,30 @@
+#Virtual environment
 venv/
-geckodriver.log
-test.ipynb
-__pycache__
+MainEnv/
+
+# Format files
+*.swp
+*.egg-info
+*.env
+
+# Specific files
+__init__.py
 auth.py
-.venv
+test.ipynb
+geckodriver.log
+package-lock.json
 cdk.json
 source.bat
-__init__.py
-
-
-*.swp
-package-lock.json
-__pycache__
-.pytest_cache
-.env
-*.egg-info
 
 # CDK asset staging directory
-.cdk.staging
 cdk.out
+cdk/cdk.context.json
+
+
+# Python stuff
+.pytest_cache
+__pycache__
+
+# Visual studio code stuff
+workspace.code-workspace
+.devcontainer/*

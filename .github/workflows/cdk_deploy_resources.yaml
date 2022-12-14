@@ -1,0 +1,60 @@
+# This is experimental, don't use!
+name: Deploy Resources
+
+on:
+   workflow_dispatch:
+     inputs:
+       reusableStack:
+        type: choice
+        description: 'Always detect changes between layers'
+        options: 
+        - True
+        - False
+        required: true
+        default: False
+
+jobs:
+  aws-cdk-deploy:
+    runs-on: ubuntu-latest
+    environment: Development
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "18.12.1"
+
+    - name: Configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        npm install -g aws-cdk
+        cdk --version
+
+    - name: Show Github actions variables
+      run: |
+        echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
+    
+    - name: Deploy Stack
+      run: |
+        # cdk bootstrap
+        # cdk synth
+        cdk deploy --require-approval never --all
+      working-directory: ./cdk
+      env:
+        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+        AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
+        AWS_KEY: ${{ secrets.AWS_KEY }}
+        AWS_SG: ${{ secrets.AWS_SG }}
+        AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}
+        # ------
+        REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}

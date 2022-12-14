@@ -1,113 +1,43 @@
 
-# [En desarrollo] YoutubeBOT
+# [DEVELOPING BRANCH] [DONT USE] TelegramBot
 
 _Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtube._
 
 _Se incluye soporte para despliegue en AWS_
 
 
-## Comenzando 🚀
+## Ejecución del programa 🚀
 
-_Para SO basados en Debian y Fedora._
+### Distribución de Linux basada en Debian 
 
-Ver **Despliegue** para conocer como desplegar el proyecto.
-
-
-### Pre-requisitos 📋
-
-_Acceso a los recursos del repositorio:_
+_Instalación Manual (comandos de terminal):_
 
 ```
-git clone https://github.com/Alexvidalcor/TelegramBot_YT
-
-cd TelegramBot_YT/
+git clone https://github.com/Alexvidalcor/TelegramBot
+cd TelegramBot/
+python3 src/installation/install.py
+./src/installation/execute.sh
 ```
 
-
-### Instalación 🔧
-
-_Pasos para instalación de entorno y ejecución de programa._
-
-* Caso distribuciones basadas en Debian:
-
+_Instalación mediante Docker (se requiere tener Docker instalado previamente):_
 ```
-python3 EnvCreate.py
-```
-
-* Caso Fedora:
-```
-python EnvCreate.py
-```
-
-_Activar el entorno Python generado:_
-
-```
-source <NombreEntorno>/bin/activate
-```
-_Ejecución del programa._
-
-* Caso distribuciones basadas en Debian:
-
-```
-python3 main.py
-```
-
-* Caso Fedora:
-
-```
-python main.py
+git clone https://github.com/Alexvidalcor/TelegramBot
+docker build -t telegrambot . 
+docker run -d -it --name telegrambot_cont telegrambot
 ```
 
 
 ## Despliegue 📦
 
-**Deploy en local:**
+**Deploy en AWS (dentro de carpeta cdk) [EN DESARROLLO - NO SE RECOMIENDA SU USO]:**
 
-Ejecutar el archivo "EnvCreate.py" para implementar un entorno virtual de Python con las dependencias necesarias (a través de "requirements.txt").
-
-Para desactivar el entorno de Python generado:
-
-```
-deactivate
-```
-
-**Deploy en AWS (necesario tener CDK preinstalado) [EN DESARROLLO - NO SE RECOMIENDA SU USO DE MOMENTO]:**
-
-Dentro del directorio "AWS_IaC", modificar los stacks de "tel_bot_aws_stack.py" como se desee. Posteriormente ejecutar:
+Necesario tener CDK preinstalado. Ejecutar:
 
 ```
 cdk synth
 
-cdk deploy
+cdk deploy --all
 ```
-
-**Para deploy manual en AWS (EC2 con AMI de "Amazon Linux 2")**
-
-Ejecutar los siguientes comandos en la instancia EC2:
-
-_Instalación de Google Chrome (Gracias a [UnderstandingData](https://understandingdata.com/install-google-chrome-selenium-ec2-aws/))_
-
-```
-sudo curl https://intoli.com/install-google-chrome.sh | bash
-sudo mv /usr/bin/google-chrome-stable /usr/bin/google-chrome
-```
-
-_Comprobación de instalación_
-
-```
-google-chrome – version && which google-chrome
-```
-
-_Instalación de Python3 y librerías necesarias_
-
-```
-sudo yum install python3
-
-sudo pip3 install python-telegram-bot
-sudo pip3 install selenium
-sudo pip3 install webdriver-manager
-```
-
 
 ## Construido con 🛠️
 
@@ -123,3 +53,5 @@ Este proyecto está bajo la Licencia (GNU GPL-V3) - mira el archivo [LICENSE.md]
 
 ---
 ⌨️ con ❤️ por [Alexvidalcor](https://github.com/Alexvidalcor) 😊
+
+.
