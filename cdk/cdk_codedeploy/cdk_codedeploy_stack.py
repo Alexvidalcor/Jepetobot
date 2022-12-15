@@ -1,22 +1,13 @@
 # AWS libraries
-import public_env as penv
 from aws_cdk import (
     Stack,
     aws_codedeploy as codedeploy
 )
 from constructs import Construct
 
-# Python libraries
-import os
-from dotenv import load_dotenv
-
-# Variables used
-awsTagName = os.environ["AWS_TAG_NAME"]
-
-# Local secrets. Only run in your local.
-if penv.execGithubActions == False:
-    load_dotenv(".env")
-
+# Custom importation
+import modules.public_env as penv
+from modules.cdk_support import *
 
 # Main Class
 class CodeDeployStack(Stack):
