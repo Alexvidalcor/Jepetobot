@@ -1,6 +1,7 @@
 
 # Python libraries
 python-telegram-bot
+boto3
 
 
 # AWS libraries

@@ -35,7 +35,7 @@ class Ec2Stack(Stack):
         host = ec2.Instance(self, penv.appName + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=instanceName[0],
+                            instance_name=instanceName+"-instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
                             key_name=keyName,
