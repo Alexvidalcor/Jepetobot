@@ -1,5 +1,4 @@
 # AWS libraries
-import public_env as penv
 from aws_cdk import (
     Stack,
     aws_s3 as s3,
@@ -8,13 +7,11 @@ from aws_cdk import (
 from constructs import Construct
 
 # Python libraries
-import os
-from dotenv import load_dotenv
 import random
 
-# Local secrets. Only run in your local.
-if penv.execGithubActions == False:
-    load_dotenv(".env")
+# Custom importation
+import modules.public_env as penv
+from modules.cdk_support import *
 
 # MainClass
 class S3stack(Stack):

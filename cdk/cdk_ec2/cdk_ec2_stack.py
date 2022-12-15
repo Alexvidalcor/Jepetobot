@@ -7,24 +7,14 @@ from aws_cdk import (
 
 from constructs import Construct
 
-# Python libraries
-import os
-from dotenv import load_dotenv
+# Custom importation
+import modules.public_env as penv
+from modules.cdk_support import *
 
-# Custom importation. Only when running locally, emulate github actions inputs
-import public_env as penv 
-
-# Local secrets. Only run in your local.
-if penv.execGithubActions == False:
-    load_dotenv(".env")
-
-# Variables from Github Secrets
-instanceName = os.environ["AWS_NAME_INSTANCE"],
-vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
-ec2Type = "t3.micro"
-keyName = os.environ["AWS_KEY"]
-sgID = os.environ["AWS_SG"]
-awsRegion = os.environ["AWS_REGION"]
+# User data imported
+with open("./user_data/install_docker.sh") as f:
+    userData = f.read()
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
 
 # AMI used
 amazonLinux = ec2.MachineImage.latest_amazon_linux(
@@ -33,21 +23,14 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
     generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 )
 
-# User data imported
-with open("./user_data/install_docker.sh") as f:
-    userData = f.read()
-userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
-
-
 # EC2 configuration
 class Ec2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId, is_default=True)
-        sg = ec2.SecurityGroup.from_security_group_id(self, "SG", sgID, mutable=False)
-
+        vpc = ec2.Vpc.from_lookup(self, penv.appName+"_VPC", vpc_id=vpcId, is_default=True)
+        sg = ec2.SecurityGroup.from_security_group_id(self, penv.appName+"_SG", sgID, mutable=False)
 
         host = ec2.Instance(self, penv.appName + "_Ec2",
                             instance_type=ec2.InstanceType(
@@ -82,4 +65,4 @@ class Ec2Stack(Stack):
         # Print public ip of the instance
         if penv.showPublicIp:
             CfnOutput(self, "Output",
-                    value=host.instance_public_ip)
+                        value=host.instance_public_ip)
