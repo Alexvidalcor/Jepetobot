@@ -9,7 +9,7 @@ from modules.cdk_support import *
 
 # Local secrets. Only run in your local.
 if penv.execGithubActions == False:
-    load_dotenv(".env")
+    load_dotenv("modules/.env")
 
 # Variables from GithubSecrets/environment
 try:
