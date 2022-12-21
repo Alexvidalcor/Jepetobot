@@ -9,7 +9,6 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-import modules.public_env as penv
 from modules.cdk_support import *
 
 # User data imported
@@ -24,23 +23,24 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
     generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 )
 
-
-
-
 # EC2 configuration
 class Ec2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        vpc = ec2.Vpc.from_lookup(self, penv.appName+"_VPC", vpc_id=vpcId, is_default=True)
-        sg = ec2.SecurityGroup.from_security_group_id(self, penv.appName+"_SG", sgID, mutable=False)
+        vpc = ec2.Vpc.from_lookup(
+            self, appName+"_VPC", vpc_id=vpcId, is_default=True)
+        sg = ec2.SecurityGroup.from_security_group_id(
+            self, appName+"_SG", sgID, mutable=False)
 
         # Instance Role and S3 managed Policy
-        role = iam.Role(self, penv.appName + "_Ec2_Role", assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
-        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
+        role = iam.Role(self, appName + "_Ec2_Role",
+                        assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
 
-        host = ec2.Instance(self, penv.appName + "_Ec2",
+        host = ec2.Instance(self, appName + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
                             instance_name=instanceName+"-instance",
@@ -51,7 +51,7 @@ class Ec2Stack(Stack):
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
                             user_data=ec2.UserData.custom(userDataProcessed),
-                            role = role
+                            role=role
                             )
 
         host.instance.add_property_override("BlockDeviceMappings", [{
@@ -72,6 +72,6 @@ class Ec2Stack(Stack):
         ])
 
         # Print public ip of the instance
-        if penv.showPublicIp:
+        if showPublicIp:
             CfnOutput(self, "Output",
-                        value=host.instance_public_ip)
+                      value=host.instance_public_ip)

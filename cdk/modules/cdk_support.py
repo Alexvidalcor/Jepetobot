@@ -26,6 +26,10 @@ try:
     keyName = os.environ["AWS_KEY"]
     sgID = os.environ["AWS_SG"]
 
+    # Public_env variables
+    appName = penv.appName
+    showPublicIp = penv.showPublicIp
+
     # Differentiate between local variables and Github actions
     if penv.execLocal == False:
         reusableStack = os.environ["REUSABLE_STACK"]
@@ -33,8 +37,7 @@ try:
         reusableStack = penv.reusableStack
 
 except KeyError:
-    raise Exception("Are you using Github Secrets? Check public_env file")
-
+    raise Exception("Are you using Github Secrets? Check cdk_public_env file")
 
 # Extra variables. Only in local.
 if reusableStack:
