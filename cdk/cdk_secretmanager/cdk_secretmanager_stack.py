@@ -21,9 +21,9 @@ class SecretManagerStack(Stack):
         # Default secret
         secret1 = secretsmanager.Secret(self, 
         penv.appName+"_secret1",
-        secret_name="secret1",
+        secret_name=penv.appName+"_secret1",
         generate_secret_string=secretsmanager.SecretStringGenerator(
-            secret_string_template=json.dumps({"username": "user"}),
+            secret_string_template=json.dumps({"App": penv.appName}),
             generate_string_key="password"
         )
     )

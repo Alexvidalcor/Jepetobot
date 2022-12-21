@@ -4,11 +4,10 @@ import random
 from dotenv import load_dotenv
 
 # Custom importation
-import modules.public_env as penv
-from modules.cdk_support import *
+import modules.cdk_public_env as penv
 
 # Local secrets. Only run in your local.
-if penv.execGithubActions == False:
+if penv.execLocal:
     print("Using local env variables...")
     load_dotenv("modules/.env")
 
@@ -28,7 +27,7 @@ try:
     sgID = os.environ["AWS_SG"]
 
     # Differentiate between local variables and Github actions
-    if penv.execGithubActions:
+    if penv.execLocal == False:
         reusableStack = os.environ["REUSABLE_STACK"]
     else:
         reusableStack = penv.reusableStack
