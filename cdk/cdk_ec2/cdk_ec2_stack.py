@@ -2,7 +2,8 @@
 from aws_cdk import (
     Stack,
     CfnOutput,
-    aws_ec2 as ec2
+    aws_ec2 as ec2,
+    aws_iam as iam
 )
 
 from constructs import Construct
@@ -23,6 +24,9 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
     generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 )
 
+
+
+
 # EC2 configuration
 class Ec2Stack(Stack):
 
@@ -31,6 +35,10 @@ class Ec2Stack(Stack):
 
         vpc = ec2.Vpc.from_lookup(self, penv.appName+"_VPC", vpc_id=vpcId, is_default=True)
         sg = ec2.SecurityGroup.from_security_group_id(self, penv.appName+"_SG", sgID, mutable=False)
+
+        # Instance Role and S3 managed Policy
+        role = iam.Role(self, penv.appName + "_Ec2_Role", assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
+        role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
 
         host = ec2.Instance(self, penv.appName + "_Ec2",
                             instance_type=ec2.InstanceType(
