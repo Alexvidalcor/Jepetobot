@@ -9,6 +9,7 @@ from modules.cdk_support import *
 
 # Local secrets. Only run in your local.
 if penv.execGithubActions == False:
+    print("Using local env variables...")
     load_dotenv("modules/.env")
 
 # Variables from GithubSecrets/environment
