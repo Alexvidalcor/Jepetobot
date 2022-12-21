@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -it --name appcontainer_cont appcontainer
+docker run -d -it --name app_cont app_image
