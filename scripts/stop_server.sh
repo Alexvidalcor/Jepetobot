@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ $( docker ps -a | grep appcontainer | wc -l ) -gt 0 ]; then
-    echo "appcontainer exists"
-    docker stop appcontainer_cont
-    docker rm appcontainer_cont
+if [ $( docker ps -a | grep app_cont | wc -l ) -gt 0 ]; then
+    echo "app_cont exists"
+    docker stop app_cont
+    docker rm app_cont
 else
-        echo "testContainer does not exist"
+        echo "app_cont does not exist"
 fi
