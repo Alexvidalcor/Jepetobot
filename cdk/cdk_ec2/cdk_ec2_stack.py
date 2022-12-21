@@ -50,7 +50,8 @@ class Ec2Stack(Stack):
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
-                            user_data=ec2.UserData.custom(userDataProcessed)
+                            user_data=ec2.UserData.custom(userDataProcessed),
+                            role = role
                             )
 
         host.instance.add_property_override("BlockDeviceMappings", [{
