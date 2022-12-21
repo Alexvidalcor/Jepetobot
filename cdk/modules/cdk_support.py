@@ -36,7 +36,7 @@ try:
         reusableStack = penv.reusableStack
 
 except KeyError:
-    raise Exception("Are you using Github Secrets?")
+    raise Exception("Are you using Github Secrets? Check public_env file")
 
 
 # Extra variables. Only in local.
