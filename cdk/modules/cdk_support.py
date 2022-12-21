@@ -27,9 +27,6 @@ try:
     keyName = os.environ["AWS_KEY"]
     sgID = os.environ["AWS_SG"]
 
-    # SecretManager variables
-    awsSecret1 = os.environ["AWS_SECRET_1"]
-
     # Differentiate between local variables and Github actions
     if penv.execGithubActions:
         reusableStack = os.environ["REUSABLE_STACK"]
