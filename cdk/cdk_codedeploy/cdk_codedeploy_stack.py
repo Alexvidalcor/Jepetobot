@@ -23,6 +23,6 @@ class CodeDeployStack(Stack):
             install_agent=True,
             ec2_instance_tags=codedeploy.InstanceTagSet({
                 "Group": [awsTagName],
-                "Name": [awsTagName+"ec2"],
+                "Name": [awsTagName+"-ec2"],
             })
         )
