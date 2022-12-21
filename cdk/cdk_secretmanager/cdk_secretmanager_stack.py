@@ -9,7 +9,6 @@ from constructs import Construct
 import json
 
 # Custom importation
-import modules.public_env as penv
 from modules.cdk_support import *
 
 # MainClass
@@ -20,10 +19,10 @@ class SecretManagerStack(Stack):
 
         # Default secret
         secret1 = secretsmanager.Secret(self, 
-        penv.appName+"_secret1",
-        secret_name=penv.appName+"_secret1",
+        appName+"_secret1",
+        secret_name=appName+"_secret1",
         generate_secret_string=secretsmanager.SecretStringGenerator(
-            secret_string_template=json.dumps({"App": penv.appName}),
+            secret_string_template=json.dumps({"App": appName}),
             generate_string_key="password"
         )
     )

@@ -7,8 +7,8 @@ COPY ["requirements.txt", "main.py", "src", "./"]
 RUN apt update \
     && apt install -y \
         python3-pip \
-    && pip install -r \
+    && pip3 install -r \
         requirements.txt
 
-CMD ["python", "./main.py"]
+CMD ["python3", "./main.py"]
 
