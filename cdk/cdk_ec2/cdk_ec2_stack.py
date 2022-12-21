@@ -5,7 +5,6 @@ from aws_cdk import (
     aws_ec2 as ec2,
     aws_iam as iam
 )
-
 from constructs import Construct
 
 # Custom importation
@@ -34,11 +33,13 @@ class Ec2Stack(Stack):
         sg = ec2.SecurityGroup.from_security_group_id(
             self, appName+"_SG", sgID, mutable=False)
 
-        # Instance Role and S3 managed Policy
+        # Instance Role and managed Polices
         role = iam.Role(self, appName + "_Ec2_Role",
                         assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
         role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("SecretsManagerReadWrite"))
 
         host = ec2.Instance(self, appName + "_Ec2",
                             instance_type=ec2.InstanceType(

@@ -30,7 +30,7 @@ try:
     appName = penv.appName
     showPublicIp = penv.showPublicIp
 
-    # Differentiate between local variables and Github actions
+    # Differentiate between local variables and Github actions variables
     if penv.execLocal == False:
         reusableStack = os.environ["REUSABLE_STACK"]
     else:

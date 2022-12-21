@@ -5,6 +5,7 @@ from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 
 # Python libraries
 import os
+import json
 from dotenv import load_dotenv
 
 # Custom importation
@@ -27,6 +28,7 @@ elif not penv.execLocal:
     cache = SecretCache( config = cache_config, client = client)
 
     # Telegram variables
-    telegramToken = cache.get_secret_string(penv.appName + "_secret1")
+    secret1 = cache.get_secret_string(penv.appName + "_secret1")
+    telegramToken = json.loads(secret1)["password"]
 
 

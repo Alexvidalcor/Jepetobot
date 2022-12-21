@@ -21,7 +21,7 @@ class CodeDeployStack(Stack):
             deployment_group_name=f"{appName}-deploygroup",
             install_agent=True,
             ec2_instance_tags=codedeploy.InstanceTagSet({
-                "Group": [appName],
-                "Name": [appName+"-ec2"],
+                "Group": [awsTagName],
+                "Name": [awsTagName+"-ec2"],
             })
         )
