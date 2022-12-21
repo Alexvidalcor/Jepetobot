@@ -2,7 +2,6 @@
 python-telegram-bot
 python-dotenv
 
-
 # AWS libraries
 aws-cdk-lib
 constructs

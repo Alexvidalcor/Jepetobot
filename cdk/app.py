@@ -9,7 +9,6 @@ from aws_cdk import (
 import random
 
 # Custom importation
-import modules.public_env as penv
 from modules.cdk_support import *
 
 # Stacks importation
@@ -23,7 +22,7 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 
 # Execute stacks
 app = App()
-Ec2Layer = Ec2Stack(app, f"cdk-ec2stack-{timestamp}", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"cdk-ec2-stack-{timestamp}", env=awsEnv)
 CodeDeployLayer = CodeDeployStack(app, f"cdk-codedeploy-stack-{timestamp}", env=awsEnv)
 S3Layer = S3stack(app, f"cdk-s3-stack-{timestamp}", env=awsEnv)
 SecretManagerLayer = SecretManagerStack(app, f"cdk-secretmanager-stack-{timestamp}", env=awsEnv)
