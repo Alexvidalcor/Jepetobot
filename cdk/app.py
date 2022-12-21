@@ -5,9 +5,6 @@ from aws_cdk import (
     Tags
 )
 
-# Python libraries
-import random
-
 # Custom importation
 from modules.cdk_support import *
 
