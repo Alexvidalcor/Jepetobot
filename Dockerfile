@@ -21,5 +21,5 @@ RUN apt update \
         requirements.txt
 
 # Run the command that initializes the app
-CMD ["python3", "./main.py"]
+# CMD ["python3", "./main.py"]
 
