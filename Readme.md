@@ -54,4 +54,4 @@ Este proyecto está bajo la Licencia (GNU GPL-V3) - mira el archivo [LICENSE.md]
 ---
 ⌨️ con ❤️ por [Alexvidalcor](https://github.com/Alexvidalcor) 😊
 
-.
+...

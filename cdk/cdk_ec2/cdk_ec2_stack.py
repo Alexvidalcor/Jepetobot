@@ -2,29 +2,18 @@
 from aws_cdk import (
     Stack,
     CfnOutput,
-    aws_ec2 as ec2
+    aws_ec2 as ec2,
+    aws_iam as iam
 )
-
 from constructs import Construct
 
-# Python libraries
-import os
-from dotenv import load_dotenv
+# Custom importation
+from modules.cdk_support import *
 
-# Custom importation. Only when running locally, emulate github actions inputs
-import public_env as penv 
-
-# Local secrets. Only run in your local.
-if penv.execGithubActions == False:
-    load_dotenv(".env")
-
-# Variables from Github Secrets
-instanceName = os.environ["AWS_NAME_INSTANCE"],
-vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
-ec2Type = "t3.micro"
-keyName = os.environ["AWS_KEY"]
-sgID = os.environ["AWS_SG"]
-awsRegion = os.environ["AWS_REGION"]
+# User data imported
+with open("./user_data/install_docker.sh") as f:
+    userData = f.read()
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
 
 # AMI used
 amazonLinux = ec2.MachineImage.latest_amazon_linux(
@@ -33,33 +22,37 @@ amazonLinux = ec2.MachineImage.latest_amazon_linux(
     generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
 )
 
-# User data imported
-with open("./user_data/install_docker.sh") as f:
-    userData = f.read()
-userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
-
-
 # EC2 configuration
 class Ec2Stack(Stack):
 
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        vpc = ec2.Vpc.from_lookup(self, "VPC", vpc_id=vpcId, is_default=True)
-        sg = ec2.SecurityGroup.from_security_group_id(self, "SG", sgID, mutable=False)
+        vpc = ec2.Vpc.from_lookup(
+            self, appName+"_VPC", vpc_id=vpcId, is_default=True)
+        sg = ec2.SecurityGroup.from_security_group_id(
+            self, appName+"_SG", sgID, mutable=False)
 
+        # Instance Role and managed Polices
+        role = iam.Role(self, appName + "_Ec2_Role",
+                        assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("SecretsManagerReadWrite"))
 
-        host = ec2.Instance(self, penv.appName + "_Ec2",
+        host = ec2.Instance(self, appName + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=instanceName[0],
+                            instance_name=instanceName+"-instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
                             key_name=keyName,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
-                            user_data=ec2.UserData.custom(userData)
+                            user_data=ec2.UserData.custom(userDataProcessed),
+                            role=role
                             )
 
         host.instance.add_property_override("BlockDeviceMappings", [{
@@ -80,6 +73,6 @@ class Ec2Stack(Stack):
         ])
 
         # Print public ip of the instance
-        if penv.showPublicIp:
+        if showPublicIp:
             CfnOutput(self, "Output",
-                    value=host.instance_public_ip)
+                      value=host.instance_public_ip)

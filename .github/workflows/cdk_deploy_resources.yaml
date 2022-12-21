@@ -34,19 +34,16 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt
+        pip3 install -r requirements.txt
         npm install -g aws-cdk
-        cdk --version
+        # cdk --version
 
-    - name: Show Github actions variables
+    - name: Show Github actions chosen variables in "dispatch"
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
     
     - name: Deploy Stack
-      run: |
-        # cdk bootstrap
-        # cdk synth
-        cdk deploy --require-approval never --all
+      run: cdk deploy --require-approval never --all
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}

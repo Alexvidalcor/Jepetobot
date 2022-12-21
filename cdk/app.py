@@ -5,56 +5,37 @@ from aws_cdk import (
     Tags
 )
 
-# Python libraries
-import random
+# Custom importation
+from modules.cdk_support import *
 
 # Stacks importation
 from cdk_ec2.cdk_ec2_stack import Ec2Stack
 from cdk_codedeploy.cdk_codedeploy_stack import CodeDeployStack
 from cdk_s3.cdk_s3_stack import S3stack
-
-# Python libraries
-import os
-
-# Custom importation. Only when running locally, emulate github actions inputs
-import public_env as penv 
-
-# Variables from Github Secrets
-awsAccount = os.environ["AWS_ACCOUNT"]
-awsRegion = os.environ["AWS_REGION"]
-awsTagName = os.environ["AWS_TAG_NAME"]
-
-# Differentiate between local variables and Github actions
-if penv.execGithubActions:
-    reusableStack = os.environ["REUSABLE_STACK"]
-else:
-    reusableStack = penv.reusableStack
-
-# Extra variables. Only in local.
-if reusableStack:
-    timestamp = random.randint(0,999999)
-else:
-    timestamp = "managed"
+from cdk_secretmanager.cdk_secretmanager_stack import SecretManagerStack
 
 # Set AWS environment
 awsEnv = Environment(account=awsAccount, region=awsRegion)
 
-# Execute stack
+# Execute stacks
 app = App()
-Ec2Layer = Ec2Stack(app, f"cdk-ec2-deploy-{timestamp}", env=awsEnv)
-CodeDeployLayer = CodeDeployStack(app, f"cdk-code-deploy-{timestamp}", env=awsEnv)
-S3Layer = S3stack(app, f"cdk-s3-deploy-{timestamp}", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"cdk-ec2-stack-{timestamp}", env=awsEnv)
+CodeDeployLayer = CodeDeployStack(app, f"cdk-codedeploy-stack-{timestamp}", env=awsEnv)
+S3Layer = S3stack(app, f"cdk-s3-stack-{timestamp}", env=awsEnv)
+SecretManagerLayer = SecretManagerStack(app, f"cdk-secretmanager-stack-{timestamp}", env=awsEnv)
 
 # Add tags
 Tags.of(Ec2Layer).add("Group", awsTagName)
-Tags.of(Ec2Layer).add("Name", awsTagName+"ec2")
+Tags.of(Ec2Layer).add("Name", awsTagName+"-ec2")
 
 Tags.of(CodeDeployLayer).add("Group", awsTagName)
-Tags.of(CodeDeployLayer).add("Name", awsTagName+"codedeploy")
+Tags.of(CodeDeployLayer).add("Name", awsTagName+"-codedeploy")
 
 Tags.of(S3Layer).add("Group", awsTagName)
-Tags.of(S3Layer).add("Name", awsTagName+"s3")
+Tags.of(S3Layer).add("Name", awsTagName+"-s3")
 
+Tags.of(SecretManagerLayer).add("Group", awsTagName)
+Tags.of(SecretManagerLayer).add("Name", awsTagName+"-secretmanager")
 
 # Execute deploy
 app.synth()

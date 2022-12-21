@@ -1,11 +1,18 @@
+
+# Telegram libraries
 from telegram.ext import Updater, CommandHandler
+
+# Python libraries
 import logging
 
-from src.config.auth import token
+# Custom importation
+from src.modules.app_support import *
 from src.requests import GetSubs
 
+# Log tool
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 logger = logging.getLogger(__name__)
+
 
 def start(update, context):    
     logger.info('He recibido un comando start')
