@@ -20,15 +20,17 @@ try:
     awsTagName = os.environ["AWS_TAG_NAME"]
 
     # EC2 variables
-    instanceName = os.environ["AWS_NAME_INSTANCE"]
     vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
     ec2Type = "t3.micro"
     keyName = os.environ["AWS_KEY"]
-    sgID = os.environ["AWS_SG"]
+    sgID = os.environ["AWS_SG"]  # Import an Exist SG
+    sgPorts = eval(os.environ["AWS_SG_PORTS"])
+
 
     # Public_env variables
     appName = penv.appName
     showPublicIp = penv.showPublicIp
+    createSG = penv.createSG
 
     # Differentiate between local variables and Github actions variables
     if penv.execLocal == False:
