@@ -52,6 +52,6 @@ jobs:
         AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
         AWS_KEY: ${{ secrets.AWS_KEY }}
         AWS_SG: ${{ secrets.AWS_SG }}
-        AWS_NAME_INSTANCE: ${{ secrets.AWS_NAME_INSTANCE }}
+        AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
