@@ -4,3 +4,4 @@ reusableStack = False
 execLocal = True
 showPublicIp = False
 appName = "Telebot"
+createSG = True

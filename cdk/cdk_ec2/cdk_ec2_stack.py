@@ -28,10 +28,36 @@ class Ec2Stack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
+        # Existing VPC
         vpc = ec2.Vpc.from_lookup(
             self, appName+"_VPC", vpc_id=vpcId, is_default=True)
-        sg = ec2.SecurityGroup.from_security_group_id(
-            self, appName+"_SG", sgID, mutable=False)
+
+        # Existing SG or create a new one
+        if createSG:
+            sg = ec2.SecurityGroup(
+                self,
+                id = appName + "_sg",
+                vpc = vpc,
+                allow_all_outbound=True,
+                description = "CDK Security Group",
+                security_group_name = appName + "_sg"
+            )
+            print(sgPorts)
+            sg.add_ingress_rule(
+                peer=ec2.Peer.any_ipv4(),
+                connection=ec2.Port.tcp(sgPorts[0]),
+                description="Custom Rule",
+            )
+
+            sg.add_ingress_rule(
+                peer=ec2.Peer.any_ipv4(),
+                connection=ec2.Port.tcp(sgPorts[1]),
+                description="Custom Rule",
+            )
+
+        else:
+            sg = ec2.SecurityGroup.from_security_group_id(
+                self, appName+"_SG", sgID, mutable=False)
 
         # Instance Role and managed Polices
         role = iam.Role(self, appName + "_Ec2_Role",
@@ -44,7 +70,7 @@ class Ec2Stack(Stack):
         host = ec2.Instance(self, appName + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=instanceName+"-instance",
+                            instance_name=appName + "_instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
                             key_name=keyName,
