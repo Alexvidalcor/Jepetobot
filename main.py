@@ -8,8 +8,6 @@ import logging
 
 # Custom importation
 from src.modules.app_support import *
-from src.requests import GetSubs
-
 
 # Log tool
 logging.basicConfig(
