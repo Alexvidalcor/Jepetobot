@@ -25,7 +25,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=ForceReply(selective=True),
     )
 
-
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
@@ -51,3 +50,7 @@ def main() -> None:
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
+
+
+if __name__ == "__main__":
+    main()

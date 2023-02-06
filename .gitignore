@@ -28,4 +28,3 @@ __pycache__
 
 # Visual studio code stuff
 workspace.code-workspace
-.devcontainer/*

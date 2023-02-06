@@ -44,6 +44,9 @@ def CreateEnv(foundOS,passUser,envName ="MainEnv"):
     except subprocess.CalledProcessError:
         raise Exception("Contraseña root mal introducida")
 
+def PrepareApp():
+    return
+
 
 if __name__ == "__main__":
     #envName = input("Introduce nombre del entorno a crear: ")
