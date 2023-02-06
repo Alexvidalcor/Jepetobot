@@ -1,9 +1,9 @@
 
 # [DEVELOPING BRANCH] [DONT USE] TelegramBot
 
-_Bot de Telegram que, de momento, sólo cuenta suscriptores en un canal de Youtube._
+_Bot de Telegram desarrollado para explorar las posibilidades IA de OpenAI_
 
-_Se incluye soporte para despliegue en AWS_
+_Se incluye soporte para despliegue en AWS mediante Github Actions_
 
 
 ## Ejecución del programa 🚀
@@ -22,6 +22,7 @@ python3 src/installation/install.py
 _Instalación mediante Docker (se requiere tener Docker instalado previamente):_
 ```
 git clone https://github.com/Alexvidalcor/TelegramBot
+cd TelegramBot/
 docker build -t telegrambot . 
 docker run -d -it --name telegrambot_cont telegrambot
 ```
@@ -29,7 +30,7 @@ docker run -d -it --name telegrambot_cont telegrambot
 
 ## Despliegue 📦
 
-**Deploy en AWS (dentro de carpeta cdk) [EN DESARROLLO - NO SE RECOMIENDA SU USO]:**
+**Deploy en AWS (dentro de carpeta cdk):**
 
 Necesario tener CDK preinstalado. Ejecutar:
 
@@ -43,7 +44,6 @@ cdk deploy --all
 
 * [AWS-CDK](https://aws.amazon.com/es/cdk/) - Despliegue en AWS.
 * [Python-Telegram-Bot](https://python-telegram-bot.org) - API Wrapper de Telegram.
-* [Selenium](https://www.selenium.dev/) - Web Scrapping.
 
 
 ## Licencia 📄
