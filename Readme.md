@@ -1,16 +1,16 @@
 
-# [DEVELOPING BRANCH] [DONT USE] TelegramBot
+# [DEVELOPING BRANCH] TelegramBot
 
-_Bot de Telegram desarrollado para explorar las posibilidades IA de OpenAI_
+_Telegram bot developed to explore the AI possibilities of OpenAI_
 
-_Se incluye soporte para despliegue en AWS mediante Github Actions_
+_Support for deployment on AWS is included through Github Actions_
 
 
-## Ejecución del programa 🚀
+## Program execution 🚀
 
-### Distribución de Linux basada en Debian 
+### Debian-based Linux distribution 
 
-_Instalación Manual (comandos de terminal):_
+_Manual Installation (terminal commands):_
 
 ```
 git clone https://github.com/Alexvidalcor/TelegramBot
@@ -19,7 +19,7 @@ python3 src/installation/install.py
 ./src/installation/execute.sh
 ```
 
-_Instalación mediante Docker (se requiere tener Docker instalado previamente):_
+_Installation using Docker (it is required to have Docker installed previously):_
 ```
 git clone https://github.com/Alexvidalcor/TelegramBot
 cd TelegramBot/
@@ -28,11 +28,11 @@ docker run -d -it --name telegrambot_cont telegrambot
 ```
 
 
-## Despliegue 📦
+## Deployment 📦
 
-**Deploy en AWS (dentro de carpeta cdk):**
+**Deploy in AWS (inside cdk folder):**
 
-Necesario tener CDK preinstalado. Ejecutar:
+Need to have CDK pre-installed. Execute:
 
 ```
 cdk synth
@@ -40,15 +40,15 @@ cdk synth
 cdk deploy --all
 ```
 
-## Construido con 🛠️
+## Built with 🛠️
 
 * [AWS-CDK](https://aws.amazon.com/es/cdk/) - Despliegue en AWS.
 * [Python-Telegram-Bot](https://python-telegram-bot.org) - API Wrapper de Telegram.
 
 
-## Licencia 📄
+## License 📄
 
-Este proyecto está bajo la Licencia (GNU GPL-V3) - mira el archivo [LICENSE.md](LICENSE.md) para detalles.
+This project is licensed under the License (GNU GPL-V3) - see the [LICENSE.md](LICENSE.md) file for details.
 
 
 ---
