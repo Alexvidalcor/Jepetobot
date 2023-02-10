@@ -8,7 +8,7 @@ _Support for deployment on AWS is included through Github Actions_
 
 ## Program execution 🚀
 
-### Debian-based Linux distribution 
+### Debian-based/Fedora Linux distribution 
 
 _Manual Installation (terminal commands):_
 
