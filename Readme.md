@@ -42,8 +42,8 @@ cdk deploy --all
 
 ## Built with 🛠️
 
-* [AWS-CDK](https://aws.amazon.com/es/cdk/) - Despliegue en AWS.
-* [Python-Telegram-Bot](https://python-telegram-bot.org) - API Wrapper de Telegram.
+* [AWS-CDK](https://aws.amazon.com/es/cdk/) - Deploy on AWS.
+* [Python-Telegram-Bot](https://python-telegram-bot.org) - Telegram Api Wrapper.
 
 
 ## License 📄
