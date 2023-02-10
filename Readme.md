@@ -20,6 +20,7 @@ python3 src/installation/install.py
 ```
 
 _Installation using Docker (it is required to have Docker installed previously):_
+
 ```
 git clone https://github.com/Alexvidalcor/TelegramBot
 cd TelegramBot/
