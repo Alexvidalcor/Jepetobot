@@ -33,8 +33,7 @@ docker build -t jepetobot .
 docker run -d -it --name jepetobot_cont jepetobot
 ```
 
-| :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot
-/wiki) for more info!  |
+| :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
 |-----------------------------------------|
 
 ## Cloud Deployment 📦
