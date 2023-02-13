@@ -1,7 +1,10 @@
 # This is experimental, don't use!
 name: Deploy application
 
-on: push
+on:
+  push:
+    branches:
+      - "master"
 
 jobs:
   aws-cdk-deploy:
