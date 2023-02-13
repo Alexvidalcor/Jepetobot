@@ -10,3 +10,5 @@ aws-secretsmanager-caching
 # AWS dev libraries
 pytest
 
+# OpenAI libraries
+openai

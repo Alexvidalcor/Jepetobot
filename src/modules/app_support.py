@@ -17,7 +17,7 @@ if penv.execLocal:
     load_dotenv("src/modules/.env")
 
     # Telegram variables
-    telegramToken = os.environ["TELEGRAM_TOKEN"]
+    telegramToken = os.environ["password"]
 
 elif not penv.execLocal:
     print("Using secretmanager...")
@@ -25,10 +25,15 @@ elif not penv.execLocal:
     # SecretManager connection
     client = botocore.session.get_session().create_client('secretsmanager')
     cache_config = SecretCacheConfig()
-    cache = SecretCache( config = cache_config, client = client)
+    cache = SecretCache(config = cache_config, client = client)
 
     # Telegram variables
     secret1 = cache.get_secret_string(penv.appName + "_secret1")
     telegramToken = json.loads(secret1)["password"]
+
+    # OpenAI variables
+    secret2 = cache.get_secret_string(penv.appName + "_secret1")
+    openaiToken = json.loads(secret1)["openai_token"]
+
 
 

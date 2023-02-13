@@ -8,8 +8,6 @@ import logging
 
 # Custom importation
 from src.modules.app_support import *
-from src.requests import GetSubs
-
 
 # Log tool
 logging.basicConfig(
@@ -26,7 +24,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         rf"Hi {user.mention_html()}!",
         reply_markup=ForceReply(selective=True),
     )
-
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
@@ -53,3 +50,7 @@ def main() -> None:
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
+
+
+if __name__ == "__main__":
+    main()
