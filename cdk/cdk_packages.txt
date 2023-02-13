@@ -1,3 +1,6 @@
+# Python libraries
+python-dotenv
+
 # AWS libraries
 aws-cdk-lib
 constructs
