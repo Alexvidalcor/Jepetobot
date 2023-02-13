@@ -1,5 +1,5 @@
 
-![Jepetobot-ReadmeImage1](https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.jpg)
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.jpg" width="200" />
 
 # JEPETOBOT - AI Telegram Bot 
 
