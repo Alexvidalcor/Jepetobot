@@ -34,7 +34,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install -r cdk/cdk_packages.txt
+        pip install -r cdk/cdk_requirements.txt
         npm install -g aws-cdk
         # cdk --version
 
