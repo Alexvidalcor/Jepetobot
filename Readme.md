@@ -1,7 +1,5 @@
 
-
-
-# JEPETOBOT - AI Telegram Bot <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.jpg" width="50" />
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.jpg" width="200" />
 
 _Telegram bot developed to explore the AI possibilities of OpenAI_
 
