@@ -39,7 +39,8 @@ jobs:
         # cdk --version
 
     - name: Show Github actions chosen variables in "dispatch"
-      run: echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
+      run: |
+        echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
     
     - name: Deploy Stack
       run: |
