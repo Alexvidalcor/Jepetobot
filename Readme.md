@@ -15,9 +15,7 @@ _Manual Installation (terminal commands):_
 
 ```
 git clone https://github.com/Alexvidalcor/jepetobot
-
-cd jepetobot
-/
+cd jepetobot/
 python3 src/installation/install.py
 ./src/installation/execute.sh
 ```
@@ -26,9 +24,7 @@ _Installation using Docker (it is required to have Docker installed previously):
 
 ```
 git clone https://github.com/Alexvidalcor/jepetobot
-
-cd jepetobot
-/
+cd jepetobot/
 docker build -t jepetobot . 
 docker run -d -it --name jepetobot_cont jepetobot
 ```
