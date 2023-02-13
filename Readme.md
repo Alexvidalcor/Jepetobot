@@ -1,5 +1,5 @@
 
-# JEPETOBOT - AI Telegram Bot ![Jepetobot-ReadmeImage1](url "https://github.com/Alexvidalcor/jepetobot/blob/main/src/images/JepetoBot-Readme1.jpg?raw=true")
+# JEPETOBOT - AI Telegram Bot ![Jepetobot-ReadmeImage1](url "https://github.com/Alexvidalcor/jepetobot/blob/Dev/src/images/JepetoBot-Readme1.jpg?raw=true")
 
 _Telegram bot developed to explore the AI possibilities of OpenAI_
 
