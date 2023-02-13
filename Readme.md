@@ -54,13 +54,13 @@ cdk deploy --all
 
 Currently there are two Github Actions workflows prepared to automate the deployment:
 
-* **cdk_deploy_resources.yaml**
+* _cdk_deploy_resources.yaml_
 
 Resources | EC2 | S3| secretmanager | codedeploy |
 --- | --- | --- | --- |--- |
 Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | 
 
-* **update_application.yaml**
+* _update_application.yaml_
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
 
@@ -69,8 +69,7 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 ## Wiki :closed_book:
 
-For detailed information, check the project [Wiki](https://github.com/Alexvidalcor/jepetobot
-/wiki)
+For detailed information, check the project [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki)
 
 
 ## Built with 🛠️
