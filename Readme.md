@@ -55,13 +55,13 @@ cdk deploy --all
 
 Currently there are two Github Actions workflows prepared to automate the deployment:
 
-* cdk_deploy_resources.yaml
+* **cdk_deploy_resources.yaml**
 
 Resources | EC2 | S3| secretmanager | codedeploy |
 --- | --- | --- | --- |--- |
 Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | 
 
-* update_application.yaml
+* **update_application.yaml**
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
 
@@ -96,5 +96,3 @@ This project is licensed under the License (GNU GPL-V3) - see the [LICENSE.md](L
 ---
 
 ⌨️ with ❤️ by [Alexvidalcor](https://github.com/Alexvidalcor) 😊
-
-...
