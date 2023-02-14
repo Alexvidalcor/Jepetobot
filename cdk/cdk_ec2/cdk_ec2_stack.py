@@ -42,7 +42,7 @@ class Ec2Stack(Stack):
                 description = "CDK Security Group",
                 security_group_name = appName + "_sg"
             )
-            print(sgPorts)
+
             sg.add_ingress_rule(
                 peer=ec2.Peer.any_ipv4(),
                 connection=ec2.Port.tcp(sgPorts[0]),
