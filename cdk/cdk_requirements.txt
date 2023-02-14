@@ -4,7 +4,6 @@ python-dotenv
 # AWS libraries
 aws-cdk-lib
 constructs
-aws-secretsmanager-caching
 
 # AWS dev libraries
 pytest
