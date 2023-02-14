@@ -44,7 +44,6 @@ jobs:
     
     - name: Deploy Stack
       run: |
-        cdk bootstrap
         cdk deploy --require-approval never --all
       working-directory: ./cdk
       env:
