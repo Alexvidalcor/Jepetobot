@@ -3,5 +3,5 @@
 reusableStack = False
 execLocal = False
 showPublicIp = False
-appName = "Telebot"
+appName = "Jepetobot"
 createSG = True
