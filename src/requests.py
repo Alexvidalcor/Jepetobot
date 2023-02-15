@@ -1,35 +1,20 @@
-# Import libraries
-import os
+# Python libraries
+import openai
 
-from selenium import webdriver  # Webscrapping bot
+#Custom modules
+from src.modules.app_support import openaiToken
 
-from selenium.webdriver.firefox.service import Service
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# Get OpenAI token 
+openai.api_key = openaiToken
 
-from webdriver_manager.firefox import GeckoDriverManager
+def generate_response(prompt):
+    completions = openai.Completion.create(
+        engine = "text-davinci-003",
+        prompt = prompt,
+        max_tokens = 100,
+        n = 1,
+        stop = None,
+        temperature=0.5,
+    )
+    return completions["choices"][0]["text"]
 
-# Main vars
-logPath = os.getcwd()
-channelYT = ""
-video_url = f'https://www.youtube.com/c/{channelYT}/about'
-
-# Selenium config
-ser = Service(executable_path=GeckoDriverManager().install(), log_path=f"{logPath}/geckodriver.log")
-options = Options()
-options.add_argument("--headless")
-options.add_argument("window-size=1400,1500")
-options.add_argument("--disable-gpu")
-options.add_argument("--no-sandbox")
-options.add_argument("start-maximized")
-options.add_argument("enable-automation")
-options.add_argument("--disable-infobars")
-options.add_argument("--disable-dev-shm-usage")
-
-
-# Requests
-def GetSubs():
-    driver = webdriver.Firefox(service=ser, options=options)
-    driver.get(video_url)
-    subCounter = driver.find_element_by_id("subscriber-count").text
-    driver.close()
-    return subCounter
