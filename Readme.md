@@ -1,6 +1,4 @@
-**CURRENT STATUS: ALPHA**
-
-### Current status: alpha
+**CURRENT STATUS: BETA**
 
 <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.png" width="500" />
 
