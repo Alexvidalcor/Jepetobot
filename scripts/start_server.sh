@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker run -d -it --name app_cont app_image
+docker run -d -it --name app_cont --restart always app_image

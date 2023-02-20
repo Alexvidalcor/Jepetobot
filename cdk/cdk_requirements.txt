@@ -1,0 +1,9 @@
+# Python libraries
+python-dotenv
+
+# AWS libraries
+aws-cdk-lib
+constructs
+
+# AWS dev libraries
+pytest

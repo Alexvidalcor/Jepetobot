@@ -18,6 +18,7 @@ if penv.execLocal:
 
     # Telegram variables
     telegramToken = os.environ["password"]
+    openaiToken = os.environ["openai_token"]
 
 elif not penv.execLocal:
     print("Using secretmanager...")

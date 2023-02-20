@@ -1,3 +1,4 @@
+**CURRENT STATUS: ALPHA**
 
 ### Current status: alpha
 
@@ -7,6 +8,7 @@ _Telegram bot developed to explore the AI possibilities of OpenAI_
 
 _Support for deployment on AWS is included through Github Actions_
 
+_**This branch is used for general development of the application**_
 
 ## Getting started 🚀
 

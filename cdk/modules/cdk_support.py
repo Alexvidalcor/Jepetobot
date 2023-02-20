@@ -24,7 +24,7 @@ try:
     ec2Type = "t3.micro"
     keyName = os.environ["AWS_KEY"]
     sgID = os.environ["AWS_SG"]  # Import an Exist SG
-    sgPorts = eval(os.environ["AWS_SG_PORTS"])
+    sgPorts = eval(os.environ["AWS_SG_PORTS"]) # Must receive an array
 
 
     # Public_env variables
