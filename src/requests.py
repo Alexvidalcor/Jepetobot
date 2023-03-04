@@ -9,12 +9,12 @@ openai.api_key = openaiToken
 
 def generate_response(prompt):
     completions = openai.Completion.create(
-        engine = "text-davinci-003",
+        engine = "gpt-3.5-turbo",
         prompt = prompt,
-        max_tokens = 200,
+        max_tokens = 500,
         n = 1,
         stop = None,
-        temperature=1,
+        temperature=0.6,
     )
     return completions["choices"][0]["text"]
 
