@@ -38,3 +38,6 @@ elif not penv.execLocal:
     secret2 = cache.get_secret_string(penv.appName + "_secret1")
     openaiToken = json.loads(secret1)["openai_token"]
 
+    # UsersFirewall variables
+    secret3 = cache.get_secret_string(penv.appName + "_secret1")
+    idUsersAllowed: = json.loads(secret1)["idUsersAllowed"]
