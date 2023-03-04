@@ -90,7 +90,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         reply_markup=ForceReply(selective=True)
     )
     settings[settingSelected]=update.message.text
-    print(settings[settingSelected])
+    return ConversationHandler.END
 
 
 @UsersFirewall
