@@ -8,17 +8,17 @@ from src.modules.app_support import openaiToken
 openai.api_key = openaiToken
 
 
-def generate_response(prompt):
+def generate_response(prompt, identity, temp):
     completions = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly."},
+            {"role": "system", "content": identity},
             {"role": "user", "content": prompt}
         ],
         max_tokens = 500,
         n = 1,
         stop = None,
-        temperature = 0.6,
+        temperature = temp,
     )
     return completions["choices"][0]["message"]["content"]
 

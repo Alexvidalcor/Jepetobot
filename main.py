@@ -18,12 +18,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
+
 # Initial vars needed
-setting, identity, temperature = range(3)
+settingSelected = 0
+settings = {
+    "identity":"You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly",
+    "temperature":0.6
+}
+
 
 # User logging decorator
-
-
 def UsersFirewall(originalFunction):
     async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         user = update.message.from_user
@@ -33,6 +37,8 @@ def UsersFirewall(originalFunction):
             rf"Hi {user.mention_html()}!, you don't have permissions"
         )
     return CheckPermissions
+
+
 
 @UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -44,18 +50,17 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=ForceReply(selective=True),
     )
 
-
 @UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Reply the user message.
-    await update.message.reply_text(generate_response(update.message.text))
-    # user = update.message.from_user
-    # print('You talk with user {} and his user ID: {} '.format(user['username'], user['id']))
+    await update.message.reply_text(generate_response(update.message.text, settings["identity"], settings["temperature"]))
+
 
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text("Help!")
+
 
 @UsersFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -74,16 +79,19 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
                 input_field_placeholder="Identity or Temperature?"
             )
         )
-        return setting
+        return settingSelected
+
 
 @UsersFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     settingSelected = update.message.text
     await update.message.reply_text(
         f"Insert the new value to use in {settingSelected}",
-        reply_markup=ReplyKeyboardRemove(),
+        reply_markup=ForceReply(selective=True)
     )
-    return
+    settings[settingSelected]=update.message.text
+    print(settings[settingSelected])
+
 
 @UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -92,10 +100,10 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     user = update.message.from_user
     await update.message.reply_text(
         "Bye! I hope we can talk again some day.", reply_markup=ReplyKeyboardRemove()
-
     )
 
     return ConversationHandler.END
+
 
 
 def main() -> None:
@@ -114,7 +122,7 @@ def main() -> None:
         entry_points=[CommandHandler("settings", SettingsMenu)],
 
         states={
-            setting: [MessageHandler(filters.TEXT, ValueAnswer)]
+            settingSelected: [MessageHandler(filters.TEXT, ValueAnswer)]
         },
 
         fallbacks=[CommandHandler("cancel", cancel)]
