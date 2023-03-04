@@ -12,7 +12,7 @@ def generate_response(prompt):
     completions = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages=[
-            {"role": "system", "content": "You are Jepetobot, an artificial intelligence. Answer as concisely as possible."},
+            {"role": "system", "content": "You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly."},
             {"role": "user", "content": prompt}
         ],
         max_tokens = 500,
