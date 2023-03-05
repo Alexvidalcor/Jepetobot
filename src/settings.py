@@ -33,8 +33,8 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         if context.chat_data["settingSelected"] == "Identity":
 
             identityOptions = [
-                "You are Jepetobot, a kindly artificial intelligence",
-                "You are a very sarcastic and rude",
+                "You are Jepetobot, a kindly AI",
+                "You are very sarcastic",
                 "Custom"
             ]
 
