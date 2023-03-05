@@ -11,18 +11,23 @@ from dotenv import load_dotenv
 # Custom importation
 import src.modules.app_public_env as penv
 
+# General variables from public env
+settings = penv.settings
+
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
     load_dotenv("src/modules/.env")
 
     # Telegram variables
+    idUsersAllowed = eval(os.environ["idUsersAllowed"])
+
     telegramToken = os.environ["password"]
     openaiToken = os.environ["openai_token"]
 
 elif not penv.execLocal:
     print("Using secretmanager...")
-    
+
     # SecretManager connection
     client = botocore.session.get_session().create_client('secretsmanager')
     cache_config = SecretCacheConfig()
@@ -36,5 +41,6 @@ elif not penv.execLocal:
     secret2 = cache.get_secret_string(penv.appName + "_secret1")
     openaiToken = json.loads(secret1)["openai_token"]
 
-
-
+    # UsersFirewall variables
+    secret3 = cache.get_secret_string(penv.appName + "_secret1")
+    idUsersAllowed = eval(json.loads(secret1)["idUsersAllowed"])
