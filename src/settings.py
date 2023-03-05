@@ -34,7 +34,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
             identityOptions = [
                 "You are Jepetobot, a kindly AI",
-                "You are very sarcastic",
+                "Answer sarcastically",
                 "Custom"
             ]
 
