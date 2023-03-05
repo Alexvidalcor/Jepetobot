@@ -64,6 +64,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             ]
         await update.message.reply_text(
             f"Insert the new value to use in {context.chat_data['settingSelected']}",
+            reply_markup=ReplyKeyboardRemove()
         )
         await update.message.reply_text("Please choose:",
                                         reply_markup=InlineKeyboardMarkup(

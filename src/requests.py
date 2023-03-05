@@ -11,7 +11,6 @@ openai.api_key = openaiToken
 
 
 def generate_response(prompt, identity, temp):
-    print(identity)
     completions = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages=[
