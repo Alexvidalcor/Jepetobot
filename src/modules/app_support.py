@@ -11,6 +11,9 @@ from dotenv import load_dotenv
 # Custom importation
 import src.modules.app_public_env as penv
 
+# General variables from public env
+settings = penv.settings
+
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
