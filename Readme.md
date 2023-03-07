@@ -25,7 +25,7 @@ _Support for deployment on AWS is included through Github Actions_
 
 Adapted to the latest chatgpt model (GPT3.5-turbo) | 'Identity' change from bot options | 'temperature' change from bot options
 --- | --- | --- |
- | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" /> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" /> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" /> |
+ | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="300"/> |
 
 
 ## Getting started 🚀
