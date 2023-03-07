@@ -2,3 +2,7 @@
 
 execLocal = False
 appName = "Jepetobot"
+settings = {
+    "Identity" : "You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly",
+    "Temperature" : 0.6
+}

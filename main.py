@@ -1,14 +1,17 @@
 
 # Telegram libraries
-from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler
+from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
+
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler
 
 # Python libraries
 import logging
 
 # Custom importation
 from src.modules.app_support import *
-from src.requests import generate_response
+from src.settings import *
+from src.requests import generate_response, AiReply
+from src.permissions import UsersFirewall
 
 
 # Log tool
@@ -17,29 +20,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
-
-# Initial vars needed
-settingSelected = 0
-settings = {
-    "identity":"You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly",
-    "temperature":0.6
-}
-
-
-# User logging decorator
-def UsersFirewall(originalFunction):
-    async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-        user = update.message.from_user
-        if user["id"] in idUsersAllowed:
-            return await originalFunction(update, context)
-        await update.message.reply_html(
-            rf"Hi {user.mention_html()}!, you don't have permissions"
-        )
-    return CheckPermissions
-
-
-
+# Start Function
 @UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
@@ -50,60 +31,21 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=ForceReply(selective=True),
     )
 
-@UsersFirewall
-async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Reply the user message.
-    await update.message.reply_text(generate_response(update.message.text, settings["identity"], settings["temperature"]))
-
-
+# Help function
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text("Help!")
 
-
-@UsersFirewall
-async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    # Send a message when the command /settings is issued.
-    user = update.message.from_user
-    if user["id"] in idUsersAllowed:
-        replyKeyboard = [["Identity", "Temperature"]]
-
-        await update.message.reply_text(
-            "Settings section! "
-            "Send /cancel to cancel.\n\n"
-            "What do you want to configure?",
-            reply_markup=ReplyKeyboardMarkup(
-                replyKeyboard,
-                one_time_keyboard=True,
-                input_field_placeholder="Identity or Temperature?"
-            )
-        )
-        return settingSelected
-
-
-@UsersFirewall
-async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    settingSelected = update.message.text
-    await update.message.reply_text(
-        f"Insert the new value to use in {settingSelected}",
-        reply_markup=ForceReply(selective=True)
-    )
-    settings[settingSelected]=update.message.text
-    print(settings[settingSelected])
-
-
+# Cancel function
 @UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
 
-    user = update.message.from_user
     await update.message.reply_text(
         "Bye! I hope we can talk again some day.", reply_markup=ReplyKeyboardRemove()
     )
-
     return ConversationHandler.END
-
 
 
 def main() -> None:
@@ -115,19 +57,24 @@ def main() -> None:
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", Start))
     application.add_handler(CommandHandler("help", HelpCommand))
+    application.add_handler(CommandHandler("cancel", cancel))
 
     # Conversation handler to define custom settings
-    convHandler = ConversationHandler(
+    convHandler1 = ConversationHandler(
 
         entry_points=[CommandHandler("settings", SettingsMenu)],
 
         states={
-            settingSelected: [MessageHandler(filters.TEXT, ValueAnswer)]
+            settingSelected: [MessageHandler(filters.TEXT, ValueAnswer)],
+            buttonSelected: [CallbackQueryHandler(Button)],
+            customAnswer: [MessageHandler(filters.TEXT, CustomAnswer)]
         },
 
-        fallbacks=[CommandHandler("cancel", cancel)]
+        fallbacks=[CommandHandler("cancel", cancel)],
+        per_chat=True,
+        per_user=True
     )
-    application.add_handler(convHandler)
+    application.add_handler(convHandler1)
 
     # on non command i.e message - reply the message on Telegram
     application.add_handler(MessageHandler(
