@@ -13,16 +13,16 @@ _Support for deployment on AWS is included through Github Actions._
 
 ### AWS cloud deployment support.
 
-* IaC (Infrastructure as Code) support for cloud infrastructure on Amazon Web Services is included through the **AWS CDK**.
+* IaC (Infrastructure as Code) support for cloud infrastructure on Amazon Web Services is included through the <ins>AWS CDK</ins>.
 
 * Support for local execution is also included.
 
 
 ### Automated deployment of cloud infrastructure and code.
 
-* The deployment of cloud infrastructure on AWS has been automated through **Github Actions**.
+* The deployment of cloud infrastructure on AWS has been automated through <ins>Github Actions</ins>.
 
-* New code releases have also been automated via github actions and **docker containers**.
+* New code releases have also been automated via github actions and <ins>Docker containers</ins>.
 
 
 ### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
