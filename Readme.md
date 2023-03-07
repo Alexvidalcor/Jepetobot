@@ -3,9 +3,9 @@
 
 <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
 
-_Telegram bot developed to explore the AI possibilities of OpenAI_
+_Telegram bot developed to explore the AI possibilities of OpenAI._
 
-_Support for deployment on AWS is included through Github Actions_
+_Support for deployment on AWS is included through Github Actions._
 
 ## Main features :fire:
 
@@ -61,13 +61,13 @@ docker run -d -it --name jepetobot_cont jepetobot
 
 It is necessary to obtain a token from the Telegram Bot API.
 
-Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot)
+Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 ### Get OpenAI Token
 
 It is necessary to obtain a token from the OpenAI API.
 
-Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens)
+Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
 
 | :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
