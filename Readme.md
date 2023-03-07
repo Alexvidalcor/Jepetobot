@@ -20,9 +20,9 @@ _Support for deployment on AWS is included through Github Actions._
 
 ### Automated deployment of cloud infrastructure and code.
 
-* The deployment of cloud infrastructure on AWS has been automated through Github Actions (See [cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml))
+* The deployment of cloud infrastructure on AWS has been automated through Github Actions.
 
-* New code releases have also been automated via github actions and docker containers (See [update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml))
+* New code releases have also been automated via github actions and docker containers.
 
 
 ### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
@@ -76,9 +76,6 @@ It is necessary to obtain a token from the OpenAI API.
 Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
 
-| :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
-|-----------------------------------------|
-
 
 ## Cloud Deployment 📦
 
@@ -101,14 +98,14 @@ cdk deploy --all
 Currently there are two Github Actions workflows prepared to automate the deployment:
 
 
-* _cdk_deploy_resources.yaml_
+* _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml)_
 
 Resources | EC2 | S3| secretmanager | codedeploy |
 --- | --- | --- | --- |--- |
 Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | 
 
 
-* _update_application.yaml_
+* _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
 
@@ -118,7 +115,8 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 ## Wiki :closed_book:
 
-For detailed information, check the project [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki)
+| :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
+|-----------------------------------------|
 
 
 ## Built with 🛠️
