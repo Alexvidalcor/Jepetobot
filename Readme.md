@@ -1,6 +1,6 @@
-**CURRENT STATUS: ALPHA**
+**CURRENT STATUS: BETA**
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/JepetoBot-Readme1.png" width="500" />
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/Readme-logo1.png" width="500" />
 
 _Telegram bot developed to explore the AI possibilities of OpenAI_
 
