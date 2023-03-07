@@ -1,7 +1,7 @@
 
 **CURRENT STATUS: BETA**
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/Readme-logo1.png" width="500" />
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/main/src/images/Readme-logo1.png" width="500" />
 
 _Telegram bot developed to explore the AI possibilities of OpenAI_
 
@@ -25,7 +25,7 @@ _Support for deployment on AWS is included through Github Actions_
 
 Adapted to the latest chatgpt model (GPT3.5-turbo) | 'Identity' change from bot options | 'temperature' change from bot options
 --- | --- | --- |
- | Machine where | Bucket wh | 
+ | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/main/src/images/Readme-image1.png" /> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/main/src/images/Readme-image2.png" /> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/main/src/images/Readme-image3.png" /> |
 
 
 ## Getting started 🚀
