@@ -17,21 +17,22 @@ _Support for deployment on AWS is included through Github Actions_
 
 ### Automated deployment of cloud infrastructure and code.
 
-* The deployment of cloud infrastructure on AWS has been automated through Github Actions.
+* The deployment of cloud infrastructure on AWS has been automated through Github Actions (See [cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml))
 
-* New code releases have also been automated via github actions and docker containers.
+* New code releases have also been automated via github actions and docker containers (See [update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml))
 
 ### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
 
 Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
- | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="300" align="center"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="300" align="center"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="300" align="center"/> |
+ | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="400" width="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="400" width="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="400" width="300"/> |
  
 ### Management system of users
 
 * A system has been added to enable or deny access to specific user IDs
 
 * The user management system can also be applied to the configuration access.
+
 
 ## Getting started 🚀
 
@@ -55,6 +56,19 @@ cd jepetobot/
 docker build -t jepetobot . 
 docker run -d -it --name jepetobot_cont jepetobot
 ```
+
+_Get Telegram Token_
+
+It is necessary to obtain a token from the Telegram Bot API.
+
+Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot)
+
+_Get OpenAI Token_
+
+It is necessary to obtain a token from the OpenAI API.
+
+Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens)
+
 
 | :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
 |-----------------------------------------|
