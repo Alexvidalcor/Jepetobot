@@ -7,7 +7,7 @@ _Telegram bot developed to explore the AI possibilities of OpenAI_
 
 _Support for deployment on AWS is included through Github Actions_
 
-## Main features
+## Main features :fire:
 
 ### AWS cloud deployment support.
 
@@ -23,10 +23,15 @@ _Support for deployment on AWS is included through Github Actions_
 
 ### Easy access to ChatGPT from Telegram
 
-Adapted to the latest chatgpt model (GPT3.5-turbo) | 'Identity' change from bot options | 'temperature' change from bot options
+Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
  | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="300" align="center"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="300" align="center"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="300" align="center"/> |
+ 
+### Management system of users
 
+* A system has been added to enable or deny access to specific user IDs
+
+* The user management system can also be applied to the configuration access.
 
 ## Getting started 🚀
 
