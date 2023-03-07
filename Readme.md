@@ -21,7 +21,7 @@ _Support for deployment on AWS is included through Github Actions_
 
 * New code releases have also been automated via github actions and docker containers.
 
-### Easy access to ChatGPT from Telegram
+### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
 
 Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
