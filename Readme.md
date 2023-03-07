@@ -1,5 +1,5 @@
 
-**CURRENT STATUS: BETA**
+**CURRENT STATUS: STABLE**
 
 <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
 
