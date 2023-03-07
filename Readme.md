@@ -25,7 +25,7 @@ _Support for deployment on AWS is included through Github Actions_
 
 Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
- | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="400" width="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="400" width="300"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="400" width="300"/> |
+ | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image1.gif" height="400" width="200"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image2.gif" height="400" width="200"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-image3.gif" height="400" width="200"/> |
  
 ### Management system of users
 
@@ -57,13 +57,13 @@ docker build -t jepetobot .
 docker run -d -it --name jepetobot_cont jepetobot
 ```
 
-_Get Telegram Token_
+### Get Telegram Token
 
 It is necessary to obtain a token from the Telegram Bot API.
 
 Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot)
 
-_Get OpenAI Token_
+### Get OpenAI Token
 
 It is necessary to obtain a token from the OpenAI API.
 
