@@ -1,3 +1,4 @@
+
 **CURRENT STATUS: BETA**
 
 <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/Dev/src/images/Readme-logo1.png" width="500" />
@@ -6,7 +7,26 @@ _Telegram bot developed to explore the AI possibilities of OpenAI_
 
 _Support for deployment on AWS is included through Github Actions_
 
-_**This branch is used for general development of the application**_
+## Main features
+
+### AWS cloud deployment support.
+
+* IaC (Infrastructure as Code) support for cloud infrastructure on Amazon Web Services is included through the AWS CDK.
+
+* Support for local execution is also included.
+
+### Automated deployment of cloud infrastructure and code.
+
+* The deployment of cloud infrastructure on AWS has been automated through Github Actions.
+
+* New code releases have also been automated via github actions and docker containers.
+
+### Easy access to ChatGPT from Telegram
+
+Adapted to the latest chatgpt model (GPT3.5-turbo) | 'Identity' change from bot options | 'temperature' change from bot options
+--- | --- | --- |
+ | Machine where | Bucket wh | 
+
 
 ## Getting started 🚀
 
