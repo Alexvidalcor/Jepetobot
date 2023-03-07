@@ -33,8 +33,8 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         if context.chat_data["settingSelected"] == "Identity":
 
             identityOptions = [
-                "You are Jepetobot, an artificial intelligence",
-                "You are a very sarcastic human",
+                "You are Jepetobot, a kindly AI",
+                "Answer sarcastically",
                 "Custom"
             ]
 
@@ -64,6 +64,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             ]
         await update.message.reply_text(
             f"Insert the new value to use in {context.chat_data['settingSelected']}",
+            reply_markup=ReplyKeyboardRemove()
         )
         await update.message.reply_text("Please choose:",
                                         reply_markup=InlineKeyboardMarkup(
