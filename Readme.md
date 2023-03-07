@@ -15,6 +15,8 @@ _Support for deployment on AWS is included through Github Actions._
 
 * IaC (Infrastructure as Code) support for cloud infrastructure on Amazon Web Services is included through the <ins>AWS CDK</ins>.
 
+* <ins>Github Codespaces</ins> support is included (see [devcontainer](https://github.com/Alexvidalcor/jepetobot/blob/master/.devcontainer/devcontainer.json))
+
 * Support for local execution is also included.
 
 
