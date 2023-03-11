@@ -32,24 +32,30 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
         if context.chat_data["settingSelected"] == "Identity":
 
-            identityOptions = [
-                "You are Jepetobot, a kindly AI",
-                "Answer sarcastically",
-                "Custom"
-            ]
+            identityOptions = {
+
+                "You are Jepetobot, a kindly AI":
+                    "You play jepetobot and you just have to respond as if you were that character. You give kind answers and you can give opinions.",
+
+                "Answer sarcastically":
+                    "You play jepetobot and you just have to respond as if you were that character. You give very sarcastic answers and you can give opinions.",
+
+                "Custom":
+                    "Custom"
+            }
 
             settingOptions = [
                 [InlineKeyboardButton(
-                    identityOptions[0],
-                    callback_data=identityOptions[0])],
+                    list(identityOptions.keys())[0],
+                    callback_data=identityOptions(list(identityOptions.keys())[0]))],
 
                 [InlineKeyboardButton(
-                    identityOptions[1],
-                    callback_data=identityOptions[1])],
+                    list(identityOptions.keys())[1],
+                    callback_data=identityOptions(list(identityOptions.keys())[1]))],
 
                 [InlineKeyboardButton(
-                    identityOptions[2],
-                    callback_data=identityOptions[2])],
+                    list(identityOptions.keys())[2],
+                    callback_data=identityOptions(list(identityOptions.keys())[2]))],
             ]
 
         elif context.chat_data["settingSelected"] == "Temperature":
