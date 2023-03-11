@@ -3,6 +3,17 @@ from src.permissions import UsersFirewall
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
 
+identityOptions = {
+
+    "Kindly AI (default)":
+        "You play jepetobot and you just have to respond as if you were that character. You are a member of a chat that talks about many topics and you can have opinions on those topics. Your purpose in that chat is to answer the questions in the most human way possible. Your answers are kind",
+
+    "Answer sarcastically":
+        "You play jepetobot and you just have to respond as if you were that character. You are a member of a chat that talks about many topics and you can have opinions on those topics. Your purpose in that chat is to answer the questions in the most human way possible. Your answers are very sarcastic",
+
+    "Custom":
+        "Custom"
+}
 
 @UsersFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -32,30 +43,18 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
         if context.chat_data["settingSelected"] == "Identity":
 
-            identityOptions = {
-
-                "You are Jepetobot, a kindly AI":
-                    "You play jepetobot and you just have to respond as if you were that character. You give kind answers and you can give opinions.",
-
-                "Answer sarcastically":
-                    "You play jepetobot and you just have to respond as if you were that character. You give very sarcastic answers and you can give opinions.",
-
-                "Custom":
-                    "Custom"
-            }
-
             settingOptions = [
                 [InlineKeyboardButton(
                     list(identityOptions.keys())[0],
-                    callback_data=identityOptions(list(identityOptions.keys())[0]))],
+                    callback_data=list(identityOptions.keys())[0])],
 
                 [InlineKeyboardButton(
                     list(identityOptions.keys())[1],
-                    callback_data=identityOptions(list(identityOptions.keys())[1]))],
+                    callback_data=list(identityOptions.keys())[1])],
 
                 [InlineKeyboardButton(
                     list(identityOptions.keys())[2],
-                    callback_data=identityOptions(list(identityOptions.keys())[2]))],
+                    callback_data=list(identityOptions.keys())[2])],
             ]
 
         elif context.chat_data["settingSelected"] == "Temperature":
@@ -86,12 +85,15 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Parses the CallbackQuery and updates the message text."""
+    
     query = update.callback_query
+
     await query.answer()
 
     await query.edit_message_text(text=f"Selected option: {query.data}")
 
-    context.chat_data["valueSelected"] = query.data
+    context.chat_data["valueSelected"] = identityOptions[query.data]
+
     settings[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
