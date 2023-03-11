@@ -7,6 +7,7 @@ _Telegram bot developed to explore the AI possibilities of OpenAI._
 
 _Support for deployment on AWS is included through Github Actions._
 
+_**This branch is used to develop new features**_
 
 ## Main features :fire:
 
