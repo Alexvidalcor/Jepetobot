@@ -8,3 +8,8 @@ aws-secretsmanager-caching
 
 # OpenAI libraries
 openai
+
+
+# Db libraries
+sqlite3
+sqlite3 import Error
