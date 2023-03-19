@@ -12,3 +12,5 @@ settings = {
         0.6
 
 }
+
+dbPath = "db/MainDb.sqlite"

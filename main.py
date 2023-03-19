@@ -10,8 +10,9 @@ import logging
 # Custom importation
 from src.modules.app_support import *
 from src.settings import *
-from src.requests import generate_response, AiReply
+from src.requests import AiReply
 from src.permissions import UsersFirewall
+from src.db import TestDbConnection
 
 
 # Log tool
@@ -85,4 +86,7 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    
+    TestDbConnection(dbPath)
+
     main()

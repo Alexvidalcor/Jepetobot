@@ -5,37 +5,28 @@ from sqlite3 import Error
 
 # Global vars
 mainTable = "Conversations"
-
+con, cur = None, None
 
 def TestDbConnection(dbFile):
-    con = None
     try:
+        global con
+        global cur
         con = sqlite3.connect(dbFile)
-        print("Database created")
-    except Error as e:
-        print(e)
-    finally:
-        if con:
-            con.close()
-
-
-def CreateDbConnection(routeDB):
-    try:
-        con = sqlite3.connect(routeDB)
         cur = con.cursor()
         cur.execute(f"SELECT * from {mainTable} WHERE ID=1")
-        print("Connection established")
-        return con, cur
+        print("Connection established succesfully")
 
-    except:
-        print("Connection NOT established\nRepairing connection...")
+    except Error as e:
+        print(e)
+        print("Connection NOT established\nFixings db connection...")
         OperateDb(con, cur)
         if cur.execute(f"SELECT * from {mainTable}"):
             print("Successful repair\nConnection established")
-            return con, cur
+            con = sqlite3.connect(dbFile)
+            cur = cur = con.cursor()
         else:
             print("Failed repair")
-            return False
+            raise Exception("Database was not created :(")
 
 
 def OperateDb(con, cur, values=(), where=[], selection=[], tableName=mainTable, option="create", closeDB=False):

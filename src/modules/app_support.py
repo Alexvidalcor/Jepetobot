@@ -13,6 +13,7 @@ import src.modules.app_public_env as penv
 
 # General variables from public env
 settings = penv.settings
+dbPath = penv.dbPath
 
 # Local secrets. Only run in your local.
 if penv.execLocal:
@@ -24,6 +25,7 @@ if penv.execLocal:
 
     telegramToken = os.environ["password"]
     openaiToken = os.environ["openai_token"]
+
 
 elif not penv.execLocal:
     print("Using secretmanager...")
