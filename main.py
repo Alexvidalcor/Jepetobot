@@ -86,7 +86,5 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    
-    TestDbConnection(dbPath)
-
+    TestDbConnection()
     main()

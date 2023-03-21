@@ -5,13 +5,16 @@ import openai
 from main import *
 from src.permissions import UsersFirewall
 from src.modules.app_support import openaiToken
-from src.db import OperateDb, con, cur
+from src.db import OperateDb
 
 # Get OpenAI token
 openai.api_key = openaiToken
 
 
-def GenerateResponse(con, cur, prompt, identity, temp):
+def GenerateResponse(prompt, identity, temp):
+    # Import latest connection object
+    from src.db import con, cur
+    
     completions = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages=[
@@ -25,15 +28,15 @@ def GenerateResponse(con, cur, prompt, identity, temp):
     )
 
     answerProvided = completions["choices"][0]["message"]["content"]
+    
 
     OperateDb(con, cur, values=("bot", answerProvided), option="insert")
 
     return answerProvided
 
+
 @UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    print("con: ", con)
-    print("cur: ", cur)
     # Reply the user message.
     await update.message.reply_text(GenerateResponse(update.message.text, settings["Identity"], settings["Temperature"]))
 

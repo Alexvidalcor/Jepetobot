@@ -1,29 +1,32 @@
-
 # Libraries used
 import sqlite3
 from sqlite3 import Error
+
+# Modules imported
+from main import *
+from src.modules.app_support import dbPath
 
 # Global vars
 mainTable = "Conversations"
 con, cur = None, None
 
-def TestDbConnection(dbFile):
+def TestDbConnection():
     try:
         global con
         global cur
-        con = sqlite3.connect(dbFile)
+        con = sqlite3.connect(dbPath)
         cur = con.cursor()
         cur.execute(f"SELECT * from {mainTable} WHERE ID=1")
         print("Connection established succesfully")
-
+        
     except Error as e:
         print(e)
         print("Connection NOT established\nFixings db connection...")
         OperateDb(con, cur)
         if cur.execute(f"SELECT * from {mainTable}"):
             print("Successful repair\nConnection established")
-            con = sqlite3.connect(dbFile)
-            cur = cur = con.cursor()
+            con = sqlite3.connect(dbPath)
+            cur = con.cursor()
         else:
             print("Failed repair")
             raise Exception("Database was not created :(")

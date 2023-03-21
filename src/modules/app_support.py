@@ -15,6 +15,9 @@ import src.modules.app_public_env as penv
 settings = penv.settings
 dbPath = penv.dbPath
 
+# Global internal variables
+con = None
+
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
