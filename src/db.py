@@ -56,7 +56,7 @@ def InsertAsistantMessage(username, content):
     query = "INSERT INTO bot (name, content, user_name) VALUES (?, ?, ?)"
 
     # Ejecutar la consulta y pasar los valores del nuevo registro como parámetros
-    cur.execute(query, ("asistant", content, username))
+    cur.execute(query, ("assistant", content, username))
 
     # Guardar los cambios en la base de datos
     con.commit()
