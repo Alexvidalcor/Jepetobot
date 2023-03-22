@@ -1,3 +1,5 @@
+import os
+
 from main import *
 from src.permissions import UsersFirewall
 
@@ -15,11 +17,12 @@ identityOptions = {
         "Custom"
 }
 
+
 @UsersFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
-    replyKeyboard = [["Identity", "Temperature"]]
+    replyKeyboard = [["Identity", "Temperature", "Reset"]]
 
     await update.message.reply_text(
         "Settings section! "
@@ -29,7 +32,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             replyKeyboard,
             resize_keyboard=True,
             one_time_keyboard=True,
-            input_field_placeholder="Identity or Temperature?",
+            input_field_placeholder="Select your option",
             selective=True
         )
     )
@@ -67,6 +70,23 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                     InlineKeyboardButton("0.9", callback_data=0.9),
                 ]
             ]
+
+        elif context.chat_data["settingSelected"] == "Reset":
+            if os.path.exists(dbPath):
+                os.remove(dbPath)
+                TestDbConnection()
+                await update.message.reply_text(
+                    f"Conversations deleted successfully",
+                    reply_markup=ReplyKeyboardRemove()
+                )
+
+            else:
+                await update.message.reply_text(
+                    f"Conversations not found",
+                    reply_markup=ReplyKeyboardRemove()
+                )
+            return ConversationHandler.END
+
         await update.message.reply_text(
             f"Insert the new value to use in {context.chat_data['settingSelected']}",
             reply_markup=ReplyKeyboardRemove()
@@ -85,14 +105,17 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Parses the CallbackQuery and updates the message text."""
-    
+
     query = update.callback_query
 
     await query.answer()
 
     await query.edit_message_text(text=f"Selected option: {query.data}")
-
-    context.chat_data["valueSelected"] = identityOptions[query.data]
+    
+    if context.chat_data["settingSelected"] == "Identity":
+        context.chat_data["valueSelected"] = identityOptions[query.data]
+    elif context.chat_data["settingSelected"] == "Temperature":
+        context.chat_data["valueSelected"] = query.data
 
     settings[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
