@@ -6,24 +6,20 @@ from sqlite3 import Error
 from main import *
 from src.modules.app_support import dbPath
 
-# Global vars
-mainTable = "Conversations"
-con, cur = None, None
-
 def TestDbConnection():
     try:
         global con
         global cur
         con = sqlite3.connect(dbPath)
         cur = con.cursor()
-        cur.execute(f"SELECT * from {mainTable} WHERE ID=1")
+        cur.execute(f"SELECT * from users WHERE ID=1")
         print("Connection established succesfully")
         
     except Error as e:
         print(e)
         print("Connection NOT established\nFixings db connection...")
-        OperateDb(con, cur)
-        if cur.execute(f"SELECT * from {mainTable}"):
+        CreateTables(con)
+        if cur.execute(f"SELECT * from users"):
             print("Successful repair\nConnection established")
             con = sqlite3.connect(dbPath)
             cur = con.cursor()
@@ -32,62 +28,36 @@ def TestDbConnection():
             raise Exception("Database was not created :(")
 
 
-def OperateDb(con, cur, values=(), where=[], selection=[], tableName=mainTable, option="create", closeDB=False):
+def CreateTables(con):
 
-    if option == "create":
-        print("Creating table...")
-        cur.execute(f'''CREATE TABLE IF NOT EXISTS "{tableName}"
-			("ID" INTEGER PRIMARY KEY AUTOINCREMENT,
-			"UserName" TEXT,
-			"Content" TEXT);''')
-        con.commit()
-        print("OK")
+    con.execute('''CREATE TABLE users (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    content TEXT NOT NULL)''')
 
-    if option == "select":
-        if where == []:
-            cur.execute(f"SELECT {selection} FROM {tableName}")
-        else:
-            cur.execute(
-                f"SELECT {selection} FROM {tableName} WHERE {where[0]} = '{where[1]}'")
+    con.execute('''CREATE TABLE bot (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    user_name INTEGER NOT NULL,
+                    FOREIGN KEY (name) REFERENCES users (name))''')
+    
 
-        queryData = cur.fetchall()
-        return queryData
+def InsertUserMessage(username,content):
 
-    if option == "insert":
-        print("Inserting data...")
-        cur.execute(f'''INSERT INTO "{tableName}" 
-			(UserName,Content)
-		VALUES (?,?);''', values)
-        con.commit()
-        print("OK")
-
-    if option == "update":
-        print("Updating data...")
-        cur.execute(f'''UPDATE {tableName} SET 
-                    UserName = ?,
-                    Content = ?,
-                WHERE {where[0]} = "{where[1]}"''', values)
-        con.commit()
-        print("OK")
-
-    if option == "add":
-        print("Adding new row...")
-        cur.execute(f'''INSERT INTO "{tableName}" 
-			(UserName, Content)
-			VALUES(?,?);''', values)
-        con.commit()
-        print("OK")
-
-    if option == "delete":
-        print("Deleting row...")
-        cur.execute(
-            f'''DELETE FROM {tableName} WHERE {where[0]} = "{where[1]}"''')
-        con.commit
-        print("OK")
-
-    if closeDB == True:
-        con.close()
+    query = "INSERT INTO users (name, content) VALUES (?, ?)"
+    cur.execute(query, (username, content))
+    con.commit()
 
 
+def InsertAsistantMessage(username, content):
 
+    # Crear la consulta INSERT INTO
+    query = "INSERT INTO bot (name, content, user_name) VALUES (?, ?, ?)"
+
+    # Ejecutar la consulta y pasar los valores del nuevo registro como parámetros
+    cur.execute(query, ("asistant", content, username))
+
+    # Guardar los cambios en la base de datos
+    con.commit()
 
