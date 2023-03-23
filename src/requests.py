@@ -26,7 +26,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
 
     results = cur.fetchall()
 
-    conversationFormatted = [{"role": "system", "content": identity}]
+    conversationFormatted = [{"role": "system", "content": identity}, {"role": "user", "content": identity}]
     for row in results:
         conversationFormatted.append({"role": "user", "content": row[2]})
         conversationFormatted.append({"role": row[4], "content": row[5]})
