@@ -13,4 +13,4 @@ settings = {
 
 }
 
-dbPath = "db/MainDb.sqlite"
+dbPath = "src/db/MainDb.sqlite"
