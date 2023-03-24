@@ -6,6 +6,7 @@ from sqlite3 import Error
 from main import *
 from src.modules.app_support import dbPath
 
+
 def TestDbConnection():
     try:
         global con
@@ -14,7 +15,7 @@ def TestDbConnection():
         cur = con.cursor()
         cur.execute(f"SELECT * from users WHERE ID=1")
         print("Connection established succesfully")
-        
+
     except Error as e:
         print(e)
         print("Connection NOT established\nFixings db connection...")
@@ -39,11 +40,17 @@ def CreateTables(con):
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     content TEXT NOT NULL,
-                    user_name INTEGER NOT NULL,
-                    FOREIGN KEY (name) REFERENCES users (name))''')
-    
+                    users_name TEXT NOT NULL,
+                    FOREIGN KEY (users_name) REFERENCES users (name))''')
 
-def InsertUserMessage(username,content):
+    con.execute('''CREATE TABLE stats (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    users_name TEXT NOT NULL,
+                    tokens INTEGER NOT NULL,
+                    FOREIGN KEY (users_name) REFERENCES users (name))''')
+
+
+def InsertUserMessage(username, content):
 
     query = "INSERT INTO users (name, content) VALUES (?, ?)"
     cur.execute(query, (username, content))
@@ -52,12 +59,27 @@ def InsertUserMessage(username,content):
 
 def InsertAsistantMessage(username, content):
 
-    # Crear la consulta INSERT INTO
-    query = "INSERT INTO bot (name, content, user_name) VALUES (?, ?, ?)"
+    query = "INSERT INTO bot (name, content, users_name) VALUES (?, ?, ?)"
 
-    # Ejecutar la consulta y pasar los valores del nuevo registro como parámetros
     cur.execute(query, ("assistant", content, username))
 
-    # Guardar los cambios en la base de datos
     con.commit()
 
+
+def OperateStatsToken(username, numTokens, option="select"):
+
+    if option == "select":
+        cur.execute(f'''
+            SELECT tokens
+            FROM stats
+            WHERE users_name = "{username}"
+            ''')
+        return cur.fetchall()[0][0]
+    elif option == "insert":
+        cur.execute(
+            "INSERT INTO stats (tokens, users_name) VALUES (?, ?);", (numTokens, username))
+    elif option == "update":
+        cur.execute("UPDATE stats SET tokens = ? WHERE users_name = ?",
+                    (numTokens, username))
+
+    con.commit()

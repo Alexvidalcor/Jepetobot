@@ -6,6 +6,7 @@ from main import *
 from src.permissions import UsersFirewall
 from src.modules.app_support import openaiToken
 from src.db import InsertUserMessage, InsertAsistantMessage
+from src.stats import StatsNumTokens
 
 # Get OpenAI token
 openai.api_key = openaiToken
@@ -17,7 +18,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
             SELECT *
             FROM users
             INNER JOIN bot
-            ON users.name = bot.user_name
+            ON users.name = bot.users_name
             WHERE users.name = "{username}"
             LIMIT 5
             '''
@@ -31,6 +32,8 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
         conversationFormatted.append({"role": "user", "content": row[2]})
         conversationFormatted.append({"role": row[4], "content": row[5]})
     conversationFormatted.append({"role": "user", "content": promptUser})
+
+    StatsNumTokens(username, conversationFormatted)
 
     return conversationFormatted
 
