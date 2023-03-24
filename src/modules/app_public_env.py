@@ -14,3 +14,4 @@ settings = {
 }
 
 dbPath = "src/db/MainDb.sqlite"
+logsPath = "src/logs"

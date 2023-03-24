@@ -75,6 +75,13 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             if os.path.exists(dbPath):
                 os.remove(dbPath)
                 TestDbConnection()
+                
+                # os.remove(f"{logsPath}/*.log")
+                # EnableLogging()
+                appLogger.info("------------Reseted")
+                userLogger.info("------------Reseted")
+                errorsLogger.error("------------Reseted")
+
                 await update.message.reply_text(
                     f"Conversations deleted successfully",
                     reply_markup=ReplyKeyboardRemove()

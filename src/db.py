@@ -14,19 +14,19 @@ def TestDbConnection():
         con = sqlite3.connect(dbPath)
         cur = con.cursor()
         cur.execute(f"SELECT * from users WHERE ID=1")
-        print("Connection established succesfully")
+        appLogger.info('Connection established succesfully')
 
     except Error as e:
-        print(e)
-        print("Connection NOT established\nFixings db connection...")
+        errorsLogger.error(f"After check database: {e}")
+        appLogger.info('Connection NOT established, fixing db connection...')
+        
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
-            print("Successful repair\nConnection established")
+            appLogger.info('Successful repair, connection established')
             con = sqlite3.connect(dbPath)
             cur = con.cursor()
         else:
-            print("Failed repair")
-            raise Exception("Database was not created :(")
+            errorsLogger.critical(f"Failed DB fix, fatabase was not created")
 
 
 def CreateTables(con):

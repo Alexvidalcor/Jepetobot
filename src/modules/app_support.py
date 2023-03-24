@@ -14,6 +14,7 @@ import src.modules.app_public_env as penv
 # General variables from public env
 settings = penv.settings
 dbPath = penv.dbPath
+logsPath = penv.logsPath
 
 # Global internal variables
 con = None

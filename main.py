@@ -4,22 +4,15 @@ from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemov
 
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler
 
-# Python libraries
-import logging
 
 # Custom importation
 from src.modules.app_support import *
+from src.modules.logging import *
 from src.settings import *
 from src.requests import AiReply
 from src.permissions import UsersFirewall
 from src.db import TestDbConnection
 
-
-# Log tool
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-logger = logging.getLogger(__name__)
 
 # Start Function
 @UsersFirewall

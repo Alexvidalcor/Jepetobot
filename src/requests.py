@@ -20,7 +20,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
             INNER JOIN bot
             ON users.name = bot.users_name
             WHERE users.name = "{username}"
-            LIMIT 5
+            LIMIT 6
             '''
 
     cur.execute(query)
