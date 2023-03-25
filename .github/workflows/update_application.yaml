@@ -41,4 +41,5 @@ jobs:
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do
           sleep 30
         done
+        '
       # echo: false
