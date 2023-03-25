@@ -35,7 +35,7 @@ jobs:
 
     - name: Codedeploy execution
       run: |
-        set -x
+        set +x
 
         export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name $AWS_TAG_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-deploygroup" --s3-location bucket=$AWS_BUCKET_NAME,bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
 
