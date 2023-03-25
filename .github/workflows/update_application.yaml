@@ -42,4 +42,4 @@ jobs:
           sleep 30
         done
         '
-      echo: false
+      silent: true
