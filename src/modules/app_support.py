@@ -12,12 +12,18 @@ from dotenv import load_dotenv
 import src.modules.app_public_env as penv
 
 # General variables from public env
-settings = penv.settings
 dbPath = penv.dbPath
 logsPath = penv.logsPath
+maxTokensPerUser = penv.maxTokensPerUser
 
 # Global internal variables
-con = None
+settings = {
+    "Identity" : 
+        "You play jepetobot and you just have to respond as if you were that character. You are a member of a chat that talks about many topics and you can have opinions on those topics. Your purpose in that chat is to answer the questions in the most human way possible. Your answers are kind",
+
+    "Temperature": 
+        0.6
+}
 
 # Local secrets. Only run in your local.
 if penv.execLocal:

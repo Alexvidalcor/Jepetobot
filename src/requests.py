@@ -14,6 +14,8 @@ openai.api_key = openaiToken
 
 def FormatCompletionMessages(cur, username, identity, promptUser):
 
+    userLogger.info(f'{username} sent a message')
+
     query = f'''
             SELECT *
             FROM users
@@ -34,6 +36,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
     conversationFormatted.append({"role": "user", "content": promptUser})
 
     StatsNumTokens(username, conversationFormatted)
+    userLogger.info('Jepetobot replied a message')
 
     return conversationFormatted
 

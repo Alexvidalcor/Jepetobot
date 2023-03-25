@@ -22,6 +22,9 @@ identityOptions = {
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
+    username = update.message.from_user.username
+    userLogger.info(f'{username} opened "settings"')
+
     replyKeyboard = [["Identity", "Temperature", "Reset"]]
 
     await update.message.reply_text(
@@ -41,8 +44,12 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 @UsersFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+
     try:
+        username = update.message.from_user.username
         context.chat_data["settingSelected"] = update.message.text
+
+        userLogger.info(f'{username} chose {context.chat_data["settingSelected"]}')
 
         if context.chat_data["settingSelected"] == "Identity":
 
@@ -79,7 +86,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                 # os.remove(f"{logsPath}/*.log")
                 # EnableLogging()
                 appLogger.info("------------Reseted")
-                userLogger.info("------------Reseted")
+                userLogger.warning("------------Reseted")
                 errorsLogger.error("------------Reseted")
 
                 await update.message.reply_text(
@@ -107,6 +114,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await update.message.reply_text(
             "Canceled", reply_markup=ReplyKeyboardRemove()
         )
+        userLogger.info(f'{username} canceled configuration')
         return ConversationHandler.END
 
 
@@ -114,8 +122,11 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Parses the CallbackQuery and updates the message text."""
 
     query = update.callback_query
-
     await query.answer()
+
+    user = query.from_user
+    username = user.username
+    userLogger.info(f'{username} chose {query.data}')
 
     await query.edit_message_text(text=f"Selected option: {query.data}")
     
@@ -133,12 +144,14 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         return customAnswer
     else:
+        userLogger.info(f'{username} finished configuration')
         return ConversationHandler.END
 
 
 async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     userCustomAnswer = update.message.text
+    username = update.message.from_user.username
 
     await update.message.reply_text(
         f"Inserted the following identity: {userCustomAnswer}",
@@ -150,4 +163,6 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     settings[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
+    userLogger.info(f'{username} custom identity is: {userCustomAnswer}')
+    userLogger.info(f'{username} finished configuration')
     return ConversationHandler.END
