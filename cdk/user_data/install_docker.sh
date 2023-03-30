@@ -14,8 +14,13 @@ chmod +x ./install
 ./install auto
 service codedeploy-agent start
 
+# Cloudwatch agent installation
+yum install -y amazon-cloudwatch-agent
+
 # Docker installation
 amazon-linux-extras install docker
 service docker start
 usermod -a -G docker ec2-user
 systemctl enable docker
+
+#Custom additions

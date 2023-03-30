@@ -13,6 +13,10 @@ COPY ["src", "./src"]
 ARG awsRegionDocker
 ENV AWS_DEFAULT_REGION=$awsRegionDocker
 
+# Set custom logs (only errors and app info)
+RUN ln -sf /dev/stdout /home/application/src/logs/app.log \
+    && ln -sf /dev/stderr /home/application/src/logs/errors.log
+
 # Install packages needed
 RUN apt update \
     && apt install -y \

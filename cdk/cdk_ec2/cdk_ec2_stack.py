@@ -6,14 +6,22 @@ from aws_cdk import (
     aws_iam as iam
 )
 from constructs import Construct
+import json
 
 # Custom importation
 from modules.cdk_support import *
 
 # User data imported
-with open("./user_data/install_docker.sh") as f:
-    userData = f.read()
-userDataProcessed = userData.replace("REPLACEREGION", awsRegion)
+with open("./user_data/config.json") as fconfig:
+    cloudwatchConfig = json.load(fconfig)
+
+with open("./user_data/install_docker.sh", "r") as fdocker:
+    userData=fdocker.read()
+    userData += f'echo \'{json.dumps(cloudwatchConfig)}\' > /opt/aws/amazon-cloudwatch-agent/bin/config.json'
+    userData += "\n/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s"
+
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLACEAPPNAME", appName)
+
 
 # AMI used
 amazonLinux = ec2.MachineImage.latest_amazon_linux(

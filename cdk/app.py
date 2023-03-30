@@ -13,6 +13,8 @@ from cdk_ec2.cdk_ec2_stack import Ec2Stack
 from cdk_codedeploy.cdk_codedeploy_stack import CodeDeployStack
 from cdk_s3.cdk_s3_stack import S3stack
 from cdk_secretmanager.cdk_secretmanager_stack import SecretManagerStack
+from cdk_cloudwatch.cdk_cloudwatch_stack import CloudWatchStack
+
 
 # Set AWS environment
 awsEnv = Environment(account=awsAccount, region=awsRegion)
@@ -23,6 +25,7 @@ Ec2Layer = Ec2Stack(app, f"cdk-ec2-stack-{timestamp}", env=awsEnv)
 CodeDeployLayer = CodeDeployStack(app, f"cdk-codedeploy-stack-{timestamp}", env=awsEnv)
 S3Layer = S3stack(app, f"cdk-s3-stack-{timestamp}", env=awsEnv)
 SecretManagerLayer = SecretManagerStack(app, f"cdk-secretmanager-stack-{timestamp}", env=awsEnv)
+CloudWatchLayer = CloudWatchStack(app, f"cdk-cloudwatch-stack-{timestamp}", env=awsEnv)
 
 # Add tags
 Tags.of(Ec2Layer).add("Group", awsTagName)
@@ -36,6 +39,9 @@ Tags.of(S3Layer).add("Name", awsTagName+"-s3")
 
 Tags.of(SecretManagerLayer).add("Group", awsTagName)
 Tags.of(SecretManagerLayer).add("Name", awsTagName+"-secretmanager")
+
+Tags.of(CloudWatchLayer).add("Group", awsTagName)
+Tags.of(CloudWatchLayer).add("Name", awsTagName+"-cloudwatch")
 
 # Execute deploy
 app.synth()
