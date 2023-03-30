@@ -119,7 +119,7 @@ Currently there are two Github Actions workflows prepared to automate the deploy
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml)_
 
 Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch |
---- | --- | --- | --- |--- |
+--- | --- | --- | --- | --- | --- |
 Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily |
 
 
