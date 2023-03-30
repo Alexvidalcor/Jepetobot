@@ -74,6 +74,8 @@ class Ec2Stack(Stack):
             iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
         role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("SecretsManagerReadWrite"))
+        role.add_managed_policy(
+            iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchLogsReadOnlyAccess"))
 
         host = ec2.Instance(self, appName + "_Ec2",
                             instance_type=ec2.InstanceType(
