@@ -42,6 +42,21 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * The user management system can also be applied to the configuration access.
 
 
+### Support for conversations
+
+* The bot remembers the conversations held with each user.
+
+* It is allowed to delete the stored conversations easily from the bot settings.
+
+
+### Statistics enabled
+
+* A stats feature has been implemented that enables statistics to improve control of the application.
+
+* This feature complements an advanced monitoring system
+
+
+
 ## Getting started 🚀
 
 
@@ -103,9 +118,9 @@ Currently there are two Github Actions workflows prepared to automate the deploy
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml)_
 
-Resources | EC2 | S3| secretmanager | codedeploy |
+Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch
 --- | --- | --- | --- |--- |
-Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | 
+Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily
 
 
 * _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_
