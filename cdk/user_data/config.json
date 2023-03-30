@@ -10,19 +10,19 @@
 					{
 						"file_path": "/var/log/application/app.log",
 						"log_group_name": "REPLACEAPPNAME-log_group",
-						"log_stream_name": "{instance_id}-REPLACEAPPNAME-app",
+						"log_stream_name": "REPLACEAPPNAME-app.log-stream",
 						"retention_in_days": 7
 					},
 					{
 						"file_path": "/var/log/application/errors.log",
 						"log_group_name": "REPLACEAPPNAME-log_group",
-						"log_stream_name": "{instance_id}-REPLACEAPPNAME-errors",
+						"log_stream_name": "REPLACEAPPNAME-errors.log-stream",
 						"retention_in_days": 7
 					},
 					{
 						"file_path": "/var/log/application/user.log",
 						"log_group_name": "REPLACEAPPNAME-log_group",
-						"log_stream_name": "{instance_id}-REPLACEAPPNAME-user",
+						"log_stream_name": "REPLACEAPPNAME-user.log-stream",
 						"retention_in_days": 7
 					}
 				]
