@@ -150,6 +150,7 @@ Update cloud app code with every push to master branch. It generates a slight se
 This is a personal project with academic origins and is not intended to be a commercial or professional solution. If you want to use it, it is at your own risk.
 
 
+
 ## Roadmap :spiral_calendar:
 
 | :exclamation:  Check the [Project dashboard](https://github.com/users/Alexvidalcor/projects/2) for more info!  |
