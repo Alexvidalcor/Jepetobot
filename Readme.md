@@ -105,6 +105,10 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
 
+| :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for <ins>step by step usage guide</ins>  |
+|-----------------------------------------|
+
+
 
 ## Cloud deployment overview :cloud:
 
