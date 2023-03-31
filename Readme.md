@@ -62,56 +62,49 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 ## Getting started 🚀
 
-As the entire infrastructure is automated in the cloud, it is not necessary to install anything locally. You only need to have the following:
+As the entire infrastructure is automated in the cloud, <ins>it is not necessary to install anything locally</ins>. You only need to have the following:
 
-### Accounts:
-
-**Github**
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png"/>
 
 * The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
 * To create an account on Github, go to the [official website](https://github.com/) and follow the steps described there.
 
-**Telegram**
+
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png"/>
 
 * Obviously, you need a Telegram account to deploy a bot on Telegram.
 
 * To create a Telegram account, you must download a Telegram client and follow the steps described there.
-
-**Amazon Web Services**
-
-* All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
-
-* You can see how to create an AWS account [HERE](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
-
-**OpenAi**
-
-* The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
-
-* To create an OpenAi account, you can click [HERE](https://auth0.openai.com/u/signup/)
-
-
-### Tokens
-
-**Telegram**
 
 * It is necessary to obtain a token from the Telegram Bot API.
 
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 
-**Amazon Web Services**
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png"/>
+
+* All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
+
+* You can see how to create an AWS account [HERE](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
 
 * It is necessary to obtain a Access Key and a Secret Access Key from the AWS Management Console.
 
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
 
-**OpenAI**
+
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png"/>
+
+* The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
+
+* To create an OpenAi account, you can click [HERE](https://auth0.openai.com/u/signup/)
 
 * It is necessary to obtain a token from the OpenAI API.
 
 * Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
+
+
 
 
 
