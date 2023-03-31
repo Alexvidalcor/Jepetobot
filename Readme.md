@@ -106,8 +106,6 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 
 
-
-
 ## Cloud deployment overview :cloud:
 
 
