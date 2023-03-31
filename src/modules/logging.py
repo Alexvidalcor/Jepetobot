@@ -15,9 +15,9 @@ def ExceptionHandler(type, value, traceback):
 sys.excepthook = ExceptionHandler
 
 
-
 #Formatter config
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
 
 # Application log
 appLogger = logging.getLogger('app_logger')
@@ -29,6 +29,7 @@ appHandler.setFormatter(formatter)
 appLogger.addHandler(appHandler)
 appLogger.info('------------Init app logs')
 
+
 # User interaction log
 userLogger = logging.getLogger('user_logger')
 userLogger.setLevel(logging.DEBUG)
@@ -38,6 +39,7 @@ userHandler.setFormatter(formatter)
 
 userLogger.addHandler(userHandler)
 userLogger.info('------------Init user logs')
+
 
 # Common and critical errors log
 errorsLogger = logging.getLogger('errors_logger')

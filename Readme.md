@@ -9,10 +9,13 @@ _Support for deployment on AWS is included through Github Actions._
 
 _**This branch is used to develop new features**_
 
+
+
+
 ## Main features :fire:
 
 
-### AWS cloud deployment support.
+### AWS cloud support.
 
 * IaC (Infrastructure as Code) support for cloud infrastructure on Amazon Web Services is included through the <ins>AWS CDK</ins>.
 
@@ -25,7 +28,7 @@ _**This branch is used to develop new features**_
 
 * The deployment of cloud infrastructure on AWS has been automated through <ins>Github Actions</ins>.
 
-* New code releases have also been automated via github actions and <ins>Docker containers</ins>.
+* New code releases have also been automated via Github Actions and <ins>Docker containers</ins>.
 
 
 ### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
@@ -44,76 +47,78 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 ### Support for conversations
 
-* The bot remembers the conversations held with each user.
+* The bot remembers the conversations of each user
 
 * It is allowed to delete the stored conversations easily from the bot settings.
 
 
 ### Statistics enabled
 
-* A stats feature has been implemented that enables statistics to improve control of the application.
+* A statistics function has been implemented that allows more control over the behavior of the application.
 
-* This feature complements an advanced monitoring system
+* This feature complements an advanced monitoring system.
 
 
 
 ## Getting started 🚀
 
+As the entire infrastructure is automated in the cloud, it is not necessary to install anything locally. You only need to have the following:
 
-### Debian-based/Fedora Linux distribution 
+### Accounts:
 
-_Manual Installation (terminal commands):_
+**Github**
 
-```
-git clone https://github.com/Alexvidalcor/jepetobot
-cd jepetobot/
-python3 src/installation/install.py
-./src/installation/execute.sh
-```
+* The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
-_Installation using Docker (it is required to have Docker installed previously):_
+* To create an account on Github, go to the [official website](https://github.com/) and follow the steps described there.
 
-```
-git clone https://github.com/Alexvidalcor/jepetobot
-cd jepetobot/
-docker build -t jepetobot . 
-docker run -d -it --name jepetobot_cont jepetobot
-```
+**Telegram**
 
-### Get Telegram Token
+* Obviously, you need a Telegram account to deploy a bot on Telegram.
 
-It is necessary to obtain a token from the Telegram Bot API.
+* To create a Telegram account, you must download a Telegram client and follow the steps described there.
 
-Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
+**Amazon Web Services**
 
+* All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
 
-### Get OpenAI Token
+* You can see how to create an AWS account [HERE](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-creating.html)
 
-It is necessary to obtain a token from the OpenAI API.
+**OpenAi**
 
-Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
+* The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
+
+* To create an OpenAi account, you can click [HERE](https://auth0.openai.com/u/signup/)
 
 
+### Tokens
 
-## Cloud Deployment 📦
+**Telegram**
 
+* It is necessary to obtain a token from the Telegram Bot API.
 
-**Manual deploy in AWS:**
-
-Need to have CDK pre-installed (Click [here](https://aws.amazon.com/getting-started/guides/setup-cdk/) for more information). 
-
-Once CDK is installed and configured, run the following commands:
-
-```
-cdk synth
-
-cdk deploy --all
-```
+* Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 
-**Automatic deploy in AWS via Github Actions:**
+**Amazon Web Services**
 
-Currently there are two Github Actions workflows prepared to automate the deployment:
+* It is necessary to obtain a Access Key and a Secret Access Key from the AWS Management Console.
+
+* Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
+
+
+**OpenAI**
+
+* It is necessary to obtain a token from the OpenAI API.
+
+* Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
+
+
+
+## Cloud deployment overview :cloud:
+
+
+Currently there are two Github Actions workflows prepared to automate the cloud deployment:
 
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml)_
@@ -131,11 +136,13 @@ Update cloud app code with every push to master branch. It generates a slight se
 |-----------------------------------------|
 
 
+
 ## Built with 🛠️
 
 * [AWS-CDK](https://aws.amazon.com/es/cdk/) - Deploy on AWS.
 * [Python-Telegram-Bot](https://python-telegram-bot.org) - Telegram Api Wrapper.
 * [OpenAI-Api](https://openai.com/api/) - AI api
+
 
 
 ## Disclaimer :memo:
@@ -145,10 +152,12 @@ Update cloud app code with every push to master branch. It generates a slight se
     * **You are free to use the software of this project and it is your decision**. As I explain in the [wiki](https://github.com/Alexvidalcor/jepetobot/wiki), this project originates from an experiment and fully stable operation is not guaranteed.
 
 
+
 ## Roadmap :spiral_calendar:
 
 | :exclamation:  Check the [Project dashboard](https://github.com/users/Alexvidalcor/projects/2) for more info!  |
 |-----------------------------------------|
+
 
 
 ## Wiki :closed_book:
@@ -157,9 +166,11 @@ Update cloud app code with every push to master branch. It generates a slight se
 |-----------------------------------------|
 
 
+
 ## License :pushpin:
 
 This project is licensed under the License (GNU GPL-V3) - see the [LICENSE.md](LICENSE.md) file for details.
+
 
 
 ---
