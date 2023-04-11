@@ -6,5 +6,5 @@ if [ $( docker ps -a | grep app_cont | wc -l ) -gt 0 ]; then
     docker rm app_cont
     docker rmi app_image
 else
-        echo "app_cont does not exist"
+    echo "app_cont does not exist"
 fi

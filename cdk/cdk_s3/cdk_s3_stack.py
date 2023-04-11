@@ -1,6 +1,7 @@
 # AWS libraries
 from aws_cdk import (
     Stack,
+    Duration,
     aws_s3 as s3,
     RemovalPolicy
 )
@@ -22,5 +23,11 @@ class S3stack(Stack):
                             bucket_name=(f"cdk-s3-{appName.lower()}-{random.randint(0,99)}-{random.randint(0,99)}"),
                             auto_delete_objects=True,
                             removal_policy=RemovalPolicy.DESTROY,
-                            block_public_access=s3.BlockPublicAccess.BLOCK_ALL 
+                            block_public_access=s3.BlockPublicAccess.BLOCK_ALL,
+                            lifecycle_rules=[
+                                s3.LifecycleRule(
+                                enabled=True,
+                                expiration=Duration.days(15),
                             )
+                        ] 
+                    )

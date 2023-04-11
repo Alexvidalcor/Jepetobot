@@ -31,3 +31,11 @@ workspace.code-workspace
 
 # Temporary
 wiki/*
+
+# Database stuff
+*.db
+*.sqlite
+
+# Log stuff
+src/logs/*
+*.log

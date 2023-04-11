@@ -1,14 +1,31 @@
+import os
+
 from main import *
 from src.permissions import UsersFirewall
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
+
+identityOptions = {
+
+    "Kindly AI (default)":
+        "You play jepetobot and you just have to respond as if you were that character. You are a member of a chat that talks about many topics and you can have opinions on those topics. Your purpose in that chat is to answer the questions in the most human way possible. Your answers are kind",
+
+    "Answer sarcastically":
+        "You play jepetobot and you just have to respond as if you were that character. You are a member of a chat that talks about many topics and you can have opinions on those topics. Your purpose in that chat is to answer the questions in the most human way possible. Your answers are very sarcastic",
+
+    "Custom":
+        "Custom"
+}
 
 
 @UsersFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
-    replyKeyboard = [["Identity", "Temperature"]]
+    username = update.message.from_user.username
+    userLogger.info(f'{username} opened "settings"')
+
+    replyKeyboard = [["Identity", "Temperature", "Reset"]]
 
     await update.message.reply_text(
         "Settings section! "
@@ -18,7 +35,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             replyKeyboard,
             resize_keyboard=True,
             one_time_keyboard=True,
-            input_field_placeholder="Identity or Temperature?",
+            input_field_placeholder="Select your option",
             selective=True
         )
     )
@@ -27,29 +44,27 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 @UsersFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+
     try:
+        username = update.message.from_user.username
         context.chat_data["settingSelected"] = update.message.text
+
+        userLogger.info(f'{username} chose {context.chat_data["settingSelected"]}')
 
         if context.chat_data["settingSelected"] == "Identity":
 
-            identityOptions = [
-                "You are Jepetobot, a kindly AI",
-                "Answer sarcastically",
-                "Custom"
-            ]
-
             settingOptions = [
                 [InlineKeyboardButton(
-                    identityOptions[0],
-                    callback_data=identityOptions[0])],
+                    list(identityOptions.keys())[0],
+                    callback_data=list(identityOptions.keys())[0])],
 
                 [InlineKeyboardButton(
-                    identityOptions[1],
-                    callback_data=identityOptions[1])],
+                    list(identityOptions.keys())[1],
+                    callback_data=list(identityOptions.keys())[1])],
 
                 [InlineKeyboardButton(
-                    identityOptions[2],
-                    callback_data=identityOptions[2])],
+                    list(identityOptions.keys())[2],
+                    callback_data=list(identityOptions.keys())[2])],
             ]
 
         elif context.chat_data["settingSelected"] == "Temperature":
@@ -62,6 +77,30 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                     InlineKeyboardButton("0.9", callback_data=0.9),
                 ]
             ]
+
+        elif context.chat_data["settingSelected"] == "Reset":
+            if os.path.exists(dbPath):
+                os.remove(dbPath)
+                TestDbConnection()
+                
+                # os.remove(f"{logsPath}/*.log")
+                # EnableLogging()
+                appLogger.info("------------Reseted")
+                userLogger.warning("------------Reseted")
+                errorsLogger.error("------------Reseted")
+
+                await update.message.reply_text(
+                    f"Conversations deleted successfully",
+                    reply_markup=ReplyKeyboardRemove()
+                )
+
+            else:
+                await update.message.reply_text(
+                    f"Conversations not found",
+                    reply_markup=ReplyKeyboardRemove()
+                )
+            return ConversationHandler.END
+
         await update.message.reply_text(
             f"Insert the new value to use in {context.chat_data['settingSelected']}",
             reply_markup=ReplyKeyboardRemove()
@@ -75,17 +114,27 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await update.message.reply_text(
             "Canceled", reply_markup=ReplyKeyboardRemove()
         )
+        userLogger.info(f'{username} canceled configuration')
         return ConversationHandler.END
 
 
 async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Parses the CallbackQuery and updates the message text."""
+
     query = update.callback_query
     await query.answer()
 
-    await query.edit_message_text(text=f"Selected option: {query.data}")
+    user = query.from_user
+    username = user.username
+    userLogger.info(f'{username} chose {query.data}')
 
-    context.chat_data["valueSelected"] = query.data
+    await query.edit_message_text(text=f"Selected option: {query.data}")
+    
+    if context.chat_data["settingSelected"] == "Identity":
+        context.chat_data["valueSelected"] = identityOptions[query.data]
+    elif context.chat_data["settingSelected"] == "Temperature":
+        context.chat_data["valueSelected"] = query.data
+
     settings[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
@@ -95,12 +144,14 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         return customAnswer
     else:
+        userLogger.info(f'{username} finished configuration')
         return ConversationHandler.END
 
 
 async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     userCustomAnswer = update.message.text
+    username = update.message.from_user.username
 
     await update.message.reply_text(
         f"Inserted the following identity: {userCustomAnswer}",
@@ -112,4 +163,6 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     settings[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
+    userLogger.info(f'{username} custom identity is: {userCustomAnswer}')
+    userLogger.info(f'{username} finished configuration')
     return ConversationHandler.END

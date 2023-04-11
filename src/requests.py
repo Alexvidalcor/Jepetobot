@@ -5,27 +5,66 @@ import openai
 from main import *
 from src.permissions import UsersFirewall
 from src.modules.app_support import openaiToken
+from src.db import InsertUserMessage, InsertAsistantMessage
+from src.stats import StatsNumTokens
 
 # Get OpenAI token
 openai.api_key = openaiToken
 
 
-def generate_response(prompt, identity, temp):
+def FormatCompletionMessages(cur, username, identity, promptUser):
+
+    userLogger.info(f'{username} sent a message')
+
+    query = f'''
+            SELECT *
+            FROM users
+            INNER JOIN bot
+            ON users.name = bot.users_name
+            WHERE users.name = "{username}"
+            LIMIT 6
+            '''
+
+    cur.execute(query)
+
+    results = cur.fetchall()
+
+    conversationFormatted = [{"role": "system", "content": identity}]
+    for row in results:
+        conversationFormatted.append({"role": "user", "content": row[2]})
+        conversationFormatted.append({"role": row[4], "content": row[5]})
+    conversationFormatted.append({"role": "user", "content": promptUser})
+
+    StatsNumTokens(username, conversationFormatted)
+    userLogger.info('Jepetobot replied a message')
+
+    return conversationFormatted
+
+
+def GenerateResponse(username, prompt, identity, temp):
+    # Import latest connection object
+    from src.db import con, cur
+
+    InsertUserMessage(username, prompt)
+    messagesFormatted = FormatCompletionMessages(cur, username, identity, prompt)
+
     completions = openai.ChatCompletion.create(
-        model = "gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": identity},
-            {"role": "user", "content": prompt}
-        ],
-        max_tokens = 500,
-        n = 1,
-        stop = None,
-        temperature = float(temp),
+        model="gpt-3.5-turbo",
+        messages=messagesFormatted,
+        max_tokens=500,
+        n=1,
+        stop=None,
+        temperature=float(temp),
     )
-    return completions["choices"][0]["message"]["content"]
+
+    answerProvided = completions["choices"][0]["message"]["content"]
+
+    InsertAsistantMessage(username, answerProvided)
+
+    return answerProvided
+
 
 @UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Reply the user message.
-    await update.message.reply_text(generate_response(update.message.text, settings["Identity"], settings["Temperature"]))
-
+    await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, settings["Identity"], settings["Temperature"]))

@@ -2,7 +2,6 @@
 
 execLocal = False
 appName = "Jepetobot"
-settings = {
-    "Identity" : "You are Jepetobot, an artificial intelligence. The assistant is helpful, creative, clever, and very friendly",
-    "Temperature" : 0.6
-}
+dbPath = "src/db/MainDb.sqlite"
+logsPath = "src/logs"
+maxTokensPerUser = 50000 # 0.2 dollar aprox
