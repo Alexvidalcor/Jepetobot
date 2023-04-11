@@ -6,6 +6,7 @@ on:
     branches:
       - "master"
       - "Dev"
+  workflow_dispatch:
 
 jobs:
   aws-cdk-deploy:
