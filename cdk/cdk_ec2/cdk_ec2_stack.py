@@ -84,7 +84,7 @@ class Ec2Stack(Stack):
                             instance_name=appName + "_instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
-                            key_name=keyName,
+                            # key_name=keyName,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
