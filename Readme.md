@@ -1,9 +1,9 @@
 
 **CURRENT STATUS: STABLE**
 
-<kbd>
+<br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
-</kbd><br><br>
+</kbd><br>
 
 _Telegram bot developed to explore the AI possibilities of OpenAI._
 
@@ -63,17 +63,17 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 As the entire infrastructure is automated in the cloud, <ins>it is not necessary to install anything locally</ins>. You only need to have the following:
 
-<kbd>
+<br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png" height="100" width="200"/>
-</kbd><br><br>
+</kbd><br>
 
 * The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
 * To create an account on Github, go to the [official website](https://github.com/) and follow the steps described there.
 
-<kbd>
+<br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png" height="100" width="200"/>
-</kbd><br><br>
+</kbd><br>
 
 * Obviously, you need a Telegram account to deploy a bot on Telegram.
 
@@ -82,10 +82,10 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * It is necessary to obtain a token from the Telegram Bot API.
 
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
-
-<kbd>
+* 
+<br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="80" width="200"/><br><br>
-</kbd><br><br>
+</kbd><br>
 
 * All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
 
@@ -95,9 +95,9 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
-<kbd>
+<br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="60" width="200"/><br><br>
-</kbd><br><br>
+</kbd><br>
  
 * The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
 
