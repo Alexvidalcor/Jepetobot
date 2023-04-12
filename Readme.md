@@ -82,7 +82,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * It is necessary to obtain a token from the Telegram Bot API.
 
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
-* 
+
 <br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="80" width="200"/><br><br>
 </kbd><br>
@@ -107,7 +107,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
-
+<br><br>
 | :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for <ins>step by step usage guide</ins>  |
 |-----------------------------------------|
 
@@ -132,7 +132,6 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 | :zap:        All use of cloud and OpenAi api generate costs, use it at your own risk!   |
 |-----------------------------------------|
-
 
 
 
