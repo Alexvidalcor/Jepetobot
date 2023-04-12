@@ -79,7 +79,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="80" width="200"/>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="80" width="200"/><br><br>
 
 * All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
 
@@ -90,7 +90,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="60" width="200"/>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="60" width="200"/><br><br>
 
 * The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
 
