@@ -109,7 +109,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 <br>
 
-| :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for <ins>step by step usage guide</ins>  |
+| :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki/How-To-Use) for <ins>step by step usage guide</ins>  |
 |-----------------------------------------|
 
 <br>
