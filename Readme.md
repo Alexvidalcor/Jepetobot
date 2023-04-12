@@ -61,14 +61,14 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 As the entire infrastructure is automated in the cloud, <ins>it is not necessary to install anything locally</ins>. You only need to have the following:
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png"/>
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png" height="200" width="400"/> />
 
 * The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
 * To create an account on Github, go to the [official website](https://github.com/) and follow the steps described there.
 
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png"/>
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png" height="200" width="400"/>
 
 * Obviously, you need a Telegram account to deploy a bot on Telegram.
 
@@ -79,7 +79,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png"/>
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="200" width="400"/>
 
 * All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
 
