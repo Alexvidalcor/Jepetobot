@@ -108,8 +108,10 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
 <br>
+
 | :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for <ins>step by step usage guide</ins>  |
 |-----------------------------------------|
+
 <br>
 
 
@@ -131,8 +133,10 @@ Purpose | Machine where the application is hosted | Bucket where application ver
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
 
 <br>
+
 | :zap:        All use of cloud and OpenAi api generate costs, use it at your own risk!   |
 |-----------------------------------------|
+
 <br>
 
 
