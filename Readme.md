@@ -9,7 +9,7 @@ _Telegram bot developed to explore the AI possibilities of OpenAI._
 
 _Support for deployment on AWS is included through Github Actions._
 
-
+<br>
 
 ## Main features :fire:
 
@@ -57,7 +57,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 * This feature complements an advanced monitoring system.
 
-
+<br>
 
 ## Getting started 🚀
 
@@ -114,7 +114,6 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 <br>
 
-
 ## Cloud deployment overview :cloud:
 
 
@@ -139,14 +138,13 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 <br>
 
-
 ## Built with 🛠️
 
 * [AWS-CDK](https://aws.amazon.com/es/cdk/) - Deploy on AWS.
 * [Python-Telegram-Bot](https://python-telegram-bot.org) - Telegram Api Wrapper.
 * [OpenAI-Api](https://openai.com/api/) - AI api
 
-
+<br>
 
 ## Disclaimer :memo:
 
@@ -157,21 +155,21 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 This is a personal project with academic origins and is not intended to be a commercial or professional solution. If you want to use it, it is at your own risk.
 
-
+<br>
 
 ## Roadmap :spiral_calendar:
 
 | :exclamation:  Check the [Project dashboard](https://github.com/users/Alexvidalcor/projects/2) for more info!  |
 |-----------------------------------------|
 
-
+<br>
 
 ## Wiki :closed_book:
 
 | :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
 |-----------------------------------------|
 
-
+<br>
 
 ## License :pushpin:
 
