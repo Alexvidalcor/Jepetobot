@@ -90,8 +90,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
 
-
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="100" width="200"/>
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="50" width="200"/>
 
 * The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
 
