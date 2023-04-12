@@ -1,7 +1,9 @@
 
 **CURRENT STATUS: STABLE**
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
+<kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
+</kbd><br><br>
 
 _Telegram bot developed to explore the AI possibilities of OpenAI._
 
@@ -93,9 +95,10 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
-
+<kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="60" width="200"/><br><br>
-
+</kbd><br><br>
+ 
 * The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
 
 * To create an OpenAi account, you can click [HERE](https://auth0.openai.com/u/signup/)
