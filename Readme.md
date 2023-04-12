@@ -61,7 +61,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 As the entire infrastructure is automated in the cloud, <ins>it is not necessary to install anything locally</ins>. You only need to have the following:
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png" height="100" width="200"/> />
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png" height="100" width="200"/>
 
 * The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
