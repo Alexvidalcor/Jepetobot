@@ -1,15 +1,15 @@
 
 **CURRENT STATUS: STABLE**
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
+<br><kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
+</kbd><br>
 
 _Telegram bot developed to explore the AI possibilities of OpenAI._
 
 _Support for deployment on AWS is included through Github Actions._
 
-_**This branch is used to develop new features**_
-
-
+<br>
 
 ## Main features :fire:
 
@@ -57,20 +57,23 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 * This feature complements an advanced monitoring system.
 
-
+<br>
 
 ## Getting started 🚀
 
 As the entire infrastructure is automated in the cloud, <ins>it is not necessary to install anything locally</ins>. You only need to have the following:
 
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png"/>
+<br><kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started1.png" height="100" width="200"/>
+</kbd><br>
 
 * The Github account is necessary to fork the code and to be able to execute the [deployment automations](https://github.com/Alexvidalcor/jepetobot/tree/master/.github/workflows)
 
 * To create an account on Github, go to the [official website](https://github.com/) and follow the steps described there.
 
-
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png"/>
+<br><kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started2.png" height="100" width="200"/>
+</kbd><br>
 
 * Obviously, you need a Telegram account to deploy a bot on Telegram.
 
@@ -80,8 +83,9 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://core.telegram.org/bots#how-do-i-create-a-bot).
 
-
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png"/>
+<br><kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started3.png" height="80" width="200"/><br><br>
+</kbd><br>
 
 * All the infrastructure of the application is deployed in AWS, therefore, an account is needed in said public cloud provider to be able to create the necessary resources.
 
@@ -91,10 +95,10 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://repost.aws/knowledge-center/create-access-key)
 
-
-
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png"/>
-
+<br><kbd>
+<br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-started4.png" height="60" width="200"/><br><br>
+</kbd><br>
+ 
 * The main functionality of Jepetobot is based on the OpenAi api, therefore an account is needed there.
 
 * To create an OpenAi account, you can click [HERE](https://auth0.openai.com/u/signup/)
@@ -103,11 +107,12 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 
 * Instructions for it are [HERE](https://platform.openai.com/docs/introduction/tokens).
 
+<br>
 
-| :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for <ins>step by step usage guide</ins>  |
+| :exclamation:  If you already have the above, check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki/How-To-Use) for <ins>step by step usage guide</ins>  |
 |-----------------------------------------|
 
-
+<br>
 
 ## Cloud deployment overview :cloud:
 
@@ -126,11 +131,12 @@ Purpose | Machine where the application is hosted | Bucket where application ver
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
 
+<br>
+
 | :zap:        All use of cloud and OpenAi api generate costs, use it at your own risk!   |
 |-----------------------------------------|
 
-
-
+<br>
 
 ## Built with 🛠️
 
@@ -138,7 +144,7 @@ Update cloud app code with every push to master branch. It generates a slight se
 * [Python-Telegram-Bot](https://python-telegram-bot.org) - Telegram Api Wrapper.
 * [OpenAI-Api](https://openai.com/api/) - AI api
 
-
+<br>
 
 ## Disclaimer :memo:
 
@@ -149,21 +155,21 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 This is a personal project with academic origins and is not intended to be a commercial or professional solution. If you want to use it, it is at your own risk.
 
-
+<br>
 
 ## Roadmap :spiral_calendar:
 
 | :exclamation:  Check the [Project dashboard](https://github.com/users/Alexvidalcor/projects/2) for more info!  |
 |-----------------------------------------|
 
-
+<br>
 
 ## Wiki :closed_book:
 
 | :exclamation:  Check the [Wiki](https://github.com/Alexvidalcor/jepetobot/wiki) for more info!  |
 |-----------------------------------------|
 
-
+<br>
 
 ## License :pushpin:
 
