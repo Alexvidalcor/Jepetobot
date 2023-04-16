@@ -12,7 +12,7 @@ on:
         - False
         required: true
         default: False
-      deployAplication:
+       deployAplication:
         type: choice
         description: 'Deploy the application when creating the infrastructure'
         options: 
