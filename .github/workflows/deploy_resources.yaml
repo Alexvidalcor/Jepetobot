@@ -49,6 +49,7 @@ jobs:
     - name: Show Github actions chosen variables in "dispatch"
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
+        echo "Reusable Stack: ${{ github.event.inputs.deployAplication }}"
     
     - name: Deploy Stack
       run: |
