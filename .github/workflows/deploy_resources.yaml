@@ -26,7 +26,8 @@ jobs:
   cdk-deploy-application:
     if: ${{ github.event.inputs.deployApplication }} == 'true'
     uses: ./.github/workflows/update_application.yaml
-    
+    secrets: inherit
+
   cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: Development
