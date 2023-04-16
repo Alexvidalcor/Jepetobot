@@ -1,5 +1,5 @@
 # This is experimental, don't use!
-name: Deploy application
+name: Update application
 
 on:
   push:
@@ -8,6 +8,9 @@ on:
       - "Dev"
   workflow_dispatch:
   workflow_call:
+    secrets:
+      AWS_REGION:
+        required: true
 
 jobs:
   cdk-update-application:
