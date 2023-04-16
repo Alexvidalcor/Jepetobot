@@ -52,7 +52,7 @@ jobs:
         echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
 
     - name: Deploy aplication
-      if: ${{ github.event.inputs.deployApplication == true }}
+      if: ${{ github.event.inputs.deployApplication }} == 'true'
       uses: ./.github/workflows/update_application.yaml
     
     - name: Deploy Stack
