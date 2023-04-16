@@ -23,11 +23,6 @@ on:
 
 jobs:
 
-  cdk-deploy-application:
-    if: ${{ github.event.inputs.deployApplication }} == 'true'
-    uses: ./.github/workflows/update_application.yaml
-    secrets: inherit
-
   cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: Development
@@ -71,4 +66,8 @@ jobs:
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
 
-
+  cdk-deploy-application:
+    if: ${{ github.event.inputs.deployApplication }} == 'true'
+    needs: cdk-deploy-resources
+    uses: ./.github/workflows/update_application.yaml
+    secrets: inherit
