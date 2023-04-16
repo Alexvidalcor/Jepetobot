@@ -12,6 +12,14 @@ on:
         - False
         required: true
         default: False
+      deployAplication:
+        type: choice
+        description: 'Deploy the application when creating the infrastructure'
+        options: 
+        - True
+        - False
+        required: true
+        default: True
 
 jobs:
   cdk-deploy-resources:
@@ -55,3 +63,7 @@ jobs:
         AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
+
+    - name: Deploy aplication
+      if: ${{ github.event.inputs.deployApplication == 'true' }}
+      uses: ./.github/workflows/update_application.yaml
