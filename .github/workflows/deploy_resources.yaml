@@ -50,6 +50,10 @@ jobs:
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
         echo "Reusable Stack: ${{ github.event.inputs.deployAplication }}"
+
+    - name: Deploy aplication
+      if: ${{ github.event.inputs.deployApplication == 'true' }}
+      uses: ./.github/workflows/update_application.yaml
     
     - name: Deploy Stack
       run: |
@@ -65,6 +69,4 @@ jobs:
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
 
-    - name: Deploy aplication
-      if: ${{ github.event.inputs.deployApplication == 'true' }}
-      uses: ./.github/workflows/update_application.yaml
+
