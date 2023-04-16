@@ -33,7 +33,8 @@ jobs:
     - name: Upload compressed file to S3
       id: tasks-s3
       run: |
-        export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text) >> $GITHUB_OUTPUT
+        echo "BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)" >> $GITHUB_OUTPUT
+        export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
         aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION
 
     - name: Codedeploy execution
