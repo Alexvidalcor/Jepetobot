@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  aws-cdk-deploy:
+  cdk-update-application:
     runs-on: ubuntu-latest
     environment: Development
     env:

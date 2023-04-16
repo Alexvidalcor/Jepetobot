@@ -14,7 +14,7 @@ on:
         default: False
 
 jobs:
-  aws-cdk-deploy:
+  cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: Development
 
