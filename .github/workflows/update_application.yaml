@@ -14,7 +14,6 @@ jobs:
     environment: Development
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
       AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
       
     steps:
@@ -32,7 +31,11 @@ jobs:
       run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo-$GITHUB_RUN_NUMBER.zip .
 
     - name: Upload compressed file to S3
-      run: aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$AWS_BUCKET_NAME/ --region $AWS_REGION
+      run: |
+      
+        export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
+
+        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION
 
     - name: Codedeploy execution
       run: |
