@@ -22,6 +22,12 @@ on:
         default: True
 
 jobs:
+
+  cdk-deploy-application:
+  - name: Deploy aplication
+    if: ${{ github.event.inputs.deployApplication }} == 'true'
+    uses: ./.github/workflows/update_application.yaml
+    
   cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: Development
@@ -50,10 +56,6 @@ jobs:
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
-
-    - name: Deploy aplication
-      if: ${{ github.event.inputs.deployApplication }} == 'true'
-      uses: ./.github/workflows/update_application.yaml
     
     - name: Deploy Stack
       run: |
