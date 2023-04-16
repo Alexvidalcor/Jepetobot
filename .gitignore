@@ -6,6 +6,7 @@ MainEnv/
 *.swp
 *.egg-info
 *.env
+*.log
 
 # Specific files
 __init__.py
