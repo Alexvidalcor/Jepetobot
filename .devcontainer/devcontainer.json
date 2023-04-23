@@ -11,8 +11,14 @@
 	"features": {
 		"ghcr.io/devcontainers/features/aws-cli:1": {},
 		"ghcr.io/devcontainers/features/node:1": {},
-		"ghcr.io/devcontainers/features/python:1": {}
+		"ghcr.io/devcontainers/features/python:1": {
+			//"installTools": true,
+			//"optimize": true,
+			//"version": "latest"
+		}
+			
 		// "ghcr.io/devcontainers-contrib/features/aws-cdk:2": {}
+			
 	}
 	
 }
