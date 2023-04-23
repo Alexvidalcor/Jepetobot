@@ -24,10 +24,9 @@ userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLAC
 
 
 # AMI used
-amazonLinux = ec2.MachineImage.latest_amazon_linux(
+amazonLinux = ec2.MachineImage.latest_amazon_linux2(
     cpu_type=ec2.AmazonLinuxCpuType.X86_64,
-    edition=ec2.AmazonLinuxEdition.STANDARD,
-    generation=ec2.AmazonLinuxGeneration.AMAZON_LINUX_2
+    edition=ec2.AmazonLinuxEdition.STANDARD
 )
 
 # EC2 configuration
@@ -95,16 +94,16 @@ class Ec2Stack(Stack):
         host.instance.add_property_override("BlockDeviceMappings", [{
             "DeviceName": "/dev/xvda",
             "Ebs": {
-                "VolumeSize": "10",
-                "VolumeType": "io1",
-                "Iops": "150",
+                "VolumeSize": "5",
+                "VolumeType": "gp3",
+                "Iops": "50",
                 "DeleteOnTermination": "true"
             }
         }, {
             "DeviceName": "/dev/sdb",
             "Ebs": {
-                "VolumeSize": "10",
-                "VolumeType": "gp2"
+                "VolumeSize": "5",
+                "VolumeType": "gp3"
             }
         }
         ])
