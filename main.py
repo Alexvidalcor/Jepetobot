@@ -1,15 +1,15 @@
 
 # Telegram libraries
-from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent
 
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler
 
 
 # Custom importation
 from src.modules.app_support import *
 from src.modules.logging import *
 from src.settings import *
-from src.requests import AiReply
+from src.requests import AiReply, AiReplyInline
 from src.permissions import UsersFirewall
 from src.db import TestDbConnection
 
@@ -19,17 +19,19 @@ from src.db import TestDbConnection
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
     user = update.effective_user
-    
+
     await update.message.reply_html(
         rf"Hi {user.mention_html()}!",
         reply_markup=ForceReply(selective=True),
     )
+
 
 # Help function
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text("Help!")
+
 
 # Cancel function
 @UsersFirewall
@@ -48,10 +50,14 @@ def main() -> None:
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(telegramToken).build()
 
+
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", Start))
     application.add_handler(CommandHandler("help", HelpCommand))
     application.add_handler(CommandHandler("cancel", cancel))
+
+    # Inline query handler
+    application.add_handler(InlineQueryHandler(AiReplyInline))
 
     # Conversation handler to define custom settings
     convHandler1 = ConversationHandler(
