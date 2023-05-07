@@ -9,8 +9,6 @@ _Telegram bot developed to explore the AI possibilities of OpenAI._
 
 _Support for deployment on AWS is included through Github Actions._
 
-_**This branch is used to develop new features**_
-
 <br>
 
 ## Main features :fire:
@@ -122,7 +120,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 Currently there are two Github Actions workflows prepared to automate the cloud deployment:
 
 
-* _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/cdk_deploy_resources.yaml)_
+* _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/deploy_resources.yaml)_
 
 Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch |
 --- | --- | --- | --- | --- | --- |

@@ -1,5 +1,5 @@
 # This is experimental, don't use!
-name: Deploy application
+name: Update application
 
 on:
   push:
@@ -7,9 +7,13 @@ on:
       - "master"
       - "Dev"
   workflow_dispatch:
+  workflow_call:
+    secrets:
+      AWS_REGION:
+        required: true
 
 jobs:
-  aws-cdk-deploy:
+  cdk-update-application:
     runs-on: ubuntu-latest
     environment: Development
     env:
@@ -31,17 +35,17 @@ jobs:
       run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo-$GITHUB_RUN_NUMBER.zip .
 
     - name: Upload compressed file to S3
+      id: tasks-s3
       run: |
-      
+        echo "BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)" >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
-
         aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION
 
     - name: Codedeploy execution
       run: |
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name $AWS_TAG_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-deploygroup" --s3-location bucket=$AWS_BUCKET_NAME,bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name $AWS_TAG_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-deploygroup" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do

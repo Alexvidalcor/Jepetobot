@@ -46,7 +46,8 @@ def GenerateResponse(username, prompt, identity, temp):
     from src.db import con, cur
 
     InsertUserMessage(username, prompt)
-    messagesFormatted = FormatCompletionMessages(cur, username, identity, prompt)
+    messagesFormatted = FormatCompletionMessages(
+        cur, username, identity, prompt)
 
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -68,3 +69,27 @@ def GenerateResponse(username, prompt, identity, temp):
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Reply the user message.
     await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, settings["Identity"], settings["Temperature"]))
+
+
+@UsersFirewall
+async def AiReplyInline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+
+    """Handle the inline query. This is run when you type: @botusername <query>"""
+
+    query = update.inline_query.query
+
+    if query == "":
+        return
+
+    results = [
+
+        InlineQueryResultArticle(
+            id="1",
+            title="ReplyInline",
+            description= "Click here to get an answer",
+            thumbnail_url="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo2.jpg",
+            input_message_content=InputTextMessageContent(query),
+        )
+    ]
+
+    await update.inline_query.answer(results)

@@ -12,9 +12,18 @@ on:
         - False
         required: true
         default: False
+       deployAplication:
+        type: choice
+        description: 'Deploy the application when creating the infrastructure'
+        options: 
+        - True
+        - False
+        required: true
+        default: True
 
 jobs:
-  aws-cdk-deploy:
+
+  cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: Development
 
@@ -41,6 +50,7 @@ jobs:
     - name: Show Github actions chosen variables in "dispatch"
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
+        echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
     
     - name: Deploy Stack
       run: |
@@ -55,3 +65,9 @@ jobs:
         AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
+
+  cdk-deploy-application:
+    if: ${{ github.event.inputs.deployApplication }} == 'true'
+    needs: cdk-deploy-resources
+    uses: ./.github/workflows/update_application.yaml
+    secrets: inherit
