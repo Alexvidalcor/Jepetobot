@@ -20,9 +20,9 @@ class SecretManagerStack(Stack):
         # Default secret
         secret1 = secretsmanager.Secret(self, 
         appName+"_secret1",
-        secret_name=appName+"_secret1",
+        secret_name=appName + "-" + "envDeploy" + "_secret1",
         generate_secret_string=secretsmanager.SecretStringGenerator(
-            secret_string_template=json.dumps({"App": appName}),
+            secret_string_template=json.dumps({"App": appName + "-" + envDeploy}),
             generate_string_key="password"
         )
     )
