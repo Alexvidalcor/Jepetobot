@@ -25,7 +25,7 @@ jobs:
 
   cdk-deploy-resources:
     runs-on: ubuntu-latest
-    environment: Production
+    environment: ${{ github.ref_name }}
 
     steps:
     - name: Checkout repo
@@ -51,7 +51,7 @@ jobs:
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
-        echo "Environment chosen: ${{ github.event.deployment.environment }}"
+        echo "Environment chosen: ${{ github.event.environment }}"
     
     - name: Deploy Stack
       run: cdk deploy --require-approval never --all
