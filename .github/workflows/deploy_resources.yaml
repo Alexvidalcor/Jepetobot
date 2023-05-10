@@ -25,7 +25,7 @@ jobs:
 
   cdk-deploy-resources:
     runs-on: ubuntu-latest
-    environment: Development
+    environment: Production
 
     steps:
     - name: Checkout repo
@@ -65,6 +65,8 @@ jobs:
         AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
+        # ------
+        ENVIRONMENT_DEPLOY: ${{ github.event.deployment.environment }}
 
   cdk-deploy-application:
     if: ${{ github.event.inputs.deployApplication }} == 'true'
