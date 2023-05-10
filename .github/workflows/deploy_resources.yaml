@@ -51,7 +51,7 @@ jobs:
       run: |
         echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
-        echo "Environment chosen: ${{ github.event.environment }}"
+        echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: Deploy Stack
       run: cdk deploy --require-approval never --all
