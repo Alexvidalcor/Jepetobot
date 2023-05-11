@@ -25,9 +25,6 @@ settings = {
         0.6
 }
 
-# Global secrets
-envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
-
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
@@ -40,9 +37,15 @@ if penv.execLocal:
     telegramToken = os.environ["password"]
     openaiToken = os.environ["openai_token"]
 
+    #Custom variables
+    envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
+
 
 elif not penv.execLocal:
     print("Using secretmanager...")
+
+    # Custom variables
+    envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
 
     # SecretManager connection
     client = botocore.session.get_session().create_client('secretsmanager')
