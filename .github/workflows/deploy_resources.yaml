@@ -1,4 +1,3 @@
-# This is experimental, don't use!
 name: Deploy resources
 
 on:
