@@ -1,4 +1,4 @@
-name: Update application - ${{ github.ref_name }}
+name: Update application
 
 on:
   push:
