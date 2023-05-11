@@ -13,6 +13,9 @@ COPY ["src", "./src"]
 ARG awsRegionDocker
 ENV AWS_DEFAULT_REGION=$awsRegionDocker
 
+ARG envDeploy
+ENV ENVIRONMENT_DEPLOY=$envDeploy
+
 # Set custom logs (only errors and app info)
 RUN ln -sf /dev/stdout /home/application/src/logs/app.log \
     && ln -sf /dev/stderr /home/application/src/logs/errors.log

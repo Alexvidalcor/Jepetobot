@@ -21,10 +21,12 @@ try:
 
     # EC2 variables
     vpcId = os.environ["AWS_VPC_ID"]  # Import an Exist VPC
-    ec2Type = "t3.micro"
+    ec2Type = "t3.nano"
     sgID = os.environ["AWS_SG"]  # Import an Exist SG
     sgPorts = eval(os.environ["AWS_SG_PORTS"]) # Must receive an array
 
+    # Github Actions variables 
+    envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
 
     # Public_env variables
     appName = penv.appName

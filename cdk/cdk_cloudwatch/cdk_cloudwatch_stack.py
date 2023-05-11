@@ -21,8 +21,8 @@ class CloudWatchStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         # Create the CloudWatch log group
-        logGroup = logs.LogGroup(self, "{appName}-log_group",
-            log_group_name=f"{appName}-log_group",
+        logGroup = logs.LogGroup(self, "{appName}-{envDeploy}_log-group",
+            log_group_name=f"{appName}-{envDeploy}_log-group",
             retention=logs.RetentionDays.TWO_WEEKS,
             removal_policy=RemovalPolicy.DESTROY,
         )
@@ -35,7 +35,7 @@ class CloudWatchStack(Stack):
         for logsFilename in listLogsPath:
             logStream = logs.LogStream(
                 self,
-                f'{appName}-{logsFilename.split("/")[-1]}-stream',
+                f'{appName}-{envDeploy}_{logsFilename.split("/")[-1]}-stream',
                 log_group=logGroup,
-                log_stream_name=f'{appName}-{logsFilename.split("/")[-1]}-stream'
+                log_stream_name=f'{appName}-{envDeploy}_{logsFilename.split("/")[-1]}-stream'
             )

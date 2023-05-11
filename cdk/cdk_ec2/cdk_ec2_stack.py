@@ -20,7 +20,7 @@ with open("./user_data/install_docker.sh", "r") as fdocker:
     userData += f'echo \'{json.dumps(cloudwatchConfig)}\' > /opt/aws/amazon-cloudwatch-agent/bin/config.json'
     userData += "\n/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s"
 
-userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLACEAPPNAME", appName)
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLACEAPPNAME", appName).replace("REPLACEENVNAME", envDeploy)
 
 
 # AMI used
@@ -37,7 +37,7 @@ class Ec2Stack(Stack):
 
         # Existing VPC
         vpc = ec2.Vpc.from_lookup(
-            self, appName+"_VPC", vpc_id=vpcId, is_default=True)
+            self, appName + "-" + envDeploy + "_VPC", vpc_id=vpcId, is_default=True)
 
         # Existing SG or create a new one
         if createSG:
@@ -47,7 +47,7 @@ class Ec2Stack(Stack):
                 vpc = vpc,
                 allow_all_outbound=True,
                 description = "CDK Security Group",
-                security_group_name = appName + "_sg"
+                security_group_name = appName + "-" + envDeploy + "_sg"
             )
 
             sg.add_ingress_rule(
@@ -64,7 +64,7 @@ class Ec2Stack(Stack):
 
         else:
             sg = ec2.SecurityGroup.from_security_group_id(
-                self, appName+"_SG", sgID, mutable=False)
+                self, appName + "-" + envDeploy + "_SG", sgID, mutable=False)
 
         # Instance Role and managed Polices
         role = iam.Role(self, appName + "_Ec2_Role",
@@ -77,10 +77,10 @@ class Ec2Stack(Stack):
             iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchLogsFullAccess"))
 
         # Ec2 instance creation
-        host = ec2.Instance(self, appName + "_Ec2",
+        host = ec2.Instance(self, appName + "-" + envDeploy + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=appName + "_instance",
+                            instance_name=appName + "-" + envDeploy + "_instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
                             # key_name=keyName,

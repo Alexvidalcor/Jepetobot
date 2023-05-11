@@ -1,11 +1,10 @@
-# This is experimental, don't use!
 name: Update application
 
 on:
   push:
     branches:
       - "master"
-      - "Dev"
+      - "dev"
   workflow_dispatch:
   workflow_call:
     secrets:
@@ -15,10 +14,11 @@ on:
 jobs:
   cdk-update-application:
     runs-on: ubuntu-latest
-    environment: Development
+    environment: ${{ github.ref_name }}
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+      ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
       
     steps:
     - name: Checkout repo
@@ -37,15 +37,18 @@ jobs:
     - name: Upload compressed file to S3
       id: tasks-s3
       run: |
+
         echo "BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)" >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
-        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION
+
+        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
     - name: Codedeploy execution
       run: |
+
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name $AWS_TAG_NAME --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-deploygroup" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do
