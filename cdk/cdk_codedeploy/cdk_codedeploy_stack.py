@@ -15,15 +15,15 @@ class CodeDeployStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        application = codedeploy.ServerApplication(self, appName + "-" + envDeploy + "_app_codedeploy", application_name=appName + "-" + envDeploy)
+        application = codedeploy.ServerApplication(self, appName + "-" + envDeploy + "_app-codedeploy", application_name=appName + "-" + envDeploy + "_app-codedeploy")
 
         deploymentGroup = codedeploy.ServerDeploymentGroup(
-            self, appName + "-" + envDeploy + "_group_codedeploy",
+            self, appName + "-" + envDeploy + "_group-codedeploy",
             application=application,
-            deployment_group_name=f"{appName}-{envDeploy}-deploygroup",
+            deployment_group_name=f"{appName}-{envDeploy}_group-codedeploy",
             install_agent=True,
             ec2_instance_tags=codedeploy.InstanceTagSet({
                 "Group": [awsTagName + "-" + envDeploy],
-                "Name": [appName + "-" + envDeploy +"-ec2"],
+                "Name": [appName + "-" + envDeploy +"_ec2"],
             })
         )

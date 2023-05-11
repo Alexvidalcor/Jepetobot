@@ -25,6 +25,9 @@ settings = {
         0.6
 }
 
+# Global secrets
+envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
+
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
@@ -33,6 +36,7 @@ if penv.execLocal:
     # Telegram variables
     idUsersAllowed = eval(os.environ["idUsersAllowed"])
 
+    # Token variables
     telegramToken = os.environ["password"]
     openaiToken = os.environ["openai_token"]
 

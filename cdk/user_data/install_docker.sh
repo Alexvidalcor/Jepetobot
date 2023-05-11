@@ -5,6 +5,7 @@ yum update -y
 
 # Set some environment vars
 echo export AWS_DEFAULT_REGION=REPLACEREGION >> /etc/profile
+echo export ENVIRONMENT_DEPLOY=REPLACEENVNAME >> /etc/profile
 
 # CodeDeploy agent installation 
 yum install -y ruby wget
@@ -22,5 +23,3 @@ amazon-linux-extras install docker
 service docker start
 usermod -a -G docker ec2-user
 systemctl enable docker
-
-#Custom additions

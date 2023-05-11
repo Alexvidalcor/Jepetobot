@@ -49,8 +49,8 @@ jobs:
 
     - name: Show Github actions custom variables"
       run: |
-        echo "Reusable Stack: ${{ github.event.inputs.reusableStack }}"
-        echo "Deploy App: ${{ github.event.inputs.deployAplication }}"
+        echo "Reusable stacks: ${{ github.event.inputs.reusableStack }}"
+        echo "Deploy app: ${{ github.event.inputs.deployAplication }}"
         echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: Deploy Stack
