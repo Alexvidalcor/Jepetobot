@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - "master"
-      - "Dev"
+      - "dev"
   workflow_dispatch:
   workflow_call:
     secrets:

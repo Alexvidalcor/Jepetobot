@@ -23,7 +23,7 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 app = App()
 Ec2Layer = Ec2Stack(app, f"cdk-ec2-{envDeploy}-stack-{timestamp}", env=awsEnv)
 CodeDeployLayer = CodeDeployStack(app, f"cdk-codedeploy-{envDeploy}-stack-{timestamp}", env=awsEnv)
-S3Layer = S3stack(app, f"cdk-s3-stack-{timestamp}", env=awsEnv)
+S3Layer = S3stack(app, f"cdk-s3-stack-{envDeploy}-{timestamp}", env=awsEnv)
 SecretManagerLayer = SecretManagerStack(app, f"cdk-secretmanager-{envDeploy}-stack-{timestamp}", env=awsEnv)
 CloudWatchLayer = CloudWatchStack(app, f"cdk-cloudwatch-{envDeploy}-stack-{timestamp}", env=awsEnv)
 
