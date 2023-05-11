@@ -1,5 +1,4 @@
-# This is experimental, don't use!
-name: Deploy resources
+name: Deploy resources - ${{ github.ref_name }}
 
 on:
    workflow_dispatch:
