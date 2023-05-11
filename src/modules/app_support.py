@@ -46,13 +46,13 @@ elif not penv.execLocal:
     cache = SecretCache(config = cache_config, client = client)
 
     # Telegram variables
-    secret1 = cache.get_secret_string(penv.appName + "_secret1")
+    secret1 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
     telegramToken = json.loads(secret1)["password"]
 
     # OpenAI variables
-    secret2 = cache.get_secret_string(penv.appName + "_secret1")
+    secret2 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
     openaiToken = json.loads(secret1)["openai_token"]
 
     # UsersFirewall variables
-    secret3 = cache.get_secret_string(penv.appName + "_secret1")
+    secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
     idUsersAllowed = eval(json.loads(secret1)["idUsersAllowed"])
