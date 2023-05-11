@@ -15,7 +15,6 @@ from cdk_s3.cdk_s3_stack import S3stack
 from cdk_secretmanager.cdk_secretmanager_stack import SecretManagerStack
 from cdk_cloudwatch.cdk_cloudwatch_stack import CloudWatchStack
 
-
 # Set AWS environment
 awsEnv = Environment(account=awsAccount, region=awsRegion)
 
