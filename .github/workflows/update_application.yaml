@@ -44,9 +44,12 @@ jobs:
 
     - name: Codedeploy execution
       run: |
+
+        echo "Reusable Stack: ${ENVIRONMENT_DEPLOY}"
+
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-${ENVIRONMENT_DEPLOY}_deploygroup" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY} --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "$AWS_TAG_NAME-${ENVIRONMENT_DEPLOY}-deploygroup" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do
