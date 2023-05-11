@@ -38,16 +38,14 @@ jobs:
       id: tasks-s3
       run: |
 
-        set +x
-
         echo "BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)" >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
-        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION
+
+        set +x
+        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://::add-mask::$BUCKETNAME/ --region $AWS_REGION
 
     - name: Codedeploy execution
       run: |
-
-        echo "Reusable Stack: ${ENVIRONMENT_DEPLOY}"
 
         set +x
 
