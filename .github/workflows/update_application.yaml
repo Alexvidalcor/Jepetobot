@@ -42,7 +42,7 @@ jobs:
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot')].Name" --output text)
 
         set +x
-        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://::add-mask::$BUCKETNAME/ --region $AWS_REGION
+        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
     - name: Codedeploy execution
       run: |
