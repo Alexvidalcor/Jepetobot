@@ -21,11 +21,11 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 
 # Execute stacks
 app = App()
-Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}_ec2-stack-{timestamp}", env=awsEnv)
-CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}_codedeploy-stack-{timestamp}", env=awsEnv)
-S3Layer = S3stack(app, f"{appName}-{envDeploy}_s3-stack-{timestamp}", env=awsEnv)
-SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}_secretmanager-stack-{timestamp}", env=awsEnv)
-CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}_cloudwatch-stack-{timestamp}", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--ec2-stack-{timestamp}", env=awsEnv)
+CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--codedeploy-stack-{timestamp}", env=awsEnv)
+S3Layer = S3stack(app, f"{appName}-{envDeploy}--s3-stack-{timestamp}", env=awsEnv)
+SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--secretmanager-stack-{timestamp}", env=awsEnv)
+CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--cloudwatch-stack-{timestamp}", env=awsEnv)
 
 # Add tags
 Tags.of(Ec2Layer).add("Group", awsTagName + "-" + envDeploy)
