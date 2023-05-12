@@ -38,8 +38,8 @@ jobs:
       id: tasks-s3
       run: |
 
-        echo "BUCKETNAME=$(aws s3api list-buckets --query 'Buckets[?contains(Name, "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}")].Name' --output text)" >> $GITHUB_OUTPUT
-        export BUCKETNAME=$(aws s3api list-buckets --query 'Buckets[?contains(Name, "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}")].Name' --output text)
+        echo "BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, '${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}')].Name" --output text) >> $GITHUB_OUTPUT
+        export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, '${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}')].Name" --output text)
 
         aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
