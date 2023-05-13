@@ -19,6 +19,7 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
       ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+      VERSION_NUMBER: ${{ github.event.release.tag_name }}
       
     steps:
     - name: Checkout repo
@@ -31,6 +32,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+    - name: Insert latest version
+      run: |
+        last_line=$(tail -1 src/modules/app_public_env.py)
+        if [[ $last_line == version* ]]; then
+          sed -i '$ d' src/modules/app_public_env.py
+          echo "version = '${VERSION_NUMBER}-${ENVIRONMENT_DEPLOY}" >> src/modules/app_public_env.py
+        fi
+
     - name: Compress Repository
       run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo-$GITHUB_RUN_NUMBER.zip .
 
@@ -41,7 +50,7 @@ jobs:
         echo BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text) >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text)
 
-        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
+        aws s3 cp ${AWS_TAG_NAME}-${VERSION_NUMBER}-${ENVIRONMENT_DEPLOY}-${GITHUB_RUN_NUMBER}.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
     - name: Codedeploy execution
       run: |

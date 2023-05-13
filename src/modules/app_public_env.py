@@ -4,4 +4,5 @@ execLocal = False
 appName = "Jepetobot"
 dbPath = "src/db/MainDb.sqlite"
 logsPath = "src/logs"
-maxTokensPerUser = 50000 # 0.2 dollar aprox
+maxTokensPerUser = 50000
+version = ""

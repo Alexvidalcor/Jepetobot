@@ -30,7 +30,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
-    await update.message.reply_text("Help!")
+    await update.message.reply_text(f"Developer: Alexvidalcor\nSource code: https://github.com/Alexvidalcor/jepetobot\nVersion: {appVersion}")
 
 
 # Cancel function
@@ -51,7 +51,7 @@ def main() -> None:
     application = Application.builder().token(telegramToken).build()
 
 
-    # on different commands - answer in Telegram
+    # On different commands - answer in Telegram
     application.add_handler(CommandHandler("start", Start))
     application.add_handler(CommandHandler("help", HelpCommand))
     application.add_handler(CommandHandler("cancel", cancel))
