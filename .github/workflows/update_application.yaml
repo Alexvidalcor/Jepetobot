@@ -34,14 +34,14 @@ jobs:
 
     - name: Insert latest version
       run: |
-        last_line=$(tail -1 src/modules/app_public_env.py)
+        last_line=$(tail -1 ./src/modules/app_public_env.py)
         if [[ $last_line == version* ]]; then
-          sed -i '$ d' src/modules/app_public_env.py
-          echo "version = '${ENVIRONMENT_DEPLOY}-${VERSION_NUMBER}" >> src/modules/app_public_env.py
+          sed -i '$ d' ./src/modules/app_public_env.py
+          echo "version = '${ENVIRONMENT_DEPLOY}-${VERSION_NUMBER}" >> ./src/modules/app_public_env.py
         fi
 
     - name: Compress Repository
-      run: zip -r --exclude=*.git* --exclude=*/.* ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}}.zip .
+      run: zip -r --exclude=*.git* --exclude=*/.* ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip .
 
     - name: Upload compressed file to S3
       id: tasks-s3
