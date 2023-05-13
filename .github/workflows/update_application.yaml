@@ -42,7 +42,7 @@ jobs:
         fi
 
     - name: Compress Repository
-      run: zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x '*.git*' 'cdk/*' '.devcontainer/*' 'scripts/*' '.gitignore' '.github/*'
+      run: zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x '*.git*' -x 'cdk/*' -x '.devcontainer/*' -x 'scripts/*' -x '.gitignore' -x '.github/*'
 
     - name: Upload compressed file to S3
       id: tasks-s3
