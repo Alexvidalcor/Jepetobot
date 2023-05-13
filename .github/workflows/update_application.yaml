@@ -43,8 +43,8 @@ jobs:
 
     - name: Compress Repository
       run: |
-      echo ${VERSION_NUMBER}
-      zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*''./scripts/*' './.gitignore'¡ './.github/*'
+        echo "${VERSION_NUMBER}"
+        zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*''./scripts/*' './.gitignore'¡ './.github/*'
 
     - name: Upload compressed file to S3
       id: tasks-s3
