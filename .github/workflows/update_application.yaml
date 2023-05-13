@@ -57,7 +57,7 @@ jobs:
 
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do
