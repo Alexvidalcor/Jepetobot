@@ -19,7 +19,8 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
       ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
-      VERSION_NUMBER: ${{ github.event.release.tag_name }}
+      VERSION_NUMBER: $(git describe --tags $(git rev-list --tags --max-count=1))
+
       
     steps:
     - name: Checkout repo
@@ -41,7 +42,7 @@ jobs:
         fi
 
     - name: Compress Repository
-      run: zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x *.git* cdk/ .devcontainer/ scripts/ .gitignore .github/
+      run: zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${VERSION_NUMBER}-${GITHUB_RUN_NUMBER}.zip . -x *.git* cdk/* .devcontainer/* scripts/* .gitignore .github/*
 
     - name: Upload compressed file to S3
       id: tasks-s3
