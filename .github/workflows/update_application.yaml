@@ -37,8 +37,8 @@ jobs:
       id: latest-tag
       run: |
       
-        echo "latest_tag=$(git tag | sort --version-sort | tail -n1)" >> $GITHUB_ENV
-        export latest_tag=$(git tag | sort --version-sort | tail -n1)
+        echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        export latest_tag=$(git describe --tags --abbrev=0)
 
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
         echo "App version: ${latest_tag}"
@@ -46,7 +46,7 @@ jobs:
         last_line=$(tail -1 ./src/modules/app_public_env.py)
         if [[ $last_line == version* ]]; then
           sed -i '$ d' ./src/modules/app_public_env.py
-          echo "version = '${ENVIRONMENT_DEPLOY}-${{ steps.latest-tag.outputs.latest_tag }}'" >> ./src/modules/app_public_env.py
+          echo "version = '${ENVIRONMENT_DEPLOY}-${latest_tag}'" >> ./src/modules/app_public_env.py
         fi
 
     - name: Compress Repository
