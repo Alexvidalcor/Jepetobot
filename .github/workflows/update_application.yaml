@@ -39,7 +39,7 @@ jobs:
       id: latest-tag
       run: |
       
-        echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
+        echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_OUTPUT
         export latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
@@ -54,7 +54,7 @@ jobs:
     - name: Compress Repository
       run: |
         echo "${VERSION_NUMBER}"
-        zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*''./scripts/*' './.gitignore' './.github/*'
+        zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*''./scripts/*'
 
     - name: Upload compressed file to S3
       id: tasks-s3
