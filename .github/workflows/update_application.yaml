@@ -43,7 +43,7 @@ jobs:
         export latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
-        echo "App version: ${latest_tag}"
+        echo "App version: ${latest_tag}-${GITHUB_RUN_NUMBER}"
         
         last_line=$(tail -1 ./src/modules/app_public_env.py)
         if [[ $last_line == version* ]]; then
