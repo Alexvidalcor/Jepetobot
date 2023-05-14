@@ -22,17 +22,39 @@ jobs:
       
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3.5.2
+      with:
+        fetch-depth: 0
 
     - name: Configure aws credentials
-      uses: aws-actions/configure-aws-credentials@v1
+      uses: aws-actions/configure-aws-credentials@v2
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
+
+    
+    - name: "Check latest tag"
+      id: latest-tag
+      run: |
+      
+        echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_OUTPUT
+        export latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+
+        echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
+        echo "App version: ${latest_tag}-${GITHUB_RUN_NUMBER}"
+        
+        last_line=$(tail -1 ./src/modules/app_public_env.py)
+        if [[ $last_line == version* ]]; then
+          sed -i '$ d' ./src/modules/app_public_env.py
+          echo "version = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/modules/app_public_env.py
+        fi
+
     - name: Compress Repository
-      run: zip -r --exclude=*.git* --exclude=*/.* CompressedRepo-$GITHUB_RUN_NUMBER.zip .
+      run: |
+        echo "${VERSION_NUMBER}"
+        zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*'
 
     - name: Upload compressed file to S3
       id: tasks-s3
@@ -41,14 +63,14 @@ jobs:
         echo BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text) >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text)
 
-        aws s3 cp CompressedRepo-$GITHUB_RUN_NUMBER.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
+        aws s3 cp ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
     - name: Codedeploy execution
       run: |
 
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=CompressedRepo-$GITHUB_RUN_NUMBER.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do

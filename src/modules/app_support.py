@@ -15,6 +15,7 @@ import src.modules.app_public_env as penv
 dbPath = penv.dbPath
 logsPath = penv.logsPath
 maxTokensPerUser = penv.maxTokensPerUser
+appVersion = penv.version
 
 # Global internal variables
 settings = {
@@ -24,6 +25,7 @@ settings = {
     "Temperature": 
         0.6
 }
+
 
 # Local secrets. Only run in your local.
 if penv.execLocal:

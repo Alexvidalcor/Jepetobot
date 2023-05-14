@@ -17,7 +17,7 @@ def TestDbConnection():
         appLogger.info('Connection established succesfully')
 
     except Error as e:
-        errorsLogger.error(f"After check database: {e}")
+        errorsLogger.error(f"¿First db init? After check database: {e}")
         appLogger.info('Connection NOT established, fixing db connection...')
         
         CreateTables(con)
