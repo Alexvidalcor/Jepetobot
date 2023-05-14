@@ -1,6 +1,6 @@
 
 # Telegram libraries
-from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent
+from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent, constants
 
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler
 
@@ -30,7 +30,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
-    await update.message.reply_text(f"*Developer:* Alexvidalcor<br><br>*Source code:* [devcontainer](https://github.com/Alexvidalcor/jepetobot)<br><br>*Version:* {appVersion}<br><br>", parse_mode="MARKDOWN_V2")
+    await update.message.reply_text(f"*Developer:* Alexvidalcor\n\n*Source code:* [Github Page](https://github.com/Alexvidalcor/jepetobot)\n\n*Version:* {appVersion}\n\n\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-", parse_mode=constants.ParseMode.MARKDOWN_V2)
 
 
 # Cancel function
