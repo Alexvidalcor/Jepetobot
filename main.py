@@ -30,7 +30,12 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
-    await update.message.reply_text(f"*Developer:* Alexvidalcor\n\n*Source code:* [Github Page](https://github.com/Alexvidalcor/jepetobot)\n\n*Version:* {appVersion}\n\n\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-", parse_mode=constants.ParseMode.MARKDOWN_V2)
+    await update.message.reply_text(
+        "<strong>Developer: </strong>Alexvidalcor\n\n" \
+        "<strong>Source code: </strong><a href=\"https://github.com/Alexvidalcor/jepetobot\">Github Page\n\n</a>" \
+        f"<strong>Version: </strong>{appVersion}\n\n",
+    parse_mode=constants.ParseMode.HTML
+)
 
 
 # Cancel function
@@ -49,7 +54,6 @@ def main() -> None:
     # Start the bot.
     # Create the Application and pass it your bot's token.
     application = Application.builder().token(telegramToken).build()
-
 
     # On different commands - answer in Telegram
     application.add_handler(CommandHandler("start", Start))
