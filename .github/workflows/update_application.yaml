@@ -48,7 +48,8 @@ jobs:
         last_line=$(tail -1 ./src/modules/app_public_env.py)
         if [[ $last_line == version* ]]; then
           sed -i '$ d' ./src/modules/app_public_env.py
-          echo "version = '${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}'" >> ./src/modules/app_public_env.py
+          echo 'version = "${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}"' >> ./src/modules/app_public_env.py
+          cat ./src/modules/app_public_env.py
         fi
 
     - name: Compress Repository
