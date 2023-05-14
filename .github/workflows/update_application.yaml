@@ -22,7 +22,7 @@ jobs:
       
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3
+      uses: actions/checkout@v3.5.2
 
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -37,8 +37,8 @@ jobs:
       id: latest-tag
       run: |
       
-        echo "latest_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
-        export latest_tag=$(git describe --tags --abbrev=0)
+        echo "latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)" >> $GITHUB_ENV
+        export latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
         echo "App version: ${latest_tag}"
