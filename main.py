@@ -33,7 +33,8 @@ async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await update.message.reply_text(
         "<strong>Developer: </strong>Alexvidalcor\n\n" \
         "<strong>Source code: </strong><a href=\"https://github.com/Alexvidalcor/jepetobot\">Github Page\n\n</a>" \
-        f"<strong>Version: </strong>{appVersion}\n\n",
+        f"<strong>Version: </strong>{appVersion}\n\n" \
+        "---------------------------",
     parse_mode=constants.ParseMode.HTML
 )
 
