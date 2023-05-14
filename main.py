@@ -30,7 +30,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 @UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
-    await update.message.reply_text(f"<b>Developer:</b> Alexvidalcor\n\n<b>Source code:</b> https://github.com/Alexvidalcor/jepetobot\n\n<b>Version:</b> {appVersion}\n\n")
+    await update.message.reply_text(f"*Developer:* Alexvidalcor<br><br>*Source code:* [devcontainer](https://github.com/Alexvidalcor/jepetobot)<br><br>*Version:* {appVersion}<br><br>", parse_mode="MARKDOWN_V2")
 
 
 # Cancel function
