@@ -1,5 +1,5 @@
 
-**CURRENT STATUS: STABLE**
+**CURRENT STATUS: UNSTABLE**
 
 <br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
