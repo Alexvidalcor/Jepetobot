@@ -85,7 +85,7 @@ def OperateStatsToken(username, numTokens, option="select"):
     con.commit()
 
 
-def GetUserMessagesToReply():
+def GetUserMessagesToReply(username):
 
     query = f'''
             SELECT *

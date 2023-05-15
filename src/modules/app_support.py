@@ -36,6 +36,7 @@ if penv.execLocal:
 
     # Telegram variables
     idUsersAllowed = eval(os.environ["idUsersAllowed"])
+    idAdminAllowed= eval(os.environ["idAdminAllowed"])
 
     # Token variables
     telegramToken = os.environ["password"]
@@ -67,3 +68,7 @@ elif not penv.execLocal:
     # UsersFirewall variables
     secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
     idUsersAllowed = eval(json.loads(secret1)["idUsersAllowed"])
+
+    # AdminFirewall variables
+    secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
+    idUsersAllowed = eval(json.loads(secret1)["idAdminAllowed"])

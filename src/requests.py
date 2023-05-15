@@ -16,7 +16,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
 
     userLogger.info(f'{username} sent a message')
 
-    results = GetUserMessagesToReply()
+    results = GetUserMessagesToReply(username)
 
     conversationFormatted = [{"role": "system", "content": identity}]
     for row in results:
