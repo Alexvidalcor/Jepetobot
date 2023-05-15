@@ -153,10 +153,16 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     userCustomAnswer = update.message.text
     username = update.message.from_user.username
 
-    await update.message.reply_text(
-        f"Inserted the following identity: {userCustomAnswer}",
-        reply_markup=ReplyKeyboardRemove()
-    )
+    if len(list(userCustomAnswer)) <= maxTokensIdentity:
+        await update.message.reply_text(
+            f"Inserted the following identity: {userCustomAnswer}",
+            reply_markup=ReplyKeyboardRemove()
+        )
+    else:
+        await update.message.reply_text(
+            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensIdentity}",
+            reply_markup=ReplyKeyboardRemove()
+        )
 
     context.chat_data["valueSelected"] = userCustomAnswer
 

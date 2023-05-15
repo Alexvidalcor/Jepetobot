@@ -5,7 +5,7 @@ import openai
 from main import *
 from src.permissions import UsersFirewall
 from src.modules.app_support import openaiToken
-from src.db import InsertUserMessage, InsertAsistantMessage
+from src.db import InsertUserMessage, InsertAsistantMessage, GetUserMessagesToReply
 from src.stats import StatsNumTokens
 
 # Get OpenAI token
@@ -16,18 +16,7 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
 
     userLogger.info(f'{username} sent a message')
 
-    query = f'''
-            SELECT *
-            FROM users
-            INNER JOIN bot
-            ON users.name = bot.users_name
-            WHERE users.name = "{username}"
-            LIMIT 6
-            '''
-
-    cur.execute(query)
-
-    results = cur.fetchall()
+    results = GetUserMessagesToReply()
 
     conversationFormatted = [{"role": "system", "content": identity}]
     for row in results:
@@ -52,7 +41,7 @@ def GenerateResponse(username, prompt, identity, temp):
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messagesFormatted,
-        max_tokens=500,
+        max_tokens=maxTokensResponse,
         n=1,
         stop=None,
         temperature=float(temp),
@@ -86,7 +75,7 @@ async def AiReplyInline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         InlineQueryResultArticle(
             id="1",
             title="ReplyInline",
-            description= "Click here to get an answer",
+            description="Click here to get an answer",
             thumbnail_url="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo2.jpg",
             input_message_content=InputTextMessageContent(query),
         )

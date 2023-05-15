@@ -16,6 +16,8 @@ dbPath = penv.dbPath
 logsPath = penv.logsPath
 maxTokensPerUser = penv.maxTokensPerUser
 appVersion = penv.version
+maxTokensIdentity = penv.maxTokensIdentity
+maxTokensResponse = penv.maxTokensResponse
 
 # Global internal variables
 settings = {

@@ -83,3 +83,19 @@ def OperateStatsToken(username, numTokens, option="select"):
                     (numTokens, username))
 
     con.commit()
+
+
+def GetUserMessagesToReply():
+
+    query = f'''
+            SELECT *
+            FROM users
+            INNER JOIN bot
+            ON users.name = bot.users_name
+            WHERE users.name = "{username}"
+            LIMIT 6
+            '''
+
+    cur.execute(query)
+
+    return cur.fetchall()
