@@ -7,17 +7,20 @@ from src.db import OperateStatsToken
 def StatsNumTokens(username, queryResults):
 
     numTokens = sum([len(list(element["content"]))
-                    for element in queryResults])
+                    for element in queryResults if element["content"] != "None"])
 
-    if len(queryResults) <= 2:
+    print(queryResults)
+    if len(queryResults) <= 3:
+        print("AL")
         OperateStatsToken(username, numTokens, option="insert")
         userLogger.info('Init user logs')
     else:
+        print("OK")
         historicTokens = OperateStatsToken(username, numTokens)
+        print("EJ")
         OperateStatsToken(username, historicTokens+numTokens, option="update")
 
     limitMaxTokens = OperateStatsToken(username, numTokens)
     if limitMaxTokens >= maxTokensPerUser:
-        userLogger.warning(f"{username} exceeds MaxTokens with {limitMaxTokens }")
-
-
+        userLogger.warning(
+            f"{username} exceeds MaxTokens with {limitMaxTokens }")

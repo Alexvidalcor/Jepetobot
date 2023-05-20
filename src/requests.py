@@ -12,17 +12,17 @@ from src.stats import StatsNumTokens
 openai.api_key = openaiToken
 
 
-def FormatCompletionMessages(cur, username, identity, promptUser):
+def FormatCompletionMessages(cur, username, chatid, identity, promptUser):
 
     userLogger.info(f'{username} sent a message')
 
-    results = GetUserMessagesToReply(username)
+    results = GetUserMessagesToReply(username, chatid)
+    resultsFormatted = eval(str(results).replace("None","'None'"))
 
     conversationFormatted = [{"role": "system", "content": identity}]
-    for row in results:
+    for row in resultsFormatted:
         conversationFormatted.append({"role": "user", "content": row[2]})
-        conversationFormatted.append({"role": row[4], "content": row[5]})
-    conversationFormatted.append({"role": "user", "content": promptUser})
+        conversationFormatted.append({"role": "assistant", "content": row[6]})
 
     StatsNumTokens(username, conversationFormatted)
     userLogger.info('Jepetobot replied a message')
@@ -30,13 +30,13 @@ def FormatCompletionMessages(cur, username, identity, promptUser):
     return conversationFormatted
 
 
-def GenerateResponse(username, prompt, identity, temp):
+def GenerateResponse(username, prompt, chatid, identity, temp):
     # Import latest connection object
     from src.db import con, cur
 
-    InsertUserMessage(username, prompt)
+    InsertUserMessage(username, prompt, chatid)
     messagesFormatted = FormatCompletionMessages(
-        cur, username, identity, prompt)
+        cur, username, chatid, identity, prompt)
 
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -49,7 +49,7 @@ def GenerateResponse(username, prompt, identity, temp):
 
     answerProvided = completions["choices"][0]["message"]["content"]
 
-    InsertAsistantMessage(username, answerProvided)
+    InsertAsistantMessage(username, answerProvided, chatid)
 
     return answerProvided
 
@@ -57,7 +57,7 @@ def GenerateResponse(username, prompt, identity, temp):
 @UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Reply the user message.
-    await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, settings["Identity"], settings["Temperature"]))
+    await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, update.message.chat_id, settings["Identity"], settings["Temperature"]))
 
 
 @UsersFirewall
