@@ -5,7 +5,7 @@ import openai
 from main import *
 from src.permissions import UsersFirewall
 from src.modules.app_support import openaiToken
-from src.db import InsertUserMessage, InsertAsistantMessage, GetUserMessagesToReply
+from src.db import InsertUserMessage, InsertAssistantMessage, GetUserMessagesToReply
 from src.stats import StatsNumTokens
 
 # Get OpenAI token
@@ -17,15 +17,12 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser):
     userLogger.info(f'{username} sent a message')
 
     results = GetUserMessagesToReply(username, chatid)
-    resultsFormatted = eval(str(results).replace("None","'None'"))
+    resultsFormatted = eval(str(results).replace("None", "'None'"))
 
     conversationFormatted = [{"role": "system", "content": identity}]
     for row in resultsFormatted:
         conversationFormatted.append({"role": "user", "content": row[2]})
         conversationFormatted.append({"role": "assistant", "content": row[6]})
-
-    StatsNumTokens(username, conversationFormatted)
-    userLogger.info('Jepetobot replied a message')
 
     return conversationFormatted
 
@@ -38,6 +35,8 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
     messagesFormatted = FormatCompletionMessages(
         cur, username, chatid, identity, prompt)
 
+    print(messagesFormatted)
+
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messagesFormatted,
@@ -49,7 +48,14 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
 
     answerProvided = completions["choices"][0]["message"]["content"]
 
-    InsertAsistantMessage(username, answerProvided, chatid)
+    InsertAssistantMessage(username, answerProvided, chatid)
+    messagesFormatted = FormatCompletionMessages(
+        cur, username, chatid, identity, prompt)
+    print("Separator.................................")
+    print(messagesFormatted)
+
+    StatsNumTokens(username, messagesFormatted)
+    userLogger.info('Jepetobot replied a message')
 
     return answerProvided
 

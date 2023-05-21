@@ -60,7 +60,7 @@ def InsertUserMessage(username, content, chatid):
     con.commit()
 
 
-def InsertAsistantMessage(username, content, chatid):
+def InsertAssistantMessage(username, content, chatid):
 
     query = "INSERT INTO bot (name, content, users_name, chat_id) VALUES (?, ?, ?, ?)"
     cur.execute(query, ("assistant", content, username, chatid))

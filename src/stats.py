@@ -15,9 +15,7 @@ def StatsNumTokens(username, queryResults):
         OperateStatsToken(username, numTokens, option="insert")
         userLogger.info('Init user logs')
     else:
-        print("OK")
         historicTokens = OperateStatsToken(username, numTokens)
-        print("EJ")
         OperateStatsToken(username, historicTokens+numTokens, option="update")
 
     limitMaxTokens = OperateStatsToken(username, numTokens)
