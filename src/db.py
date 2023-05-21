@@ -34,14 +34,17 @@ def CreateTables(con):
     con.execute('''CREATE TABLE users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
-                    content TEXT NOT NULL)''')
+                    content TEXT NOT NULL,
+                    chat_id INTEGER NOT NULL)''')
 
     con.execute('''CREATE TABLE bot (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     content TEXT NOT NULL,
                     users_name TEXT NOT NULL,
-                    FOREIGN KEY (users_name) REFERENCES users (name))''')
+                    chat_id INTEGER NOT NULL,
+                    FOREIGN KEY (users_name) REFERENCES users (name),
+                    FOREIGN KEY (chat_id) REFERENCES users (chat_id))''')
 
     con.execute('''CREATE TABLE stats (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,19 +53,17 @@ def CreateTables(con):
                     FOREIGN KEY (users_name) REFERENCES users (name))''')
 
 
-def InsertUserMessage(username, content):
+def InsertUserMessage(username, content, chatid):
 
-    query = "INSERT INTO users (name, content) VALUES (?, ?)"
-    cur.execute(query, (username, content))
+    query = "INSERT INTO users (name, content, chat_id) VALUES (?, ?, ?)"
+    cur.execute(query, (username, content, chatid))
     con.commit()
 
 
-def InsertAsistantMessage(username, content):
+def InsertAssistantMessage(username, content, chatid):
 
-    query = "INSERT INTO bot (name, content, users_name) VALUES (?, ?, ?)"
-
-    cur.execute(query, ("assistant", content, username))
-
+    query = "INSERT INTO bot (name, content, users_name, chat_id) VALUES (?, ?, ?, ?)"
+    cur.execute(query, ("assistant", content, username, chatid))
     con.commit()
 
 
@@ -83,3 +84,20 @@ def OperateStatsToken(username, numTokens, option="select"):
                     (numTokens, username))
 
     con.commit()
+
+
+def GetUserMessagesToReply(username, chatid):
+
+    query = f'''
+            SELECT *
+            FROM users
+            LEFT JOIN bot
+            ON users.name = bot.users_name AND users.chat_id = bot.chat_id AND users.id = bot.id
+            WHERE users.name = "{username}" AND users.chat_id = "{chatid}"
+            LIMIT 6;
+            '''
+
+
+    cur.execute(query)
+
+    return cur.fetchall()

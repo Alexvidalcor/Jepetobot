@@ -16,3 +16,18 @@ def UsersFirewall(originalFunction):
             return await originalFunction(update, context) 
 
     return CheckPermissions
+
+
+def AdminFirewall(originalFunction):
+    async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+        if update.message != None:
+            admin = update.message.from_user
+            if admin["id"] in idAdminAllowed:
+                return await originalFunction(update, context)
+            await update.message.reply_html(
+                rf"Hi {admin.mention_html()}!, you don't have admin permissions {admin['id']}"
+            )
+        else:
+            return await originalFunction(update, context) 
+
+    return CheckPermissions

@@ -1,7 +1,7 @@
 import os
 
 from main import *
-from src.permissions import UsersFirewall
+from src.permissions import UsersFirewall, AdminFirewall
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
 
@@ -18,7 +18,7 @@ identityOptions = {
 }
 
 
-@UsersFirewall
+@AdminFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
@@ -42,7 +42,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     return settingSelected
 
 
-@UsersFirewall
+@AdminFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
@@ -153,10 +153,16 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     userCustomAnswer = update.message.text
     username = update.message.from_user.username
 
-    await update.message.reply_text(
-        f"Inserted the following identity: {userCustomAnswer}",
-        reply_markup=ReplyKeyboardRemove()
-    )
+    if len(list(userCustomAnswer)) <= maxTokensIdentity:
+        await update.message.reply_text(
+            f"Inserted the following identity: {userCustomAnswer}",
+            reply_markup=ReplyKeyboardRemove()
+        )
+    else:
+        await update.message.reply_text(
+            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensIdentity}",
+            reply_markup=ReplyKeyboardRemove()
+        )
 
     context.chat_data["valueSelected"] = userCustomAnswer
 
