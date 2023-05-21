@@ -43,7 +43,7 @@ except KeyError:
     raise Exception("Are you using Github Secrets? Check cdk_public_env file")
 
 # Extra variables. Only in local.
-if reusableStack:
+if reusableStack == True:
     timestamp = random.randint(0,999999)
 else:
     timestamp = "managed"
