@@ -92,7 +92,7 @@ def GetUserMessagesToReply(username, chatid):
             SELECT *
             FROM users
             LEFT JOIN bot
-            ON users.name = bot.users_name AND users.chat_id = bot.chat_id
+            ON users.name = bot.users_name AND users.chat_id = bot.chat_id AND users.id = bot.id
             WHERE users.name = "{username}" AND users.chat_id = "{chatid}"
             LIMIT 6;
             '''

@@ -12,7 +12,7 @@ from src.stats import StatsNumTokens
 openai.api_key = openaiToken
 
 
-def FormatCompletionMessages(cur, username, chatid, identity, promptUser):
+def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option="prerequest"):
 
     userLogger.info(f'{username} sent a message')
 
@@ -24,7 +24,7 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser):
         conversationFormatted.append({"role": "user", "content": row[2]})
         conversationFormatted.append({"role": "assistant", "content": row[6]})
 
-    if len(conversationFormatted) <= 3:
+    if option == "prerequest":
         conversationFormatted.pop()
 
     return conversationFormatted
@@ -38,8 +38,6 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
     messagesFormatted = FormatCompletionMessages(
         cur, username, chatid, identity, prompt)
 
-    print(messagesFormatted)
-
     completions = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=messagesFormatted,
@@ -52,12 +50,11 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
     answerProvided = completions["choices"][0]["message"]["content"]
 
     InsertAssistantMessage(username, answerProvided, chatid)
-    messagesFormatted = FormatCompletionMessages(
-        cur, username, chatid, identity, prompt)
-    print("Separator.................................")
-    print(messagesFormatted)
 
-    StatsNumTokens(username, messagesFormatted)
+    messagesFormattedPost = FormatCompletionMessages(
+    cur, username, chatid, identity, prompt, option = "postrequest")
+
+    StatsNumTokens(username, messagesFormattedPost)
     userLogger.info('Jepetobot replied a message')
 
     return answerProvided
