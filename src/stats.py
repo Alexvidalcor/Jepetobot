@@ -9,9 +9,7 @@ def StatsNumTokens(username, queryResults):
     numTokens = sum([len(list(element["content"]))
                     for element in queryResults if element["content"] != "None"])
 
-    print(queryResults)
     if len(queryResults) <= 3:
-        print("AL")
         OperateStatsToken(username, numTokens, option="insert")
         userLogger.info('Init user logs')
     else:

@@ -24,6 +24,9 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser):
         conversationFormatted.append({"role": "user", "content": row[2]})
         conversationFormatted.append({"role": "assistant", "content": row[6]})
 
+    if len(conversationFormatted) <= 3:
+        conversationFormatted.pop()
+
     return conversationFormatted
 
 
