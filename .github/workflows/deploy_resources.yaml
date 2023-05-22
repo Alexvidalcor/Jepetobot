@@ -47,7 +47,7 @@ jobs:
         npm install -g aws-cdk
         # cdk --version
 
-    - name: Show Github actions custom variables"
+    - name: Show Github actions custom variables
       run: |
         echo "Reusable stacks: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy app: ${{ github.event.inputs.deployAplication }}"

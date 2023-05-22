@@ -35,7 +35,7 @@ try:
 
     # Differentiate between local variables and Github actions variables
     if penv.execLocal == False:
-        reusableStack = bool(str(os.environ["REUSABLE_STACK"]).lower)
+        reusableStack = (os.environ["REUSABLE_STACK"] ) == "true")
     else:
         reusableStack = penv.reusableStack
 
