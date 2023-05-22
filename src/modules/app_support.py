@@ -71,4 +71,4 @@ elif not penv.execLocal:
 
     # AdminFirewall variables
     secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
-    idUsersAllowed = eval(json.loads(secret1)["idAdminAllowed"])
+    idAdminAllowed = eval(json.loads(secret1)["idAdminAllowed"])
