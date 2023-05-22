@@ -31,6 +31,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text(
+        "---------------------------\n\n" \
         "<strong>Developer: </strong>Alexvidalcor\n\n" \
         "<strong>Source code: </strong><a href=\"https://github.com/Alexvidalcor/jepetobot\">Github Page\n\n</a>" \
         f"<strong>Version: </strong>{appVersion}\n\n" \
