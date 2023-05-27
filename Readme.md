@@ -133,8 +133,7 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 Below is the diagram used for the automated deployment of cloud resources and the application itself:
 
-Adapted to the latest chatgpt model | 'Identity' change from bot options | 
---- | --- | --- |
+Deploy resources | Update application | 
  | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram1.png" height="400" width="600"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram2.png" height="400" width="700"/> | 
 
 <br>
