@@ -135,7 +135,7 @@ Below is the diagram used for the automated deployment of cloud resources and th
 
 Deploy resources | Update application | 
 --- | --- |
-<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram1.png" height="600" width="800"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram2.png" height="600" width="900"/> | 
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram1.png" height="500" width="700"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram2.png" height="500" width="800"/> | 
 
 <br>
 
