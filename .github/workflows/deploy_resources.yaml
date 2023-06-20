@@ -45,7 +45,7 @@ jobs:
       run: |
         pip install -r cdk/cdk_requirements.txt
         npm install -g aws-cdk
-        # cdk --version
+        cdk --version
 
     - name: Show Github actions custom variables
       run: |
