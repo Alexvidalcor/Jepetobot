@@ -7,6 +7,7 @@ MainEnv/
 *.egg-info
 *.env
 *.log
+*.odg
 
 # Specific files
 __init__.py
@@ -16,6 +17,7 @@ geckodriver.log
 package-lock.json
 cdk.json
 source.bat
+
 
 # CDK asset staging directory
 cdk.out

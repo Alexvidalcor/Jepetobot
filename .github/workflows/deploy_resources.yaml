@@ -45,7 +45,7 @@ jobs:
       run: |
         pip install -r cdk/cdk_requirements.txt
         npm install -g aws-cdk
-        cdk --version
+        # cdk --version
 
     - name: Show Github actions custom variables
       run: |
@@ -54,9 +54,7 @@ jobs:
         echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: Deploy Stack
-      run: |
-         cdk synth
-         cdk deploy --require-approval never --all
+      run: cdk deploy --app "python app.py" --require-approval never --all
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
