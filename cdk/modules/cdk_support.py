@@ -16,7 +16,7 @@ try:
 
     # AWS variables
     awsAccount = os.environ["AWS_ACCOUNT"]
-    awsRegion = os.environ["AWS_DEFAULT_REGION"]
+    awsRegion = os.environ["AWS_REGION"]
     awsTagName = os.environ["AWS_TAG_NAME"]
 
     # EC2 variables
