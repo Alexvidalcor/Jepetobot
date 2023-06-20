@@ -54,9 +54,7 @@ jobs:
         echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: Deploy Stack
-      run: |
-        cdk synth --app "python app.py"
-        cdk deploy --app "python app.py" --require-approval never --all
+      run: cdk deploy --app "python app.py" --require-approval never --all
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
