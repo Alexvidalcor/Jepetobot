@@ -1,5 +1,5 @@
 # OS chosen
-FROM debian:latest
+FROM debian:bullseye
 LABEL maintainer="Alexvidalcor"
 
 # Directory to use inside the container to prepare the application
