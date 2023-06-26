@@ -45,10 +45,10 @@ jobs:
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
         echo "App version: ${latest_tag}-${GITHUB_RUN_NUMBER}"
         
-        last_line=$(tail -1 ./src/modules/app_public_env.py)
+        last_line=$(tail -1 ./src/env/app_public_env.py)
         if [[ $last_line == version* ]]; then
-          sed -i '$ d' ./src/modules/app_public_env.py
-          echo "version = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/modules/app_public_env.py
+          sed -i '$ d' ./src/env/app_public_env.py
+          echo "version = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/env/app_public_env.py
         fi
 
     - name: Compress Repository

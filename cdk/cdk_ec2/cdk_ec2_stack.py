@@ -9,7 +9,7 @@ from constructs import Construct
 import json
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_support import *
 
 # User data imported
 with open("./user_data/config.json") as fconfig:

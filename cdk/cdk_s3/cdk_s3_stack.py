@@ -11,7 +11,7 @@ from constructs import Construct
 import random
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_support import *
 
 # MainClass
 class S3stack(Stack):

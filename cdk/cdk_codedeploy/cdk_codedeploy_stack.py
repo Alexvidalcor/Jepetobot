@@ -6,7 +6,7 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_support import *
 
 # Main Class
 

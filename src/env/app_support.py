@@ -9,7 +9,7 @@ import json
 from dotenv import load_dotenv
 
 # Custom importation
-import src.modules.app_public_env as penv
+import src.env.app_public_env as penv
 
 # General variables from public env
 dbPath = penv.dbPath
@@ -32,7 +32,7 @@ settings = {
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
-    load_dotenv("src/modules/.env")
+    load_dotenv("src/env/.app_env")
 
     # Telegram variables
     idUsersAllowed = eval(os.environ["idUsersAllowed"])

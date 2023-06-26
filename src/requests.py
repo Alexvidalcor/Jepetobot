@@ -4,7 +4,7 @@ import openai
 # Custom modules
 from main import *
 from src.permissions import UsersFirewall
-from src.modules.app_support import openaiToken
+from src.env.app_support import openaiToken
 from src.db import InsertUserMessage, InsertAssistantMessage, GetUserMessagesToReply
 from src.stats import StatsNumTokens
 

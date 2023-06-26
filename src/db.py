@@ -4,7 +4,7 @@ from sqlite3 import Error
 
 # Modules imported
 from main import *
-from src.modules.app_support import dbPath
+from src.env.app_support import dbPath
 
 
 def TestDbConnection():

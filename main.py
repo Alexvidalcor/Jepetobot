@@ -6,8 +6,8 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 
 # Custom importation
-from src.modules.app_support import *
-from src.modules.logging import *
+from src.env.app_support import *
+from src.logging import *
 from src.settings import *
 from src.requests import AiReply, AiReplyInline
 from src.permissions import UsersFirewall

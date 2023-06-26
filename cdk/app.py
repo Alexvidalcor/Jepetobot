@@ -6,7 +6,7 @@ from aws_cdk import (
 )
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_support import *
 
 # Stacks importation
 from cdk_ec2.cdk_ec2_stack import Ec2Stack
