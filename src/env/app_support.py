@@ -55,8 +55,8 @@ elif not penv.execLocal:
     awsRegion = os.environ["AWS_REGION"]
 
     # SecretManager connection
-    session = botocore.session.Session(region_name=awsRegion)
-    client = session.create_client('secretsmanager')
+    session = botocore.session.Session()
+    client = session.create_client('secretsmanager', region_name=awsRegion)
     cacheConfig = SecretCacheConfig()
     cache = SecretCache(config = cacheConfig, client = client)
 
