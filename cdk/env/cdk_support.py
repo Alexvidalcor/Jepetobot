@@ -24,6 +24,7 @@ try:
     ec2Type = "t3.nano"
     sgID = os.environ["AWS_SG"]  # Import an Exist SG
     sgPorts = eval(os.environ["AWS_SG_PORTS"]) # Must receive an array
+    ec2Key= os.environ["AWS_KEY"]
 
     # Github Actions variables 
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]

@@ -83,7 +83,7 @@ class Ec2Stack(Stack):
                             instance_name=appName + "-" + envDeploy + "_instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
-                            key_name="MainAws",
+                            key_name=ec2Key,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),
