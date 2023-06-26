@@ -44,6 +44,7 @@ if penv.execLocal:
 
     #Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
+    awsRegion = os.environ["AWS_REGION"]
 
 
 elif not penv.execLocal:
@@ -51,11 +52,13 @@ elif not penv.execLocal:
 
     # Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
+    awsRegion = os.environ["AWS_REGION"]
 
     # SecretManager connection
-    client = botocore.session.get_session().create_client('secretsmanager')
-    cache_config = SecretCacheConfig()
-    cache = SecretCache(config = cache_config, client = client)
+    session = botocore.session.Session(region_name=awsRegion)
+    client = session.create_client('secretsmanager')
+    cacheConfig = SecretCacheConfig()
+    cache = SecretCache(config = cacheConfig, client = client)
 
     # Telegram variables
     secret1 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")

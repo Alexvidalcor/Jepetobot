@@ -50,17 +50,12 @@ class Ec2Stack(Stack):
                 security_group_name = appName + "-" + envDeploy + "_sg"
             )
 
-            sg.add_ingress_rule(
-                peer=ec2.Peer.any_ipv4(),
-                connection=ec2.Port.tcp(sgPorts[0]),
-                description="Custom Rule",
-            )
-
-            sg.add_ingress_rule(
-                peer=ec2.Peer.any_ipv4(),
-                connection=ec2.Port.tcp(sgPorts[1]),
-                description="Custom Rule",
-            )
+            for element in range(len(sgPorts)):
+                sg.add_ingress_rule(
+                    peer=ec2.Peer.any_ipv4(),
+                    connection=ec2.Port.tcp(sgPorts[element]),
+                    description="Custom Rule",
+                )
 
         else:
             sg = ec2.SecurityGroup.from_security_group_id(
