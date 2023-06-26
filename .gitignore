@@ -43,3 +43,7 @@ wiki/*
 # Log stuff
 src/logs/*
 *.log
+
+# Env variables
+.cdk_env
+.app_env
