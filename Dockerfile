@@ -11,7 +11,7 @@ COPY ["src", "./src"]
 
 # Set some environment vars
 ARG awsRegionDocker
-ENV AWS_DEFAULT_REGION=$awsRegionDocker
+ENV AWS_REGION=$awsRegionDocker
 
 ARG envDeploy
 ENV ENVIRONMENT_DEPLOY=$envDeploy
