@@ -32,7 +32,7 @@ settings = {
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
-    load_dotenv("src/env/.app_env")
+    load_dotenv("src/env/app.env")
 
     # Telegram variables
     idUsersAllowed = eval(os.environ["idUsersAllowed"])

@@ -9,7 +9,7 @@ import env.cdk_public_env as penv
 # Local secrets. Only run in your local.
 if penv.execLocal:
     print("Using local env variables...")
-    load_dotenv("env/.cdk_env")
+    load_dotenv("env/cdk.env")
 
 # Variables from GithubSecrets/environment
 try:
