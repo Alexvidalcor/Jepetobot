@@ -53,7 +53,7 @@ jobs:
         echo "Deploy app: ${{ github.event.inputs.deployAplication }}"
         echo "Environment chosen: ${{ github.ref_name }}"
     
-    - name: Deploy Stack
+    - name: Deploy stacks
       run: cdk deploy --app "python app.py" --require-approval never --all
       working-directory: ./cdk
       env:
@@ -70,7 +70,12 @@ jobs:
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
 
     - name: Deploy secrets
-      run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" >2 /dev/null
+      run: |
+
+        set +x
+
+        aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" 
+        
       env:
         AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
