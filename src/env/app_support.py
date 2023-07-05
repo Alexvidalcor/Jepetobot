@@ -35,17 +35,16 @@ if penv.execLocal:
     load_dotenv("src/env/.app.env")
 
     # Telegram variables
-    idUsersAllowed = eval(os.environ["idUsersAllowed"])
-    idAdminAllowed= eval(os.environ["idAdminAllowed"])
+    idUsersAllowed = eval(os.environ["secret_users"])
+    idAdminAllowed= eval(os.environ["secret_admins"])
 
     # Token variables
-    telegramToken = os.environ["password"]
-    openaiToken = os.environ["openai_token"]
+    telegramToken = os.environ["secret_telegram"]
+    openaiToken = os.environ["secret_openai"]
 
     #Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
     awsRegion = os.environ["AWS_REGION"]
-
 
 elif not penv.execLocal:
     print("Using secretmanager...")
@@ -62,16 +61,16 @@ elif not penv.execLocal:
 
     # Telegram variables
     secret1 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
-    telegramToken = json.loads(secret1)["password"]
+    telegramToken = json.loads(secret1)["secret_telegram"]
 
     # OpenAI variables
     secret2 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
-    openaiToken = json.loads(secret1)["openai_token"]
+    openaiToken = json.loads(secret1)["secret_openai"]
 
     # UsersFirewall variables
     secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
-    idUsersAllowed = eval(json.loads(secret1)["idUsersAllowed"])
+    idUsersAllowed = eval(json.loads(secret1)["secret_users"])
 
     # AdminFirewall variables
     secret3 = cache.get_secret_string(penv.appName + "-" + envDeploy + "_secret1")
-    idAdminAllowed = eval(json.loads(secret1)["idAdminAllowed"])
+    idAdminAllowed = eval(json.loads(secret1)["secret_admins"])

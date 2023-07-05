@@ -70,14 +70,14 @@ jobs:
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
 
     - name: Deploy secrets
-      run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"password\":\"${TELEGRAM_TOKEN}\",\"openai_token\":\"${OPENAI_TOKEN}\",\"idUsersAllowed\":\"${USERS_SECRET}\",\"idAdminAllowed\":\"${ADMIN_SECRET}\"}" >2 /dev/null
+      run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" >2 /dev/null
       env:
         AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
-        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-        OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
-        USERS_SECRET: ${{ secrets.USERS_SECRET }}
-        ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+        SECRET_TELEGRAM: ${{ secrets.SECRET_TELEGRAM }}
+        SECRET_OPENAI: ${{ secrets.SECRET_OPENAI }}
+        SECRET_USERS: ${{ secrets.SECRET_USERS }}
+        SECRET_ADMINS: ${{ secrets.SECRET_ADMINS }}
 
 
   cdk-deploy-application:
