@@ -1,9 +1,7 @@
-name: Deploy resources
-
+name: Delete resources
 
 on:
    workflow_dispatch:
-
 
 jobs:
 
