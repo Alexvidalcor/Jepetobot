@@ -1,0 +1,40 @@
+name: Deploy resources
+
+
+on:
+   workflow_dispatch:
+
+
+jobs:
+
+  cdk-delete-resources:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    env:
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+      ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3.5.2
+
+    - name: Configure aws credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Show Github actions custom variables
+      run: echo "Environment chosen: ${{ github.ref_name }}"
+
+    - name: Delete stacks
+      run: |
+        stackNames=$(aws cloudformation list-stacks --query "StackSummaries[?starts_with(StackName, '${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}') && StackStatus=='CREATE_COMPLETE'].StackName" --output text)
+
+        for stackName in $stackNames; do
+          echo "Deleting stack: $stackName"
+          aws cloudformation delete-stack --stack-name "$stackName"
+        done
+      

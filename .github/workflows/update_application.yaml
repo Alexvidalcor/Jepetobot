@@ -33,7 +33,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-
+    - name: Show Github actions custom variables
+      run: echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: "Check latest tag"
       id: latest-tag
