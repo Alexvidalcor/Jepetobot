@@ -8,7 +8,6 @@ MainEnv/
 *.egg-info
 *.env
 *.log
-*.odg
 
 # Specific files
 __init__.py
