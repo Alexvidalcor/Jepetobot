@@ -136,6 +136,7 @@ Update cloud app code with every push to master branch. It generates a slight se
 
 Like the file name itself suggests, it deletes all the deployed cloud resources in AWS.
 
+<br>
 
 Below is the diagram used for the automated deployment of cloud resources and the application itself:
 
