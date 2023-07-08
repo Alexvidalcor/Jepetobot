@@ -117,7 +117,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 ## Cloud deployment overview :cloud:
 
 
-Currently there are two Github Actions workflows prepared to automate the cloud deployment:
+Currently there are three Github Actions workflows prepared to automate the cloud deployment:
 
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/deploy_resources.yaml)_
@@ -130,6 +130,12 @@ Purpose | Machine where the application is hosted | Bucket where application ver
 * _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
+
+
+* _[delete_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/delete_resources.yaml)_
+
+Like the file name itself suggests, it deletes all the deployed cloud resources in AWS.
+
 
 Below is the diagram used for the automated deployment of cloud resources and the application itself:
 
