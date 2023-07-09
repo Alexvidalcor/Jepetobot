@@ -30,7 +30,7 @@ _Support for deployment on AWS is included through Github Actions._
 * New code releases have also been automated via Github Actions and <ins>Docker containers</ins>.
 
 
-### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
+### Easy access to ChatGPT (GPT-4) from Telegram
 
 Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
@@ -56,6 +56,13 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * A statistics function has been implemented that allows more control over the behavior of the application.
 
 * This feature complements an advanced monitoring system.
+
+
+### Easy access to Dalle2 from Telegram
+
+* Support for the use of Dalle2 in image generation is included.
+
+* This feature allows you to generate images from text messages.
 
 <br>
 
