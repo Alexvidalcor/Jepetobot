@@ -1,5 +1,6 @@
 # Python libraries
 import openai
+import urllib.request
 
 # Custom modules
 from main import *
@@ -52,7 +53,7 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
     InsertAssistantMessage(username, answerProvided, chatid)
 
     messagesFormattedPost = FormatCompletionMessages(
-    cur, username, chatid, identity, prompt, option = "postrequest")
+        cur, username, chatid, identity, prompt, option="postrequest")
 
     StatsNumTokens(username, messagesFormattedPost)
     userLogger.info('Jepetobot replied a message')
@@ -60,10 +61,26 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
     return answerProvided
 
 
+def GenerateImage(promptUser):
+    responseImage = openai.Image.create(
+        prompt=promptUser,
+        n=1,
+        size="1024x1024"
+    )
+
+    return responseImage['data'][0]['url']
+
+
 @UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+
+    if update.message.text.startswith("IMAGE:"):
+    #Reply a dalle image
+        await update.message.reply_photo(GenerateImage(update.message.text.replace("IMAGE:","")))
+
+    else:
     # Reply the user message.
-    await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, update.message.chat_id, settings["Identity"], settings["Temperature"]))
+        await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, update.message.chat_id, settings["Identity"], settings["Temperature"]))
 
 
 @UsersFirewall
@@ -83,7 +100,7 @@ async def AiReplyInline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             title="ReplyInline",
             description="Click here to get an answer",
             thumbnail_url="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo2.jpg",
-            input_message_content=InputTextMessageContent(query),
+            input_message_content=InputTextMessageContent(query)
         )
     ]
 
