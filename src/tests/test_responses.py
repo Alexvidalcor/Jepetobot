@@ -1,7 +1,9 @@
 import unittest
 import os
 
-import ...responses
+from ..modules import responses
+
+
 
 # class TestCalculations(unittest.TestCase):
 
