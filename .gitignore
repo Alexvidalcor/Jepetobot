@@ -10,7 +10,6 @@ MainEnv/
 *.log
 
 # Specific files
-__init__.py
 auth.py
 test.ipynb
 geckodriver.log
