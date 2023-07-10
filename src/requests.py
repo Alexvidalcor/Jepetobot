@@ -62,13 +62,19 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
 
 
 def GenerateImage(promptUser):
-    responseImage = openai.Image.create(
-        prompt=promptUser,
-        n=1,
-        size="512x512"
-    )
+    try:
+        responseImage = openai.Image.create(
+            prompt=promptUser,
+            n=1,
+            size="256x256"
+        )
 
-    return responseImage['data'][0]['url']
+        return responseImage['data'][0]['url']
+    
+    except openai.error.InvalidRequestError:
+        return "https://openclipart.org/image/2400px/svg_to_png/167093/StopSign-nofont.png"
+
+    
 
 
 @UsersFirewall
