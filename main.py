@@ -6,16 +6,12 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 
 # Custom importation
-from src.env.app_support import *
-from src.logging import *
-from src.settings import *
-from src.requests import AiReply, AiReplyInline
-from src.permissions import UsersFirewall
-from src.db import TestDbConnection
+from src.env.app_support import appVersion, telegramToken
+from src.modules import settings, responses, permissions, db
 
 
 # Start Function
-@UsersFirewall
+@permissions.UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
     user = update.effective_user
@@ -27,7 +23,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # Help function
-@UsersFirewall
+@permissions.UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text(
@@ -41,7 +37,7 @@ async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 # Cancel function
-@UsersFirewall
+@permissions.UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
 
@@ -63,17 +59,17 @@ def main() -> None:
     application.add_handler(CommandHandler("cancel", cancel))
 
     # Inline query handler
-    application.add_handler(InlineQueryHandler(AiReplyInline))
+    application.add_handler(InlineQueryHandler(responses.AiReplyInline))
 
     # Conversation handler to define custom settings
     convHandler1 = ConversationHandler(
 
-        entry_points=[CommandHandler("settings", SettingsMenu)],
+        entry_points=[CommandHandler("settings", settings.SettingsMenu)],
 
         states={
-            settingSelected: [MessageHandler(filters.TEXT, ValueAnswer)],
-            buttonSelected: [CallbackQueryHandler(Button)],
-            customAnswer: [MessageHandler(filters.TEXT, CustomAnswer)]
+            settings.settingSelected: [MessageHandler(filters.TEXT, settings.ValueAnswer)],
+            settings.buttonSelected: [CallbackQueryHandler(settings.Button)],
+            settings.customAnswer: [MessageHandler(filters.TEXT, settings.CustomAnswer)]
         },
 
         fallbacks=[CommandHandler("cancel", cancel)],
@@ -84,12 +80,12 @@ def main() -> None:
 
     # on non command i.e message - reply the message on Telegram
     application.add_handler(MessageHandler(
-        filters.TEXT & ~filters.COMMAND, AiReply))
+        filters.TEXT & ~filters.COMMAND, responses.AiReply))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
 
 
 if __name__ == "__main__":
-    TestDbConnection()
+    db.TestDbConnection()
     main()

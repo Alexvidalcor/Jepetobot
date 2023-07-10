@@ -7,4 +7,4 @@ logsPath = "src/logs"
 maxTokensPerUser = 50000
 maxTokensIdentity = 300
 maxTokensResponse = 500
-version = ""
+version = "Local"

@@ -4,10 +4,9 @@ import urllib.request
 
 # Custom modules
 from main import *
-from src.permissions import UsersFirewall
-from src.env.app_support import openaiToken
-from src.db import InsertUserMessage, InsertAssistantMessage, GetUserMessagesToReply
-from src.stats import StatsNumTokens
+from src.modules import permissions, db, stats, logtool
+from src.env.app_support import openaiToken, configBotResponses
+from src.env.app_public_env import maxTokensResponse
 
 # Get OpenAI token
 openai.api_key = openaiToken
@@ -15,9 +14,9 @@ openai.api_key = openaiToken
 
 def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option="prerequest"):
 
-    userLogger.info(f'{username} sent a message')
+    logtool.userLogger.info(f'{username} sent a message')
 
-    results = GetUserMessagesToReply(username, chatid)
+    results = db.GetUserMessagesToReply(username, chatid)
     resultsFormatted = eval(str(results).replace("None", "'None'"))
 
     conversationFormatted = [{"role": "system", "content": identity}]
@@ -33,9 +32,9 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option
 
 def GenerateResponse(username, prompt, chatid, identity, temp):
     # Import latest connection object
-    from src.db import con, cur
+    from src.modules.db import con, cur
 
-    InsertUserMessage(username, prompt, chatid)
+    db.InsertUserMessage(username, prompt, chatid)
     messagesFormatted = FormatCompletionMessages(
         cur, username, chatid, identity, prompt)
 
@@ -50,13 +49,13 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
 
     answerProvided = completions["choices"][0]["message"]["content"]
 
-    InsertAssistantMessage(username, answerProvided, chatid)
+    db.InsertAssistantMessage(username, answerProvided, chatid)
 
     messagesFormattedPost = FormatCompletionMessages(
         cur, username, chatid, identity, prompt, option="postrequest")
 
-    StatsNumTokens(username, messagesFormattedPost)
-    userLogger.info('Jepetobot replied a message')
+    stats.StatsNumTokens(username, messagesFormattedPost)
+    logtool.userLogger.info('Jepetobot replied a message')
 
     return answerProvided
 
@@ -75,9 +74,7 @@ def GenerateImage(promptUser):
         return "https://openclipart.org/image/2400px/svg_to_png/167093/StopSign-nofont.png"
 
     
-
-
-@UsersFirewall
+@permissions.UsersFirewall
 async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if update.message.text.startswith("IMAGE:"):
@@ -86,10 +83,10 @@ async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     else:
     # Reply the user message.
-        await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, update.message.chat_id, settings["Identity"], settings["Temperature"]))
+        await update.message.reply_text(GenerateResponse(update.message.from_user.username, update.message.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"]))
 
 
-@UsersFirewall
+@permissions.UsersFirewall
 async def AiReplyInline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     """Handle the inline query. This is run when you type: @botusername <query>"""

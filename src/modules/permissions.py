@@ -1,8 +1,9 @@
+
+# Custom importation
+from src.env.app_support import idAdminAllowed, idUsersAllowed
 from main import *
 
 # User logging decorator
-
-
 def UsersFirewall(originalFunction):
     async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if update.message != None:
@@ -18,6 +19,7 @@ def UsersFirewall(originalFunction):
     return CheckPermissions
 
 
+# Adminlogging decorator
 def AdminFirewall(originalFunction):
     async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if update.message != None:

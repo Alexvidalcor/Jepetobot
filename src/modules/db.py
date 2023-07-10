@@ -3,9 +3,8 @@ import sqlite3
 from sqlite3 import Error
 
 # Modules imported
-from main import *
 from src.env.app_support import dbPath
-
+from src.modules import logtool
 
 def TestDbConnection():
     try:
@@ -14,19 +13,19 @@ def TestDbConnection():
         con = sqlite3.connect(dbPath)
         cur = con.cursor()
         cur.execute(f"SELECT * from users WHERE ID=1")
-        appLogger.info('Connection established succesfully')
+        logtool.appLogger.info('Connection established succesfully')
 
     except Error as e:
-        errorsLogger.error(f"¿First db init? After check database: {e}")
-        appLogger.info('Connection NOT established, fixing db connection...')
+        logtool.errorsLogger.error(f"¿First db init? After check database: {e}")
+        logtool.appLogger.info('Connection NOT established, fixing db connection...')
         
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
-            appLogger.info('Successful repair, connection established')
+            logtool.appLogger.info('Successful repair, connection established')
             con = sqlite3.connect(dbPath)
             cur = con.cursor()
         else:
-            errorsLogger.critical(f"Failed DB fix, fatabase was not created")
+            logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")
 
 
 def CreateTables(con):

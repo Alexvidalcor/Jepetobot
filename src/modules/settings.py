@@ -1,7 +1,11 @@
+# Importing libraries
 import os
 
+# Custom imports
 from main import *
-from src.permissions import UsersFirewall, AdminFirewall
+from src.modules import permissions, logtool, db
+from src.env.app_public_env import maxTokensIdentity, dbPath
+from src.env.app_support import configBotResponses
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
 
@@ -18,12 +22,12 @@ identityOptions = {
 }
 
 
-@AdminFirewall
+@permissions.AdminFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
     username = update.message.from_user.username
-    userLogger.info(f'{username} opened "settings"')
+    logtool.userLogger.info(f'{username} opened "settings"')
 
     replyKeyboard = [["Identity", "Temperature", "Reset"]]
 
@@ -42,14 +46,14 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     return settingSelected
 
 
-@AdminFirewall
+@permissions.AdminFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
         username = update.message.from_user.username
         context.chat_data["settingSelected"] = update.message.text
 
-        userLogger.info(f'{username} chose {context.chat_data["settingSelected"]}')
+        logtool.userLogger.info(f'{username} chose {context.chat_data["settingSelected"]}')
 
         if context.chat_data["settingSelected"] == "Identity":
 
@@ -81,13 +85,13 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         elif context.chat_data["settingSelected"] == "Reset":
             if os.path.exists(dbPath):
                 os.remove(dbPath)
-                TestDbConnection()
+                db.TestDbConnection()
                 
                 # os.remove(f"{logsPath}/*.log")
                 # EnableLogging()
-                appLogger.info("------------Reseted")
-                userLogger.warning("------------Reseted")
-                errorsLogger.error("------------Reseted")
+                logtool.appLogger.info("------------Reseted")
+                logtool.userLogger.warning("------------Reseted")
+                logtool.errorsLogger.error("------------Reseted")
 
                 await update.message.reply_text(
                     f"Conversations deleted successfully",
@@ -114,7 +118,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         await update.message.reply_text(
             "Canceled", reply_markup=ReplyKeyboardRemove()
         )
-        userLogger.info(f'{username} canceled configuration')
+        logtool.userLogger.info(f'{username} canceled configuration')
         return ConversationHandler.END
 
 
@@ -126,7 +130,7 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     user = query.from_user
     username = user.username
-    userLogger.info(f'{username} chose {query.data}')
+    logtool.userLogger.info(f'{username} chose {query.data}')
 
     await query.edit_message_text(text=f"Selected option: {query.data}")
     
@@ -135,7 +139,7 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     elif context.chat_data["settingSelected"] == "Temperature":
         context.chat_data["valueSelected"] = query.data
 
-    settings[context.chat_data["settingSelected"]
+    configBotResponses[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
     if context.chat_data["valueSelected"] == "Custom":
@@ -144,7 +148,7 @@ async def Button(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         )
         return customAnswer
     else:
-        userLogger.info(f'{username} finished configuration')
+        logtool.userLogger.info(f'{username} finished configuration')
         return ConversationHandler.END
 
 
@@ -166,9 +170,9 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     context.chat_data["valueSelected"] = userCustomAnswer
 
-    settings[context.chat_data["settingSelected"]
+    configBotResponses[context.chat_data["settingSelected"]
              ] = context.chat_data["valueSelected"]
 
-    userLogger.info(f'{username} custom identity is: {userCustomAnswer}')
-    userLogger.info(f'{username} finished configuration')
+    logtool.userLogger.info(f'{username} custom identity is: {userCustomAnswer}')
+    logtool.userLogger.info(f'{username} finished configuration')
     return ConversationHandler.END
