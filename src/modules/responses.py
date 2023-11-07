@@ -44,7 +44,7 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
         max_tokens=maxTokensResponse,
         n=1,
         stop=None,
-        temperature=float(temp),
+        temperature=float(temp)
     )
 
     answerProvided = completions["choices"][0]["message"]["content"]
