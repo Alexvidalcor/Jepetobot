@@ -39,7 +39,7 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
         cur, username, chatid, identity, prompt)
 
     completions = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4-1106-preview",
         messages=messagesFormatted,
         max_tokens=maxTokensResponse,
         n=1,
