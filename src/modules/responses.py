@@ -69,8 +69,9 @@ def GenerateImage(promptUser):
             size="1024x1024",
             quality="standard"
         )
+        
 
-        return responseImage['data'][0]['url']
+        return responseImage.data[0].url
     
     except openai.error.InvalidRequestError:
         return "https://openclipart.org/image/2400px/svg_to_png/167093/StopSign-nofont.png"
