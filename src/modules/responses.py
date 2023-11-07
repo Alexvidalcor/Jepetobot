@@ -62,10 +62,12 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
 
 def GenerateImage(promptUser):
     try:
-        responseImage = openai.Image.create(
+        responseImage = openai.images.generate(
+            model="dall-e-3",
             prompt=promptUser,
             n=1,
-            size="256x256"
+            size="1024x1024",
+            quality="standard"
         )
 
         return responseImage['data'][0]['url']
