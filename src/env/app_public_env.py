@@ -17,4 +17,4 @@ configBotResponses = {
         0.6
 }
 
-appVersion = "Local"
+appVersion = "Local" # it should be always the last line in this file (for better github actions deploy)
