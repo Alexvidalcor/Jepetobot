@@ -44,7 +44,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * The user management system can also be applied to the configuration access.
 
 
-### Support for text and voice note conversations.
+### Support for text and voice note conversations (tts-1 and whisper-1 models).
 
 * The bot remembers the conversations of each user.
 
