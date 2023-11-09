@@ -62,7 +62,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 * Support for the use of Dalle3 in image generation is included.
 
-* This feature allows you to generate images from text messages.
+* This feature allows you to generate images from text messages and voice notes.
 
 <br>
 
