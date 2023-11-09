@@ -47,7 +47,7 @@ def GenerateResponse(username, prompt, chatid, identity, temp):
         temperature=float(temp)
     )
 
-    answerProvided = completions["choices"][0]["message"]["content"]
+    answerProvided = completions.choices[0].message.content
 
     db.InsertAssistantMessage(username, answerProvided, chatid)
 
