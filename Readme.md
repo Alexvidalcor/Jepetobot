@@ -44,9 +44,9 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * The user management system can also be applied to the configuration access.
 
 
-### Support for conversations
+### Support for text and voice note conversations.
 
-* The bot remembers the conversations of each user
+* The bot remembers the conversations of each user.
 
 * It is allowed to delete the stored conversations easily from the bot settings.
 
