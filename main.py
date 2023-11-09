@@ -78,7 +78,11 @@ def main() -> None:
     )
     application.add_handler(convHandler1)
 
-    # on non command i.e message - reply the message on Telegram
+    # on non command i.e VOICE message - reply the message on Telegram
+    application.add_handler(MessageHandler(
+        filters.VOICE & ~filters.COMMAND, responses.AiReply)) 
+
+    # on non command i.e TEXT message - reply the message on Telegram
     application.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND, responses.AiReply))
 

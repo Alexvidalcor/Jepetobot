@@ -83,6 +83,12 @@ async def AiReply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if update.message.text.startswith("IMAGE:"):
     #Reply a dalle image
         await update.message.reply_photo(GenerateImage(update.message.text.replace("IMAGE:","")))
+    
+    elif update.message.voice:
+    # Get a voice message
+        userVoiceMessage = update.message.get_file(update.message.voice.file_id)
+        userVoiceMessage.download("modules/temp/userVoiceMessage.ogg")
+
 
     else:
     # Reply the user message.
