@@ -2,7 +2,7 @@
 # Telegram libraries
 from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent, constants
 
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler, CallbackContext
 
 
 # Custom importation
@@ -59,7 +59,7 @@ def main() -> None:
     application.add_handler(CommandHandler("cancel", cancel))
 
     # Inline query handler
-    application.add_handler(InlineQueryHandler(responses.AiReplyInline))
+    application.add_handler(InlineQueryHandler(responses.TextInputInline))
 
     # Conversation handler to define custom settings
     convHandler1 = ConversationHandler(
@@ -80,11 +80,11 @@ def main() -> None:
 
     # on non command i.e VOICE message - reply the message on Telegram
     application.add_handler(MessageHandler(
-        filters.VOICE & ~filters.COMMAND, responses.AiReply)) 
+        filters.VOICE & ~filters.COMMAND, responses.VoiceInput)) 
 
     # on non command i.e TEXT message - reply the message on Telegram
     application.add_handler(MessageHandler(
-        filters.TEXT & ~filters.COMMAND, responses.AiReply))
+        filters.TEXT & ~filters.COMMAND, responses.TextInput))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()

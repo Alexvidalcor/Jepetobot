@@ -8,6 +8,7 @@ MainEnv/
 *.egg-info
 *.env
 *.log
+*.mp3
 
 # Specific files
 auth.py
