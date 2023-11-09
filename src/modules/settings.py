@@ -4,8 +4,8 @@ import os
 # Custom imports
 from main import *
 from src.modules import permissions, logtool, db
-from src.env.app_public_env import maxTokensIdentity, dbPath
-from src.env.app_support import configBotResponses
+from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses
+
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
 

@@ -3,7 +3,7 @@ import sqlite3
 from sqlite3 import Error
 
 # Modules imported
-from src.env.app_support import dbPath
+from src.env.app_public_env import dbPath
 from src.modules import logtool
 
 def TestDbConnection():
@@ -34,7 +34,10 @@ def CreateTables(con):
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     content TEXT NOT NULL,
-                    chat_id INTEGER NOT NULL)''')
+                    chat_id INTEGER NOT NULL,
+                    via TEXT NOT NULL,
+                    date TEXT NOT NULL)
+                ''')
 
     con.execute('''CREATE TABLE bot (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,27 +45,31 @@ def CreateTables(con):
                     content TEXT NOT NULL,
                     users_name TEXT NOT NULL,
                     chat_id INTEGER NOT NULL,
+                    via TEXT NOT NULL,
+                    date TEXT NOT NULL,
                     FOREIGN KEY (users_name) REFERENCES users (name),
-                    FOREIGN KEY (chat_id) REFERENCES users (chat_id))''')
+                    FOREIGN KEY (chat_id) REFERENCES users (chat_id))
+                ''')
 
     con.execute('''CREATE TABLE stats (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     users_name TEXT NOT NULL,
                     tokens INTEGER NOT NULL,
-                    FOREIGN KEY (users_name) REFERENCES users (name))''')
+                    FOREIGN KEY (users_name) REFERENCES users (name))
+                ''')
 
 
-def InsertUserMessage(username, content, chatid):
+def InsertUserMessage(username, content, chatid, via, date):
 
-    query = "INSERT INTO users (name, content, chat_id) VALUES (?, ?, ?)"
-    cur.execute(query, (username, content, chatid))
+    query = "INSERT INTO users (name, content, chat_id, via, date) VALUES (?, ?, ?, ?, ?)"
+    cur.execute(query, (username, content, chatid, via, date))
     con.commit()
 
 
-def InsertAssistantMessage(username, content, chatid):
+def InsertAssistantMessage(username, content, chatid, via, date):
 
-    query = "INSERT INTO bot (name, content, users_name, chat_id) VALUES (?, ?, ?, ?)"
-    cur.execute(query, ("assistant", content, username, chatid))
+    query = "INSERT INTO bot (name, content, users_name, chat_id, via, date) VALUES (?, ?, ?, ?, ?, ?)"
+    cur.execute(query, ("assistant", content, username, chatid, via, date))
     con.commit()
 
 

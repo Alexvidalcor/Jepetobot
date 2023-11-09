@@ -1,6 +1,6 @@
 
 # Custom importation
-from src.env.app_support import idAdminAllowed, idUsersAllowed
+from src.env.app_secrets_env import idAdminAllowed, idUsersAllowed
 from main import *
 
 # User logging decorator

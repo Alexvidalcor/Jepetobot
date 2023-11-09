@@ -1,15 +1,23 @@
 # Python libraries
 import openai
 import urllib.request
+import os
+import datetime
 
 # Custom modules
 from main import *
 from src.modules import permissions, db, stats, logtool
-from src.env.app_support import openaiToken, configBotResponses
-from src.env.app_public_env import maxTokensResponse
+from src.env.app_secrets_env import openaiToken
+from src.env.app_public_env import maxTokensResponse, configBotResponses, voiceChoice
 
 # Get OpenAI token
 openai.api_key = openaiToken
+
+
+def GetCurrentDatetime():
+    datetimeCheck = datetime.datetime.now()
+    formattedDatetime = datetimeCheck.strftime("%Y-%m-%d %H:%M:%S")
+    return formattedDatetime
 
 
 def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option="prerequest"):
@@ -22,7 +30,7 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option
     conversationFormatted = [{"role": "system", "content": identity}]
     for row in resultsFormatted:
         conversationFormatted.append({"role": "user", "content": row[2]})
-        conversationFormatted.append({"role": "assistant", "content": row[6]})
+        conversationFormatted.append({"role": "assistant", "content": row[8]})
 
     if option == "prerequest":
         conversationFormatted.pop()
@@ -30,11 +38,13 @@ def FormatCompletionMessages(cur, username, chatid, identity, promptUser, option
     return conversationFormatted
 
 
-def GenerateTextReply(username, prompt, chatid, identity, temp):
+def GenerateTextReply(username, prompt, chatid, identity, temp, via):
     # Import latest connection object
     from src.modules.db import con, cur
 
-    db.InsertUserMessage(username, prompt, chatid)
+    currentDateTime = GetCurrentDatetime()
+
+    db.InsertUserMessage(username, prompt, chatid, via, currentDateTime)
     messagesFormatted = FormatCompletionMessages(
         cur, username, chatid, identity, prompt)
 
@@ -49,7 +59,7 @@ def GenerateTextReply(username, prompt, chatid, identity, temp):
 
     answerProvided = completions.choices[0].message.content
 
-    db.InsertAssistantMessage(username, answerProvided, chatid)
+    db.InsertAssistantMessage(username, answerProvided, chatid , via, currentDateTime)
 
     messagesFormattedPost = FormatCompletionMessages(
         cur, username, chatid, identity, prompt, option="postrequest")
@@ -76,8 +86,8 @@ def GenerateImageReply(promptUser):
 
 
 
-def SpeechToText():
-    audioFile= open("src/temp/user_voice_note.mp3", "rb")
+def SpeechToText(userVoicePath):
+    audioFile= open(userVoicePath, "rb")
     transcript = openai.audio.transcriptions.create(
     model="whisper-1", 
     file=audioFile
@@ -85,14 +95,14 @@ def SpeechToText():
     return transcript
 
 
-def TextToSpeech(userVoiceNoteTranscripted):
+def TextToSpeech(userVoiceNoteTranscripted, botVoicePath, voiceChoice):
     response = openai.audio.speech.create(
     model="tts-1",
-    voice="alloy",
+    voice=voiceChoice,
     input=userVoiceNoteTranscripted,
     )
 
-    response.stream_to_file("src/temp/bot_voice_note.mp3")
+    response.stream_to_file(botVoicePath)
 
 
 def AudioTranscriptProcessor(userVoiceNoteTranscripted):
@@ -107,23 +117,40 @@ def AudioTranscriptProcessor(userVoiceNoteTranscripted):
 @permissions.UsersFirewall
 async def VoiceInput(update: Update, context: CallbackContext) -> None:
 
-    # get basic info about the voice note file and prepare it for downloading
-    new_file = await context.bot.get_file(update.message.voice.file_id)
+    # Get current datetime for database tasks
+    currentDateTime = GetCurrentDatetime()
 
-    # download the voice note as a file
-    await new_file.download_to_drive("src/temp/user_voice_note.mp3")
+    # Get basic info about the voice note file and prepare it for downloading
+    userVoiceNoteId = await context.bot.get_file(update.message.voice.file_id)
 
-    audioTranscript = SpeechToText()
+    userVoicePath = f"src/temp/user_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
+
+    # Download the voice note as a file
+    await userVoiceNoteId.download_to_drive(userVoicePath)
+
+    # Transcript voice note file to text
+    audioTranscript = SpeechToText(userVoicePath)
+
+    # Process the previous transcription to check if a specific voice command was pronounced
     transcriptProcessed = AudioTranscriptProcessor(audioTranscript.text)
 
+    # Performs different actions if a specific voice command was detected
     if transcriptProcessed[0] == "text":
 
-        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"])
-        botVoiceNoteGeneration= TextToSpeech(botAudioReply)
-        await update.message.reply_voice("src/temp/bot_voice_note.mp3")
+        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "voice")
+
+        botVoicePath = f"src/temp/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
+
+        botVoiceNoteGeneration= TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
+
+        await update.message.reply_voice(botVoicePath)
     
     elif transcriptProcessed[0] == "image":
         await update.message.reply_photo(GenerateImageReply(audioTranscript.text[5::]))
+    
+    # Remove all voice note files created
+    os.remove(userVoicePath)
+    os.remove(botVoicePath)
 
 
 @permissions.UsersFirewall
@@ -135,7 +162,7 @@ async def TextInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     else:
     # Reply the user message.
-        await update.message.reply_text(GenerateTextReply(update.message.from_user.username, update.message.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"]))
+        await update.message.reply_text(GenerateTextReply(update.message.from_user.username, update.message.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "text"))
 
 
 @permissions.UsersFirewall

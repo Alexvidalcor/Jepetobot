@@ -3,7 +3,6 @@ from src.modules import logtool, db
 from src.env.app_public_env import maxTokensPerUser
 
 def StatsNumTokens(username, queryResults):
-
     numTokens = sum([len(list(element["content"]))
                     for element in queryResults if element["content"] != "None"])
 

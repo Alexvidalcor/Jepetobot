@@ -6,8 +6,10 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 
 # Custom importation
-from src.env.app_support import appVersion, telegramToken
+from src.env.app_public_env import appVersion
+from src.env.app_secrets_env import telegramToken
 from src.modules import settings, responses, permissions, db
+
 
 
 # Start Function
