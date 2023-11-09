@@ -35,12 +35,12 @@ if penv.execLocal:
     load_dotenv("src/env/.app.env")
 
     # Telegram variables
-    idUsersAllowed = eval(os.environ["secret_users"])
-    idAdminAllowed= eval(os.environ["secret_admins"])
+    idUsersAllowed = eval(os.environ["SECRET_USERS"])
+    idAdminAllowed= eval(os.environ["SECRET_ADMINS"])
 
     # Token variables
-    telegramToken = os.environ["secret_telegram"]
-    openaiToken = os.environ["secret_openai"]
+    telegramToken = os.environ["SECRET_TELEGRAM"]
+    openaiToken = os.environ["SECRET_OPENAI"]
 
     #Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
