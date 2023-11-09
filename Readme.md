@@ -60,7 +60,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 ### Easy access to Dalle3 from Telegram
 
-* Support for the use of Dalle2 in image generation is included.
+* Support for the use of Dalle3 in image generation is included.
 
 * This feature allows you to generate images from text messages.
 
