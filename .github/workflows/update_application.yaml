@@ -48,7 +48,7 @@ jobs:
         echo "App version: ${latest_tag}-${GITHUB_RUN_NUMBER}"
         
         last_line=$(tail -1 ./src/env/app_public_env.py)
-        if [[ $last_line == version* ]]; then
+        if [[ $last_line == appVersion* ]]; then
           sed -i '$ d' ./src/env/app_public_env.py
           echo "appVersion = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/env/app_public_env.py
         fi

@@ -6,7 +6,6 @@ logsPath = "src/logs"
 maxTokensPerUser = 50000
 maxTokensIdentity = 300
 maxTokensResponse = 500
-appVersion = "Local"
 voiceChoice = "onyx" # alloy, echo, fable, onyx, nova, shimmer
 
 # Global internal variables
@@ -17,3 +16,5 @@ configBotResponses = {
     "Temperature": 
         0.6
 }
+
+appVersion = "Local"
