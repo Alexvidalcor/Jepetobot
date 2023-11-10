@@ -1,5 +1,6 @@
 # Libraries used
-from sqlcipher3 import dbapi2 as sqlcipher
+import sqlite3
+from sqlite3 import Error
 
 # Modules imported
 from src.env.app_public_env import dbPath
@@ -9,19 +10,19 @@ def TestDbConnection():
     try:
         global con
         global cur
-        con = sqlcipher.connect(dbPath)
+        con = sqlite3.connect(dbPath)
         cur = con.cursor()
         cur.execute(f"SELECT * from users WHERE ID=1")
         logtool.appLogger.info('Connection established succesfully')
 
-    except Exception as e:
+    except Error as e:
         logtool.errorsLogger.error(f"¿First db init? After check database: {e}")
         logtool.appLogger.info('Connection NOT established, fixing db connection...')
         
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
             logtool.appLogger.info('Successful repair, connection established')
-            con = sqlcipher.connect(dbPath)
+            con = sqlite3.connect(dbPath)
             cur = con.cursor()
         else:
             logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")
