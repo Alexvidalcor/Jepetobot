@@ -44,9 +44,9 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * The user management system can also be applied to the configuration access.
 
 
-### Support for conversations
+### Support for text and voice note conversations (tts-1 and whisper-1 models).
 
-* The bot remembers the conversations of each user
+* The bot remembers the conversations of each user.
 
 * It is allowed to delete the stored conversations easily from the bot settings.
 
@@ -60,9 +60,9 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 ### Easy access to Dalle3 from Telegram
 
-* Support for the use of Dalle2 in image generation is included.
+* Support for the use of Dalle3 in image generation is included.
 
-* This feature allows you to generate images from text messages.
+* This feature allows you to generate images from text messages and voice notes.
 
 <br>
 
