@@ -13,7 +13,8 @@ from constructs import Construct
 
 
 # Custom importation
-from env.cdk_support import *
+from env.cdk_public_env import appName
+from env.cdk_secrets_env import envDeploy
 
 
 class CloudWatchStack(Stack):

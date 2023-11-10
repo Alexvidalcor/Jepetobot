@@ -1,3 +1,5 @@
+
+
 # AWS libraries
 from aws_cdk import (
     App,
@@ -6,7 +8,9 @@ from aws_cdk import (
 )
 
 # Custom importation
-from env.cdk_support import *
+from env.cdk_public_env import appName
+from env.cdk_secrets_env import envDeploy, awsRegion, awsAccount, awsTagName, reusableStack
+
 
 # Stacks importation
 from cdk_ec2.cdk_ec2_stack import Ec2Stack
@@ -20,14 +24,29 @@ from cdk_lambda.cdk_lambda2_stack import Lambda2Stack
 # Set AWS environment
 awsEnv = Environment(account=awsAccount, region=awsRegion)
 
+
+# Config deployment
+if reusableStack == True:
+    timestamp = random.randint(0,999999)
+else:
+    timestamp = "managed"
+
+
 # Execute stacks
 app = App()
+
 Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--ec2-stack-{timestamp}", env=awsEnv)
+
 CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--codedeploy-stack-{timestamp}", env=awsEnv)
+
 S3Layer = S3stack(app, f"{appName}-{envDeploy}--s3-stack-{timestamp}", env=awsEnv)
+
 SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--secretmanager-stack-{timestamp}", env=awsEnv)
+
 CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--cloudwatch-stack-{timestamp}", env=awsEnv)
+
 Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--lambda1-stack-{timestamp}", env=awsEnv)
+
 Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--lambda2-stack-{timestamp}", env=awsEnv)
 
 

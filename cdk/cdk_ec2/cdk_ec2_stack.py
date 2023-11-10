@@ -9,7 +9,8 @@ from constructs import Construct
 import json
 
 # Custom importation
-from env.cdk_support import *
+from env.cdk_public_env import showPublicIp, appName, createSG
+from env.cdk_secrets_env import awsRegion, vpcId, ec2Type, sgID, sgPorts, ec2Key, envDeploy
 
 # User data imported
 with open("./user_data/config.json") as fconfig:

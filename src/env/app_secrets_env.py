@@ -11,9 +11,9 @@ from dotenv import load_dotenv
 # Import modules
 from src.env.app_public_env import appName
 
-
+# Variables from GithubSecrets/environment
 try:
-    print("Using local env variables...")
+    print("Using local env secrets...")
     load_dotenv("src/env/.app.env")
 
     # Telegram variables
@@ -27,6 +27,7 @@ try:
     #Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
     awsRegion = os.environ["AWS_REGION"]
+    dbKey = os.environ["DB_KEY"]
 
 except KeyError:
     print("Failed!\nUsing secretmanager...")
@@ -41,18 +42,23 @@ except KeyError:
     cacheConfig = SecretCacheConfig()
     cache = SecretCache(config = cacheConfig, client = client)
 
-    # Telegram variables
+    # Telegram variable
     secret1 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     telegramToken = json.loads(secret1)["secret_telegram"]
 
-    # OpenAI variables
+    # OpenAI variable
     secret2 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    openaiToken = json.loads(secret1)["secret_openai"]
+    openaiToken = json.loads(secret2)["secret_openai"]
 
-    # UsersFirewall variables
+    # UsersFirewall variable
     secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    idUsersAllowed = eval(json.loads(secret1)["secret_users"])
+    idUsersAllowed = eval(json.loads(secret3)["secret_users"])
 
-    # AdminFirewall variables
-    secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    idAdminAllowed = eval(json.loads(secret1)["secret_admins"])
+    # AdminFirewall variable
+    secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
+    idAdminAllowed = eval(json.loads(secret4)["secret_admins"])
+
+    # Db key variable
+    secret5 = cache.get_secret_string(appName + "-" + envDeploy + "_secret2")
+    idAdminAllowed = json.loads(secret569
+    )["secret_db"]
