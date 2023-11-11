@@ -49,22 +49,22 @@ except KeyError:
 
     # OpenAI secret
     secret2 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    openaiToken = json.loads(secret2)["secret_openai"]
+    openaiToken = json.loads(secret1)["secret_openai"]
 
     # UsersFirewall secret
     secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    idUsersAllowed = eval(json.loads(secret3)["secret_users"])
+    idUsersAllowed = eval(json.loads(secret1)["secret_users"])
 
     # AdminFirewall secret
     secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
-    idAdminAllowed = eval(json.loads(secret4)["secret_admins"])
+    idAdminAllowed = eval(json.loads(secret1)["secret_admins"])
 
     # Db key secret
     secret5 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
-    idAdminAllowed = json.loads(secret5)["secret_db"]
+    idAdminAllowed = json.loads(secret3)["secret_db"]
 
     # File key secret
     secret6 = cache.get_secret_string(appName + "-" + envDeploy + "_secret6")
-    idAdminAllowed = json.loads(secret6)["secret_file"]
+    idAdminAllowed = json.loads(secret4)["secret_file"]
 
 
