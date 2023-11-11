@@ -1,5 +1,5 @@
 # OS chosen
-FROM debian:bullseye
+FROM debian:bookworm-slim
 LABEL maintainer="Alexvidalcor"
 
 # Directory to use inside the container to prepare the application
