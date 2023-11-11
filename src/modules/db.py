@@ -3,6 +3,7 @@ from sqlcipher3 import dbapi2 as sqlcipher
 
 # Modules imported
 from src.env.app_public_env import dbPath
+from src.env.app_secrets_env import dbKey
 from src.modules import logtool
 
 def TestDbConnection():
@@ -10,18 +11,19 @@ def TestDbConnection():
         global con
         global cur
         con = sqlcipher.connect(dbPath)
-        cur = con.cursor()
+        con.execute(f'pragma key={dbKey}')
+        cur = con.cursor() 
         cur.execute(f"SELECT * from users WHERE ID=1")
         logtool.appLogger.info('Connection established succesfully')
 
     except Exception as e:
         logtool.errorsLogger.error(f"¿First db init? After check database: {e}")
         logtool.appLogger.info('Connection NOT established, fixing db connection...')
-        
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
             logtool.appLogger.info('Successful repair, connection established')
             con = sqlcipher.connect(dbPath)
+            con.execute(f'pragma key={dbKey}')
             cur = con.cursor()
         else:
             logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")
