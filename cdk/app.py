@@ -35,8 +35,6 @@ else:
 # Execute stacks
 app = App()
 
-Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--ec2-stack-{timestamp}", env=awsEnv)
-
 CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--codedeploy-stack-{timestamp}", env=awsEnv)
 
 S3Layer = S3stack(app, f"{appName}-{envDeploy}--s3-stack-{timestamp}", env=awsEnv)
@@ -48,6 +46,8 @@ CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--cloudwatch-stack
 Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--lambda1-stack-{timestamp}", env=awsEnv)
 
 Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--lambda2-stack-{timestamp}", env=awsEnv)
+
+Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--ec2-stack-{timestamp}", env=awsEnv)
 
 
 # Add tags
