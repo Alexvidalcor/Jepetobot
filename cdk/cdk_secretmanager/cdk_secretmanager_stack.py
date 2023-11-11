@@ -24,14 +24,32 @@ class SecretManagerStack(Stack):
         secret_name=appName + "-" + envDeploy + "_secret1",
         )
 
-        # It stores random secrets
+        # It stores app secrets
         secret2 = secretsmanager.Secret(self, 
         appName+ "-" + envDeploy + "_secret2",
         secret_name=appName + "-" + envDeploy + "_secret2",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"App": appName + "-" + envDeploy}),
-            generate_string_key="DB_KEY",
-            generate_string_key="FILES_KEY"
+            generate_string_key="APP_KEY"
+            )
         )
 
-    )
+        # It stores db secrets
+        secret3 = secretsmanager.Secret(self, 
+        appName+ "-" + envDeploy + "_secret3",
+        secret_name=appName + "-" + envDeploy + "_secret3",
+        generate_secret_string=secretsmanager.SecretStringGenerator(
+            secret_string_template=json.dumps({"secret_db":'randomPassword'}),
+            generate_string_key="secret_db"
+            )
+        )
+
+        # It stores files secrets
+        secret4 = secretsmanager.Secret(self, 
+        appName+ "-" + envDeploy + "_secret4",
+        secret_name=appName + "-" + envDeploy + "_secret4",
+        generate_secret_string=secretsmanager.SecretStringGenerator(
+            secret_string_template=json.dumps({"secret_file":'randomPassword'}),
+            generate_string_key="secret_file"
+            )
+        )

@@ -28,6 +28,7 @@ try:
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
     awsRegion = os.environ["AWS_REGION"]
     dbKey = os.environ["DB_KEY"]
+    fileKey = os.environ["FILE_KEY"]
 
 except KeyError:
     print("Failed!\nUsing secretmanager...")
@@ -42,23 +43,28 @@ except KeyError:
     cacheConfig = SecretCacheConfig()
     cache = SecretCache(config = cacheConfig, client = client)
 
-    # Telegram variable
+    # Telegram secret
     secret1 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     telegramToken = json.loads(secret1)["secret_telegram"]
 
-    # OpenAI variable
+    # OpenAI secret
     secret2 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     openaiToken = json.loads(secret2)["secret_openai"]
 
-    # UsersFirewall variable
+    # UsersFirewall secret
     secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     idUsersAllowed = eval(json.loads(secret3)["secret_users"])
 
-    # AdminFirewall variable
+    # AdminFirewall secret
     secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     idAdminAllowed = eval(json.loads(secret4)["secret_admins"])
 
-    # Db key variable
-    secret5 = cache.get_secret_string(appName + "-" + envDeploy + "_secret2")
-    idAdminAllowed = json.loads(secret569
-    )["secret_db"]
+    # Db key secret
+    secret5 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
+    idAdminAllowed = json.loads(secret5)["secret_db"]
+
+    # File key secret
+    secret6 = cache.get_secret_string(appName + "-" + envDeploy + "_secret6")
+    idAdminAllowed = json.loads(secret6)["secret_file"]
+
+
