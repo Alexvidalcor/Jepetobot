@@ -48,23 +48,20 @@ except KeyError:
     telegramToken = json.loads(secret1)["secret_telegram"]
 
     # OpenAI secret
-    secret2 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     openaiToken = json.loads(secret1)["secret_openai"]
 
     # UsersFirewall secret
-    secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     idUsersAllowed = eval(json.loads(secret1)["secret_users"])
 
     # AdminFirewall secret
-    secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
     idAdminAllowed = eval(json.loads(secret1)["secret_admins"])
 
     # Db key secret
-    secret5 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
+    secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
     idAdminAllowed = json.loads(secret3)["secret_db"]
 
     # File key secret
-    secret6 = cache.get_secret_string(appName + "-" + envDeploy + "_secret6")
+    secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret4")
     idAdminAllowed = json.loads(secret4)["secret_file"]
 
 
