@@ -29,8 +29,8 @@ class SecretManagerStack(Stack):
         appName+ "-" + envDeploy + "_secret2",
         secret_name=appName + "-" + envDeploy + "_secret2",
         generate_secret_string=secretsmanager.SecretStringGenerator(
-            secret_string_template=json.dumps({"App": appName + "-" + envDeploy}),
-            generate_string_key="APP_KEY"
+            secret_string_template=json.dumps({"app": appName + "-" + envDeploy}),
+            generate_string_key="secret_app"
             )
         )
 

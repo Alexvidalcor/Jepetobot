@@ -55,7 +55,7 @@ class Ec2Stack(Stack):
                 sg.add_ingress_rule(
                     peer=ec2.Peer.any_ipv4(),
                     connection=ec2.Port.tcp(sgPorts[element]),
-                    description="Custom Rule",
+                    description="CDK Rule",
                 )
 
         else:
