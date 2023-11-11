@@ -40,7 +40,8 @@ class SecretManagerStack(Stack):
         secret_name=appName + "-" + envDeploy + "_secret3",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_db":'randomPassword'}),
-            generate_string_key="secret_db"
+            generate_string_key="secret_db",
+            exclude_characters="/@'"
             )
         )
 
@@ -50,6 +51,7 @@ class SecretManagerStack(Stack):
         secret_name=appName + "-" + envDeploy + "_secret4",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_file":'randomPassword'}),
-            generate_string_key="secret_file"
+            generate_string_key="secret_file",
+            exclude_characters="/@'"
             )
         )
