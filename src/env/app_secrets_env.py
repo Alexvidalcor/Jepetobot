@@ -58,10 +58,10 @@ except KeyError:
 
     # Db key secret
     secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
-    idAdminAllowed = json.loads(secret3)["secret_db"]
+    dbKey = json.loads(secret3)["secret_db"]
 
     # File key secret
     secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret4")
-    idAdminAllowed = json.loads(secret4)["secret_file"]
+    fileKey = json.loads(secret4)["secret_file"]
 
 
