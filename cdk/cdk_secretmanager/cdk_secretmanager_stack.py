@@ -45,7 +45,7 @@ class SecretManagerStack(Stack):
             require_each_included_type=False,
             exclude_numbers=True,
             exclude_punctuation=True,
-            password_length=32
+            password_length=16
             )
         )
 
