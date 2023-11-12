@@ -41,7 +41,8 @@ class SecretManagerStack(Stack):
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_db":'randomPassword'}),
             generate_string_key="secret_db",
-            exclude_characters='\'!@#$%^&*()_-+={}[]|\:;"<>,.?/~`'
+            exclude_characters='!@#$%^&*()_-+=[]{}|;:"<>,.?/~`\'\\',
+            require_each_included_type=False
             )
         )
 
