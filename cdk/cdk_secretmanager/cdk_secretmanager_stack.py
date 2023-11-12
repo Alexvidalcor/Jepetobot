@@ -42,7 +42,10 @@ class SecretManagerStack(Stack):
             secret_string_template=json.dumps({"secret_db":'randomPassword'}),
             generate_string_key="secret_db",
             exclude_characters='!@#$%^&*()_-+=[]{}|;:"<>,.?/~`\'\\',
-            require_each_included_type=False
+            require_each_included_type=False,
+            exclude_numbers=True,
+            exclude_punctuation=True,
+            password_length=32
             )
         )
 
