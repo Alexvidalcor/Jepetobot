@@ -37,8 +37,8 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
     - name: Install dependencies
@@ -47,14 +47,14 @@ jobs:
         npm install -g aws-cdk
         # cdk --version
 
-    - name: Show Github actions custom variables"
+    - name: Show Github actions custom variables
       run: |
         echo "Reusable stacks: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy app: ${{ github.event.inputs.deployAplication }}"
         echo "Environment chosen: ${{ github.ref_name }}"
     
-    - name: Deploy Stack
-      run: cdk deploy --require-approval never --all
+    - name: Deploy stacks
+      run: cdk deploy --app "python app.py" --require-approval never --all &> /dev/null
       working-directory: ./cdk
       env:
         AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
@@ -63,10 +63,23 @@ jobs:
         AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
         AWS_SG: ${{ secrets.AWS_SG }}
         AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
+        AWS_KEY: ${{ secrets.AWS_KEY }}
         # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
         # ------
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+
+    - name: Deploy secrets
+      run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" &> /dev/null
+
+      env:
+        AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+        ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+        SECRET_TELEGRAM: ${{ secrets.SECRET_TELEGRAM }}
+        SECRET_OPENAI: ${{ secrets.SECRET_OPENAI }}
+        SECRET_USERS: ${{ secrets.SECRET_USERS }}
+        SECRET_ADMINS: ${{ secrets.SECRET_ADMINS }}
+
 
   cdk-deploy-application:
     if: ${{ github.event.inputs.deployApplication }} == 'true'

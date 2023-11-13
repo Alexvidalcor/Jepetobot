@@ -29,11 +29,13 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-
+    - name: Show Github actions custom variables
+      run: |
+        echo "Environment chosen: ${{ github.ref_name }}"
     
     - name: "Check latest tag"
       id: latest-tag
@@ -45,10 +47,10 @@ jobs:
         echo "Environment deploy: ${ENVIRONMENT_DEPLOY}"
         echo "App version: ${latest_tag}-${GITHUB_RUN_NUMBER}"
         
-        last_line=$(tail -1 ./src/modules/app_public_env.py)
-        if [[ $last_line == version* ]]; then
-          sed -i '$ d' ./src/modules/app_public_env.py
-          echo "version = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/modules/app_public_env.py
+        last_line=$(tail -1 ./src/env/app_public_env.py)
+        if [[ $last_line == appVersion* ]]; then
+          sed -i '$ d' ./src/env/app_public_env.py
+          echo "appVersion = \"${ENVIRONMENT_DEPLOY}-${latest_tag}-${GITHUB_RUN_NUMBER}\"" >> ./src/env/app_public_env.py
         fi
 
     - name: Compress Repository

@@ -5,7 +5,7 @@ import datetime
 import sys
 
 # Modules imported
-from src.modules.app_support import logsPath
+from src.env.app_public_env import logsPath
 
 
 # Global exceptions handler

@@ -4,6 +4,7 @@ python-dotenv
 # AWS libraries
 aws-cdk-lib
 constructs
+boto3
 
 # AWS dev libraries
 pytest

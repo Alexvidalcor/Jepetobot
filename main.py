@@ -2,20 +2,18 @@
 # Telegram libraries
 from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent, constants
 
-from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler, CallbackContext
 
 
 # Custom importation
-from src.modules.app_support import *
-from src.modules.logging import *
-from src.settings import *
-from src.requests import AiReply, AiReplyInline
-from src.permissions import UsersFirewall
-from src.db import TestDbConnection
+from src.env.app_public_env import appVersion
+from src.env.app_secrets_env import telegramToken
+from src.modules import settings, responses, permissions, db
+
 
 
 # Start Function
-@UsersFirewall
+@permissions.UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
     user = update.effective_user
@@ -27,10 +25,11 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # Help function
-@UsersFirewall
+@permissions.UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text(
+        "---------------------------\n\n" \
         "<strong>Developer: </strong>Alexvidalcor\n\n" \
         "<strong>Source code: </strong><a href=\"https://github.com/Alexvidalcor/jepetobot\">Github Page\n\n</a>" \
         f"<strong>Version: </strong>{appVersion}\n\n" \
@@ -40,7 +39,7 @@ async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 # Cancel function
-@UsersFirewall
+@permissions.UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
 
@@ -62,17 +61,17 @@ def main() -> None:
     application.add_handler(CommandHandler("cancel", cancel))
 
     # Inline query handler
-    application.add_handler(InlineQueryHandler(AiReplyInline))
+    application.add_handler(InlineQueryHandler(responses.TextInputInline))
 
     # Conversation handler to define custom settings
     convHandler1 = ConversationHandler(
 
-        entry_points=[CommandHandler("settings", SettingsMenu)],
+        entry_points=[CommandHandler("settings", settings.SettingsMenu)],
 
         states={
-            settingSelected: [MessageHandler(filters.TEXT, ValueAnswer)],
-            buttonSelected: [CallbackQueryHandler(Button)],
-            customAnswer: [MessageHandler(filters.TEXT, CustomAnswer)]
+            settings.settingSelected: [MessageHandler(filters.TEXT, settings.ValueAnswer)],
+            settings.buttonSelected: [CallbackQueryHandler(settings.Button)],
+            settings.customAnswer: [MessageHandler(filters.TEXT, settings.CustomAnswer)]
         },
 
         fallbacks=[CommandHandler("cancel", cancel)],
@@ -81,14 +80,18 @@ def main() -> None:
     )
     application.add_handler(convHandler1)
 
-    # on non command i.e message - reply the message on Telegram
+    # on non command i.e VOICE message - reply the message on Telegram
     application.add_handler(MessageHandler(
-        filters.TEXT & ~filters.COMMAND, AiReply))
+        filters.VOICE & ~filters.COMMAND, responses.VoiceInput)) 
+
+    # on non command i.e TEXT message - reply the message on Telegram
+    application.add_handler(MessageHandler(
+        filters.TEXT & ~filters.COMMAND, responses.TextInput))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
 
 
 if __name__ == "__main__":
-    TestDbConnection()
+    db.TestDbConnection()
     main()

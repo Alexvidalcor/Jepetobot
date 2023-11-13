@@ -1,4 +1,5 @@
 #Virtual environment
+.venv/
 venv/
 MainEnv/
 
@@ -7,15 +8,16 @@ MainEnv/
 *.egg-info
 *.env
 *.log
+*.mp3
 
 # Specific files
-__init__.py
 auth.py
 test.ipynb
 geckodriver.log
 package-lock.json
 cdk.json
 source.bat
+
 
 # CDK asset staging directory
 cdk.out
@@ -40,3 +42,7 @@ wiki/*
 # Log stuff
 src/logs/*
 *.log
+
+# Env variables
+.cdk_env
+.app_env

@@ -6,11 +6,11 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_public_env import appName
+from env.cdk_secrets_env import envDeploy, awsTagName
+
 
 # Main Class
-
-
 class CodeDeployStack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)

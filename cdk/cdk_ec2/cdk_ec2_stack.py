@@ -9,7 +9,8 @@ from constructs import Construct
 import json
 
 # Custom importation
-from modules.cdk_support import *
+from env.cdk_public_env import showPublicIp, appName, createSG
+from env.cdk_secrets_env import awsRegion, vpcId, ec2Type, sgID, sgPorts, ec2Key, envDeploy
 
 # User data imported
 with open("./user_data/config.json") as fconfig:
@@ -50,17 +51,12 @@ class Ec2Stack(Stack):
                 security_group_name = appName + "-" + envDeploy + "_sg"
             )
 
-            sg.add_ingress_rule(
-                peer=ec2.Peer.any_ipv4(),
-                connection=ec2.Port.tcp(sgPorts[0]),
-                description="Custom Rule",
-            )
-
-            sg.add_ingress_rule(
-                peer=ec2.Peer.any_ipv4(),
-                connection=ec2.Port.tcp(sgPorts[1]),
-                description="Custom Rule",
-            )
+            for element in range(len(sgPorts)):
+                sg.add_ingress_rule(
+                    peer=ec2.Peer.any_ipv4(),
+                    connection=ec2.Port.tcp(sgPorts[element]),
+                    description="CDK Rule",
+                )
 
         else:
             sg = ec2.SecurityGroup.from_security_group_id(
@@ -83,7 +79,7 @@ class Ec2Stack(Stack):
                             instance_name=appName + "-" + envDeploy + "_instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
-                            # key_name=keyName,
+                            key_name=ec2Key,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),

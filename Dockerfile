@@ -1,5 +1,5 @@
 # OS chosen
-FROM debian:latest
+FROM debian:bullseye-slim
 LABEL maintainer="Alexvidalcor"
 
 # Directory to use inside the container to prepare the application
@@ -11,7 +11,7 @@ COPY ["src", "./src"]
 
 # Set some environment vars
 ARG awsRegionDocker
-ENV AWS_DEFAULT_REGION=$awsRegionDocker
+ENV AWS_REGION=$awsRegionDocker
 
 ARG envDeploy
 ENV ENVIRONMENT_DEPLOY=$envDeploy

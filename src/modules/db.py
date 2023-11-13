@@ -1,32 +1,32 @@
 # Libraries used
-import sqlite3
-from sqlite3 import Error
+from sqlcipher3 import dbapi2 as sqlcipher
 
 # Modules imported
-from main import *
-from src.modules.app_support import dbPath
-
+from src.env.app_public_env import dbPath
+from src.env.app_secrets_env import dbKey
+from src.modules import logtool
 
 def TestDbConnection():
     try:
         global con
         global cur
-        con = sqlite3.connect(dbPath)
-        cur = con.cursor()
+        con = sqlcipher.connect(dbPath)
+        con.execute(f'pragma key={dbKey}')
+        cur = con.cursor() 
         cur.execute(f"SELECT * from users WHERE ID=1")
-        appLogger.info('Connection established succesfully')
+        logtool.appLogger.info('Connection established succesfully')
 
-    except Error as e:
-        errorsLogger.error(f"¿First db init? After check database: {e}")
-        appLogger.info('Connection NOT established, fixing db connection...')
-        
+    except Exception as e:
+        logtool.errorsLogger.error(f"¿First db init? After check database: {e}")
+        logtool.appLogger.info('Connection NOT established, fixing db connection...')
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
-            appLogger.info('Successful repair, connection established')
-            con = sqlite3.connect(dbPath)
+            logtool.appLogger.info('Successful repair, connection established')
+            con = sqlcipher.connect(dbPath)
+            con.execute(f'pragma key={dbKey}')
             cur = con.cursor()
         else:
-            errorsLogger.critical(f"Failed DB fix, fatabase was not created")
+            logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")
 
 
 def CreateTables(con):
@@ -35,7 +35,10 @@ def CreateTables(con):
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT NOT NULL,
                     content TEXT NOT NULL,
-                    chat_id INTEGER NOT NULL)''')
+                    chat_id INTEGER NOT NULL,
+                    via TEXT NOT NULL,
+                    date TEXT NOT NULL)
+                ''')
 
     con.execute('''CREATE TABLE bot (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,27 +46,31 @@ def CreateTables(con):
                     content TEXT NOT NULL,
                     users_name TEXT NOT NULL,
                     chat_id INTEGER NOT NULL,
+                    via TEXT NOT NULL,
+                    date TEXT NOT NULL,
                     FOREIGN KEY (users_name) REFERENCES users (name),
-                    FOREIGN KEY (chat_id) REFERENCES users (chat_id))''')
+                    FOREIGN KEY (chat_id) REFERENCES users (chat_id))
+                ''')
 
     con.execute('''CREATE TABLE stats (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     users_name TEXT NOT NULL,
                     tokens INTEGER NOT NULL,
-                    FOREIGN KEY (users_name) REFERENCES users (name))''')
+                    FOREIGN KEY (users_name) REFERENCES users (name))
+                ''')
 
 
-def InsertUserMessage(username, content, chatid):
+def InsertUserMessage(username, content, chatid, via, date):
 
-    query = "INSERT INTO users (name, content, chat_id) VALUES (?, ?, ?)"
-    cur.execute(query, (username, content, chatid))
+    query = "INSERT INTO users (name, content, chat_id, via, date) VALUES (?, ?, ?, ?, ?)"
+    cur.execute(query, (username, content, chatid, via, date))
     con.commit()
 
 
-def InsertAssistantMessage(username, content, chatid):
+def InsertAssistantMessage(username, content, chatid, via, date):
 
-    query = "INSERT INTO bot (name, content, users_name, chat_id) VALUES (?, ?, ?, ?)"
-    cur.execute(query, ("assistant", content, username, chatid))
+    query = "INSERT INTO bot (name, content, users_name, chat_id, via, date) VALUES (?, ?, ?, ?, ?, ?)"
+    cur.execute(query, ("assistant", content, username, chatid, via, date))
     con.commit()
 
 

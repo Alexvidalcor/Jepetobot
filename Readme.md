@@ -1,5 +1,5 @@
 
-**CURRENT STATUS: UNSTABLE**
+**CURRENT STATUS: STABLE**
 
 <br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
@@ -8,8 +8,6 @@
 _Telegram bot developed to explore the AI possibilities of OpenAI._
 
 _Support for deployment on AWS is included through Github Actions._
-
-***DEVELOPMENT BRANCH: new experimental features are tested here***
 
 <br>
 
@@ -32,7 +30,7 @@ _Support for deployment on AWS is included through Github Actions._
 * New code releases have also been automated via Github Actions and <ins>Docker containers</ins>.
 
 
-### Easy access to ChatGPT (GPT3.5-turbo) from Telegram
+### Easy access to ChatGPT (GPT-4 TURBO) from Telegram
 
 Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temperature' change from bot options
 --- | --- | --- |
@@ -46,9 +44,9 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * The user management system can also be applied to the configuration access.
 
 
-### Support for conversations
-
-* The bot remembers the conversations of each user
+### Support for text and voice note conversations (tts-1 and whisper-1 models).
+This feature complements an advanced monitoring system.
+* The bot remembers the conversations of each user.
 
 * It is allowed to delete the stored conversations easily from the bot settings.
 
@@ -58,6 +56,20 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * A statistics function has been implemented that allows more control over the behavior of the application.
 
 * This feature complements an advanced monitoring system.
+
+
+### Focus on security
+
+* Encrypted database and user information.
+
+* Secured communications by default.
+
+
+### Easy access to Dalle3 from Telegram
+
+* Support for the use of Dalle3 in image generation is included.
+
+* This feature allows you to generate images from text messages and voice notes.
 
 <br>
 
@@ -119,7 +131,7 @@ As the entire infrastructure is automated in the cloud, <ins>it is not necessary
 ## Cloud deployment overview :cloud:
 
 
-Currently there are two Github Actions workflows prepared to automate the cloud deployment:
+Currently there are three Github Actions workflows prepared to automate the cloud deployment:
 
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/deploy_resources.yaml)_
@@ -132,6 +144,19 @@ Purpose | Machine where the application is hosted | Bucket where application ver
 * _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_
 
 Update cloud app code with every push to master branch. It generates a slight service downtime of a few seconds.
+
+
+* _[delete_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/delete_resources.yaml)_
+
+Like the file name itself suggests, it deletes all the deployed cloud resources in AWS.
+
+<br>
+
+Below is the diagram used for the automated deployment of cloud resources and the application itself:
+
+Deploy resources | Update application | 
+--- | --- |
+<img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram1.png" height="500" width="700"/> | <img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Wiki-diagram2.png" height="500" width="800"/> | 
 
 <br>
 
