@@ -45,7 +45,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 
 ### Support for text and voice note conversations (tts-1 and whisper-1 models).
-
+This feature complements an advanced monitoring system.
 * The bot remembers the conversations of each user.
 
 * It is allowed to delete the stored conversations easily from the bot settings.
@@ -56,6 +56,13 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 * A statistics function has been implemented that allows more control over the behavior of the application.
 
 * This feature complements an advanced monitoring system.
+
+
+### Focus on security
+
+* Encrypted database and user information.
+
+* Secured communications by default.
 
 
 ### Easy access to Dalle3 from Telegram

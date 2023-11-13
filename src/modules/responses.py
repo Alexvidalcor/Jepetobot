@@ -3,15 +3,43 @@ import openai
 import urllib.request
 import os
 import datetime
+import base64
+from cryptography.fernet import Fernet
 
 # Custom modules
 from main import *
 from src.modules import permissions, db, stats, logtool
-from src.env.app_secrets_env import openaiToken
+from src.env.app_secrets_env import openaiToken, fileKey
 from src.env.app_public_env import maxTokensResponse, configBotResponses, voiceChoice
 
 # Get OpenAI token
 openai.api_key = openaiToken
+
+
+def GenerateFernetKey():
+
+    # Convert the string to bytes
+    keyBytes = fileKey.encode('utf-8')
+
+    # Encode the bytes to base64
+    baseKey = base64.urlsafe_b64encode(keyBytes)
+
+    # Ensure the key has exactly 32 bytes
+    fernetKey = baseKey.ljust(32, b'=')
+
+    return fernetKey
+
+
+# Function to encrypt a file
+def EncryptFile(originalFilePath, key):
+    cipherSuite = Fernet(key)
+    with open(originalFilePath, 'rb') as file:
+        plainText = file.read()
+
+    encryptedFileData = cipherSuite.encrypt(plainText)
+
+    with open(originalFilePath, 'wb') as encryptedFile:
+        encryptedFile.write(encryptedFileData)
 
 
 def GetCurrentDatetime():
@@ -80,10 +108,9 @@ def GenerateImageReply(promptUser):
             quality="standard"
         )
         return responseImage.data[0].url
-    
-    except openai.BadRequestError:
-        return "https://openclipart.org/image/2400px/svg_to_png/167093/StopSign-nofont.png"
 
+    except openai.BadRequestError:
+        return "src/images/App-image1.png"
 
 
 def SpeechToText(userVoicePath):
@@ -131,6 +158,15 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Transcript voice note file to text
     audioTranscript = SpeechToText(userVoicePath)
 
+    # Generate new Fernet Key
+    fernetFileKey = GenerateFernetKey()
+
+    # Encrypt user voice note
+    EncryptFile(userVoicePath, fernetFileKey)
+
+    # Remove user voice note
+    os.remove(userVoicePath)
+
     # Process the previous transcription to check if a specific voice command was pronounced
     transcriptProcessed = AudioTranscriptProcessor(audioTranscript.text)
 
@@ -141,16 +177,19 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
 
         botVoicePath = f"src/temp/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
 
-        botVoiceNoteGeneration= TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
+        botVoiceNoteGeneration = TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
 
         await update.message.reply_voice(botVoicePath)
+
+        # Encrypt bot voice note
+        EncryptFile(botVoicePath, fernetFileKey)
+        
+        # Remove bot voice note
+        os.remove(botVoicePath)
     
     elif transcriptProcessed[0] == "image":
         await update.message.reply_photo(GenerateImageReply(audioTranscript.text[5::]))
-    
-    # Remove all voice note files created
-    os.remove(userVoicePath)
-    os.remove(botVoicePath)
+
 
 
 @permissions.UsersFirewall
