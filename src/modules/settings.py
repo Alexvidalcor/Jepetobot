@@ -3,7 +3,7 @@ import os
 
 # Custom imports
 from main import *
-from src.modules import permissions, logtool, db
+from src.modules import security, logtool, db
 from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses
 
 
@@ -22,7 +22,7 @@ identityOptions = {
 }
 
 
-@permissions.AdminFirewall
+@security.AdminFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
@@ -46,7 +46,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     return settingSelected
 
 
-@permissions.AdminFirewall
+@security.AdminFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:

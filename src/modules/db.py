@@ -101,10 +101,13 @@ def GetUserMessagesToReply(username, chatid):
             LEFT JOIN bot
             ON users.name = bot.users_name AND users.chat_id = bot.chat_id AND users.id = bot.id
             WHERE users.name = "{username}" AND users.chat_id = "{chatid}"
+            ORDER BY users.id DESC
             LIMIT 6;
             '''
 
-
     cur.execute(query)
-
-    return cur.fetchall()
+    
+    results = cur.fetchall()
+    results.reverse()
+ 
+    return results

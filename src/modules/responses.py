@@ -8,38 +8,12 @@ from cryptography.fernet import Fernet
 
 # Custom modules
 from main import *
-from src.modules import permissions, db, stats, logtool
+from src.modules import security, db, stats, logtool
 from src.env.app_secrets_env import openaiToken, fileKey
 from src.env.app_public_env import maxTokensResponse, configBotResponses, voiceChoice
 
 # Get OpenAI token
 openai.api_key = openaiToken
-
-
-def GenerateFernetKey():
-
-    # Convert the string to bytes
-    keyBytes = fileKey.encode('utf-8')
-
-    # Encode the bytes to base64
-    baseKey = base64.urlsafe_b64encode(keyBytes)
-
-    # Ensure the key has exactly 32 bytes
-    fernetKey = baseKey.ljust(32, b'=')
-
-    return fernetKey
-
-
-# Function to encrypt a file
-def EncryptFile(originalFilePath, key):
-    cipherSuite = Fernet(key)
-    with open(originalFilePath, 'rb') as file:
-        plainText = file.read()
-
-    encryptedFileData = cipherSuite.encrypt(plainText)
-
-    with open(originalFilePath, 'wb') as encryptedFile:
-        encryptedFile.write(encryptedFileData)
 
 
 def GetCurrentDatetime():
@@ -141,7 +115,7 @@ def AudioTranscriptProcessor(userVoiceNoteTranscripted):
     return result
 
 
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def VoiceInput(update: Update, context: CallbackContext) -> None:
 
     # Get current datetime for database tasks
@@ -159,10 +133,10 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     audioTranscript = SpeechToText(userVoicePath)
 
     # Generate new Fernet Key
-    fernetFileKey = GenerateFernetKey()
+    fernetFileKey = security.GenerateFernetKey()
 
     # Encrypt user voice note
-    EncryptFile(userVoicePath, fernetFileKey)
+    security.EncryptFile(userVoicePath, fernetFileKey)
 
     # Remove user voice note
     os.remove(userVoicePath)
@@ -182,7 +156,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
         await update.message.reply_voice(botVoicePath)
 
         # Encrypt bot voice note
-        EncryptFile(botVoicePath, fernetFileKey)
+        security.EncryptFile(botVoicePath, fernetFileKey)
         
         # Remove bot voice note
         os.remove(botVoicePath)
@@ -192,7 +166,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
 
 
 
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def TextInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if update.message.text.startswith("IMAGE:"):
@@ -204,7 +178,7 @@ async def TextInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await update.message.reply_text(GenerateTextReply(update.message.from_user.username, update.message.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "text"))
 
 
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def TextInputInline(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     """Handle the inline query. This is run when you type: @botusername <query>"""
