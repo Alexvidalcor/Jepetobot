@@ -3,7 +3,7 @@
 appName = "Jepetobot"
 dbPath = "src/db/MainDb.sqlite"
 logsPath = "src/logs"
-maxTokensPerUser = 50000
+maxGptTokenUser = 50000
 maxTokensIdentity = 300
 maxTokensResponse = 500
 voiceChoice = "onyx" # alloy, echo, fable, onyx, nova, shimmer

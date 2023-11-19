@@ -55,7 +55,11 @@ def CreateTables(con):
     con.execute('''CREATE TABLE stats (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     users_name TEXT NOT NULL,
-                    tokens INTEGER NOT NULL,
+                    tokens_gpt INTEGER,
+                    tokens_dalle INTEGER,
+                    tokens_whisper INTEGER,
+                    tokens_tts INTEGER,
+                    tokens_vision INTEGER,
                     FOREIGN KEY (users_name) REFERENCES users (name))
                 ''')
 
@@ -78,18 +82,28 @@ def OperateStatsToken(username, numTokens, option="select"):
 
     if option == "select":
         cur.execute(f'''
-            SELECT tokens
+            SELECT *
             FROM stats
             WHERE users_name = "{username}"
             ''')
         return cur.fetchall()[0][0]
-    elif option == "insert":
+    
+    elif option == "gptInsert":
         cur.execute(
-            "INSERT INTO stats (tokens, users_name) VALUES (?, ?);", (numTokens, username))
-    elif option == "update":
-        cur.execute("UPDATE stats SET tokens = ? WHERE users_name = ?",
+            "INSERT INTO stats (tokens_gpt, users_name, tokens_dalle, tokens_whisper, tokens_tts, tokens_vision) VALUES (?, ?, 0, 0, 0, 0);", (numTokens, username))
+    elif option == "gptUpdate":
+        cur.execute("UPDATE stats SET tokens_gpt = ? WHERE users_name = ?",
                     (numTokens, username))
-
+    
+    elif option == "dalleCheck":
+        cur.execute(f'SELECT * FROM stats WHERE users_name = "{username}"')
+        return cur.fetchone()
+    elif option == "dalleInsert":
+        cur.execute(
+            f'INSERT INTO stats (users_name, tokens_dalle, tokens_gpt, tokens_whisper, tokens_tts, tokens_vision) VALUES ("{username}", 1, 0, 0, 0, 0)')
+    elif option == "dalleUpdate":
+        cur.execute(f'UPDATE stats SET tokens_dalle = tokens_dalle + 1 WHERE users_name = "{username}"')
+        
     con.commit()
 
 
