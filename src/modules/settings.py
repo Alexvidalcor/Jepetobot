@@ -93,7 +93,11 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
             fileDfPath = "src/temp/costs.csv"
 
-            df.to_csv(fileDfPath, index=False)     
+            df.to_csv(fileDfPath, index=False)   
+
+            await update.message.reply_text(
+                "Costs selected", reply_markup=ReplyKeyboardRemove()
+            )  
 
             # Send CSV file via Telegram bot
             with open(fileDfPath, 'rb') as fileCsv:
@@ -110,6 +114,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             logtool.userLogger.info(f'{username} sent a costs file')
 
             return ConversationHandler.END
+
 
         elif context.chat_data["settingSelected"] == "Reset":
             if os.path.exists(dbPath):
