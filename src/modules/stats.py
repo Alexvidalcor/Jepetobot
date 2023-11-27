@@ -14,6 +14,11 @@ def CalculateOpenAiTokens(inputReceived, option="gpt"):
         inputReceivedJoined = "".join(inputReceived)
         encoding = tiktoken.encoding_for_model("gpt-4-1106-preview")
         countTokens = len(encoding.encode(inputReceivedJoined))
+
+    elif option == "tts":
+        inputReceivedJoined = "".join(inputReceived)
+        encoding = tiktoken.encoding_for_model("gpt-4")
+        countTokens = len(encoding.encode(inputReceivedJoined))
     
     return countTokens
 
@@ -24,19 +29,11 @@ def StatsNumTokensGpt(username, queryResults):
 
     numTokens = CalculateOpenAiTokens([element["content"] for element in queryResults if element["content"] != "None"])
 
-    # First user message
-    if len(queryResults) <= 3:
+    if db.OperateStatsToken(username, 1, option="gptCheck") is None:
         db.OperateStatsToken(username, numTokens, option="gptInsert")
     else:
         # Not first user message
-        historicTokens = db.OperateStatsToken(username, numTokens)
-        db.OperateStatsToken(username, historicTokens+numTokens, option="gptUpdate")
-
-    # Check if user exceeds maxGptTokenUser
-    limitMaxTokens = db.OperateStatsToken(username, numTokens)
-    if limitMaxTokens >= maxGptTokenUser:
-        logtool.userLogger.warning(
-            f"{username} exceeds MaxGptTokens with {limitMaxTokens }")
+        db.OperateStatsToken(username, numTokens, option="gptUpdate")
         
 
 
@@ -46,9 +43,39 @@ def StatsNumTokensDalle(username):
     if db.OperateStatsToken(username, 1, option="dalleCheck") is None:
         db.OperateStatsToken(username, 1, option="dalleInsert")
     else:
-        print(db.OperateStatsToken(username, 1, option="dalleCheck"))
         db.OperateStatsToken(username, 1, option="dalleUpdate")
 
+
+
+# Function that process the number of Whisper tokens
+def StatsNumTokensWhisper(username, audioLength):
+
+    if db.OperateStatsToken(username, 1, option="whisperCheck") is None:
+        db.OperateStatsToken(username, audioLength, option="whisperInsert")
+    else:
+        db.OperateStatsToken(username, audioLength, option="whisperUpdate")
+
+
+
+# Function that process the number of tts tokens
+def StatsNumTokensTts(username, botAudioReply, option="tts"):
+
+    numTokens = CalculateOpenAiTokens(botAudioReply)
+
+    if db.OperateStatsToken(username, 1, option="ttsCheck") is None:
+        db.OperateStatsToken(username, numTokens, option="ttsInsert")
+    else:
+        db.OperateStatsToken(username, numTokens, option="ttsUpdate")
+
+
+
+# Function that process the number of vision tokens
+def StatsNumTokensVision(username, queryResults):
+
+    if db.OperateStatsToken(username, 1, option="visionCheck") is None:
+        db.OperateStatsToken(username, queryResults, option="visionInsert")
+    else:
+        db.OperateStatsToken(username, queryResults, option="visionUpdate")
 
         
 

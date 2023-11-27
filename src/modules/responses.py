@@ -3,8 +3,8 @@ import openai
 import urllib.request
 import os
 import datetime
-import base64
-from cryptography.fernet import Fernet
+from tinytag import TinyTag
+from math import ceil
 
 # Custom modules
 from main import *
@@ -75,11 +75,18 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Download the voice note as a file
     await userVoiceNoteId.download_to_drive(userVoicePath)
 
+    # Get the duration of the voice note
+    audio = TinyTag.get(userVoicePath)
+    audioDuration = ceil(audio.duration / 60)
+
+    # Calc user voice note tokens
+    stats.StatsNumTokensWhisper(update.message.from_user.username, audioDuration)
+
     # Transcript voice note file to text
     audioTranscript = SpeechToText(userVoicePath)
 
     # Generate new Fernet Key
-    fernetFileKey = security.GenerateFernetKey()
+    fernetFileKey = security.GenerateFernetKey(fileKey)
 
     # Encrypt user voice note
     security.EncryptFile(userVoicePath, fernetFileKey)
@@ -93,22 +100,24 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Performs different actions if a specific voice command was detected
     if transcriptProcessed[0] == "text":
 
-        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "voice")
+        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "voice", option="tts")
+
+        stats.StatsNumTokensTts(update.message.from_user.username, botAudioReply)
 
         botVoicePath = f"src/temp/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
 
-        botVoiceNoteGeneration = TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
+        TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
 
         await update.message.reply_voice(botVoicePath)
 
         # Encrypt bot voice note
         security.EncryptFile(botVoicePath, fernetFileKey)
-        
+
         # Remove bot voice note
         os.remove(botVoicePath)
     
     elif transcriptProcessed[0] == "image":
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::]))
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::]), option="tts")
 
 
 '''
@@ -135,7 +144,7 @@ def FormatCompletionMessages(username, chatid, identity, promptUser, option="pre
     return conversationFormatted
 
 
-def GenerateTextReply(username, prompt, chatid, identity, temp, via):
+def GenerateTextReply(username, prompt, chatid, identity, temp, via, option="gpt"):
 
     currentDateTime = GetCurrentDatetime()
 
@@ -157,8 +166,10 @@ def GenerateTextReply(username, prompt, chatid, identity, temp, via):
 
     messagesFormattedPost = FormatCompletionMessages(username, chatid, identity, prompt, option="postrequest")
 
-    stats.StatsNumTokensGpt(username, messagesFormattedPost)
-    logtool.userLogger.info('Jepetobot replied a message')
+    if option == "gpt":
+        stats.StatsNumTokensGpt(username, messagesFormattedPost)
+
+    logtool.userLogger.info(f'Jepetobot replied a {option} message')
 
     return answerProvided
 
@@ -205,7 +216,7 @@ IMAGE FUNCTIONS
 -------------------------------------------------------
 '''
 
-def GenerateImageReply(username, promptUser):
+def GenerateImageReply(username, promptUser, option="dalle"):
     try:
 
         stats.StatsNumTokensDalle(username)
@@ -218,6 +229,8 @@ def GenerateImageReply(username, promptUser):
             quality="standard"
         )
  
+        logtool.userLogger.info(f'Jepetobot replied a {option} image')
+
         return responseImage.data[0].url
 
     except openai.BadRequestError:

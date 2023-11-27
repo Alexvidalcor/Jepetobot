@@ -1,10 +1,13 @@
 # Importing libraries
 import os
+import pandas as pd
 
 # Custom imports
 from main import *
 from src.modules import security, logtool, db
 from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses
+from src.env.app_secrets_env import fileKey
+
 
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
@@ -29,7 +32,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     username = update.message.from_user.username
     logtool.userLogger.info(f'{username} opened "settings"')
 
-    replyKeyboard = [["Identity", "Temperature", "Reset"]]
+    replyKeyboard = [["Identity", "Temperature", "Costs", "Reset"]]
 
     await update.message.reply_text(
         "Settings section! "
@@ -82,12 +85,39 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                 ]
             ]
 
+
+        elif context.chat_data["settingSelected"] == "Costs":
+            df = pd.read_sql_query(f'SELECT * FROM stats', db.con)
+
+            df['cost'] = df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015
+
+            fileDfPath = "src/temp/costs.csv"
+
+            df.to_csv(fileDfPath, index=False)     
+
+            # Send CSV file via Telegram bot
+            with open(fileDfPath, 'rb') as fileCsv:
+                await context.bot.send_document(chat_id=update.effective_chat.id, document=fileCsv)
+
+            # Generate new Fernet Key
+            fernetFileKey = security.GenerateFernetKey(fileKey)
+
+            # Encrypt user voice note
+            security.EncryptFile(fileDfPath, fernetFileKey)
+
+            os.remove(fileDfPath)
+
+            logtool.userLogger.info(f'{username} sent a costs file')
+
+            return ConversationHandler.END
+
         elif context.chat_data["settingSelected"] == "Reset":
             if os.path.exists(dbPath):
                 os.remove(dbPath)
                 db.TestDbConnection()
                 
                 # os.remove(f"{logsPath}/*.log")
+
                 # EnableLogging()
                 logtool.appLogger.info("------------Reseted")
                 logtool.userLogger.warning("------------Reseted")

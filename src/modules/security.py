@@ -1,4 +1,8 @@
 
+#Python libraries
+import base64
+from cryptography.fernet import Fernet
+
 # Custom importation
 from src.env.app_secrets_env import idAdminAllowed, idUsersAllowed
 from main import *
@@ -34,7 +38,7 @@ def AdminFirewall(originalFunction):
 
     return CheckPermissions
 
-def GenerateFernetKey():
+def GenerateFernetKey(fileKey):
 
     # Convert the string to bytes
     keyBytes = fileKey.encode('utf-8')
