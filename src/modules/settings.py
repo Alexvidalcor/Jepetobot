@@ -89,7 +89,7 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         elif context.chat_data["settingSelected"] == "Costs":
             df = pd.read_sql_query(f'SELECT * FROM stats', db.con)
 
-            df['cost_dollars'] = df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.00255
+            df['cost_dollars'] = round(df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.00255)
 
             fileDfPath = "src/temp/costs.csv"
 

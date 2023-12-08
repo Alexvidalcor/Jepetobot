@@ -54,9 +54,9 @@ def TextToSpeech(userVoiceNoteTranscripted, botVoicePath, voiceChoice):
 
 def AudioTranscriptProcessor(userVoiceNoteTranscripted):
     if userVoiceNoteTranscripted.lower().startswith("image") or userVoiceNoteTranscripted.lower().startswith("y mage"):
-        result = ["image", GenerateImageReply(userVoiceNoteTranscripted[5::])]
+        result = "image"
     else:
-        result = ["text", False]
+        result = "text"
     
     return result
 
@@ -98,7 +98,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     transcriptProcessed = AudioTranscriptProcessor(audioTranscript.text)
 
     # Performs different actions if a specific voice command was detected
-    if transcriptProcessed[0] == "text":
+    if transcriptProcessed == "text":
 
         botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "voice", option="tts")
 
@@ -116,8 +116,8 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
         # Remove bot voice note
         os.remove(botVoicePath)
     
-    elif transcriptProcessed[0] == "image":
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::]), option="tts")
+    elif transcriptProcessed == "image":
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], option="tts"))
 
 
 '''
