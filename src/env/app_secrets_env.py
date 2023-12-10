@@ -29,7 +29,6 @@ try:
     awsRegion = os.environ["AWS_REGION"]
     dbKey = os.environ["DB_KEY"]
     fileKey = os.environ["FILE_KEY"]
-    tz = os.environ["TZ"]
 
 except KeyError:
     print("Failed!\nUsing secretmanager...")
@@ -37,7 +36,6 @@ except KeyError:
     # Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
     awsRegion = os.environ["AWS_REGION"]
-    tz = os.environ["TZ"]
 
     # SecretManager connection
     session = botocore.session.Session()

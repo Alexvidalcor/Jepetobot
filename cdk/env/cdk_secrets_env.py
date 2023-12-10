@@ -28,6 +28,9 @@ ec2Key= os.environ["AWS_KEY"]
 # Github Actions variables 
 envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
 
+# Custom variables
+tz = os.environ["TZ"]
+
 try:
     reusableStack = (os.environ["REUSABLE_STACK"] == "true")
 except KeyError:
