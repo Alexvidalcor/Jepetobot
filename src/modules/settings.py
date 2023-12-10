@@ -1,6 +1,9 @@
 # Importing libraries
 import os
 import pandas as pd
+import pdfkit
+from datetime import datetime
+
 
 # Custom imports
 from main import *
@@ -91,25 +94,39 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
             df['cost_dollars'] = round(df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.00255)
 
-            fileDfPath = "src/temp/costs.csv"
+            # Get the current date
+            currentDate = datetime.now()
 
-            df.to_csv(fileDfPath, index=False)   
+            # Format the date
+            formatDate = currentDate.strftime('%Y-%m-%d_%H:%M:%S')
 
+            # Convert dataframe to html file
+            htmlDfPath = f"src/temp/costs_{formatDate}.html"
+            df.to_html(htmlDfPath, index=False)
+
+            # Convert dataframe to pdf file. The reason is to avoid incompatibilities when viewing the csv file by third-party programs
+            pdfDfPath = f"src/temp/costs_{formatDate}.pdf"
+            pdfkit.from_file(htmlDfPath, pdfDfPath)   
+
+            # Send option selected to user and remove keyboard selector
             await update.message.reply_text(
                 "Costs selected", reply_markup=ReplyKeyboardRemove()
             )  
 
-            # Send CSV file via Telegram bot
-            with open(fileDfPath, 'rb') as fileCsv:
-                await context.bot.send_document(chat_id=update.effective_chat.id, document=fileCsv)
+            # Send PDF file via Telegram bot
+            with open(pdfDfPath, 'rb') as filePdf:
+                await context.bot.send_document(chat_id=update.effective_chat.id, document=filePdf)
 
             # Generate new Fernet Key
             fernetFileKey = security.GenerateFernetKey(fileKey)
 
-            # Encrypt user voice note
-            security.EncryptFile(fileDfPath, fernetFileKey)
+            # Encrypt and delete costs HTML file
+            security.EncryptFile(htmlDfPath, fernetFileKey)
+            os.remove(htmlDfPath)
 
-            os.remove(fileDfPath)
+            # Encrypt and delete costs PDF file
+            security.EncryptFile(pdfDfPath, fernetFileKey)
+            os.remove(pdfDfPath)
 
             logtool.userLogger.info(f'{username} sent a costs file')
 

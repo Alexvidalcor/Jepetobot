@@ -5,6 +5,7 @@ sqlcipher3-binary
 cryptography
 tinytag
 pandas
+pdfkit
 
 # AWS libraries
 botocore
