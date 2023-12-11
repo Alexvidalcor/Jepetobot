@@ -8,7 +8,7 @@ from datetime import datetime
 # Custom imports
 from main import *
 from src.modules import security, logtool, db
-from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses
+from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses, dbName
 from src.env.app_secrets_env import fileKey
 
 
@@ -134,8 +134,8 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
         elif context.chat_data["settingSelected"] == "Reset":
-            if os.path.exists(dbPath):
-                os.remove(dbPath)
+            if os.path.exists(dbPath + "/" + dbName):
+                os.remove(dbPath + "/" + dbName)
                 db.TestDbConnection()
                 
                 # os.remove(f"{logsPath}/*.log")

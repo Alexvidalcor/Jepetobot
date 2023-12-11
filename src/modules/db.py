@@ -2,7 +2,7 @@
 from sqlcipher3 import dbapi2 as sqlcipher
 
 # Modules imported
-from src.env.app_public_env import dbPath
+from src.env.app_public_env import dbPath, dbName
 from src.env.app_secrets_env import dbKey
 from src.modules import logtool
 
@@ -10,7 +10,7 @@ def TestDbConnection():
     try:
         global con
         global cur
-        con = sqlcipher.connect(dbPath)
+        con = sqlcipher.connect(dbPath + "/" + dbName)
         con.execute(f'pragma key={dbKey}')
         cur = con.cursor() 
         cur.execute(f"SELECT * from users WHERE ID=1")
@@ -22,7 +22,7 @@ def TestDbConnection():
         CreateTables(con)
         if cur.execute(f"SELECT * from users"):
             logtool.appLogger.info('Successful repair, connection established')
-            con = sqlcipher.connect(dbPath)
+            con = sqlcipher.connect(dbPath + "/" + dbName)
             con.execute(f'pragma key={dbKey}')
             cur = con.cursor()
         else:
