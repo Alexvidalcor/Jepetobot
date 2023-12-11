@@ -117,7 +117,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
         os.remove(botVoicePath)
     
     elif transcriptProcessed == "image":
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], option="tts"))
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], update.message.chat_id, viaInput="voice"))
 
 
 '''
@@ -144,11 +144,11 @@ def FormatCompletionMessages(username, chatid, identity, promptUser, option="pre
     return conversationFormatted
 
 
-def GenerateTextReply(username, prompt, chatid, identity, temp, via, option="gpt"):
+def GenerateTextReply(username, prompt, chatid, identity, temp, viaInput, option="gpt"):
 
     currentDateTime = GetCurrentDatetime()
 
-    db.InsertUserMessage(username, prompt, chatid, via, currentDateTime)
+    db.InsertUserMessage(username, prompt, chatid, viaInput, currentDateTime)
     messagesFormatted = FormatCompletionMessages(username, chatid, identity, prompt)
 
     completions = openai.chat.completions.create(
@@ -162,7 +162,7 @@ def GenerateTextReply(username, prompt, chatid, identity, temp, via, option="gpt
 
     answerProvided = completions.choices[0].message.content
 
-    db.InsertAssistantMessage(username, answerProvided, chatid , via, currentDateTime)
+    db.InsertAssistantMessage(username, answerProvided, chatid , viaInput, currentDateTime)
 
     messagesFormattedPost = FormatCompletionMessages(username, chatid, identity, prompt, option="postrequest")
 
@@ -179,7 +179,7 @@ async def TextInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if update.message.text.startswith("IMAGE:"):
     #Reply a dalle image
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, update.message.text.replace("IMAGE:","")))
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, update.message.text.replace("IMAGE:",""), update.message.chat_id, viaInput="text"))
 
     else:
     # Reply the user message.
@@ -216,9 +216,13 @@ IMAGE FUNCTIONS
 -------------------------------------------------------
 '''
 
-def GenerateImageReply(username, promptUser, option="dalle"):
+def GenerateImageReply(username, promptUser, chatid, viaInput="image"):
     try:
 
+        # Get current datetime for database tasks
+        currentDateTime = GetCurrentDatetime()    
+
+        db.InsertUserMessage(username, promptUser, chatid, viaInput, currentDateTime)
         stats.StatsNumTokensDalle(username)
 
         responseImage = openai.images.generate(
@@ -229,7 +233,7 @@ def GenerateImageReply(username, promptUser, option="dalle"):
             quality="standard"
         )
  
-        logtool.userLogger.info(f'Jepetobot replied a {option} image')
+        logtool.userLogger.info(f'Jepetobot replied a image viaInput {viaInput}')
 
         return responseImage.data[0].url
 

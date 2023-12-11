@@ -36,7 +36,8 @@ def CreateTables(con):
                     name TEXT NOT NULL,
                     content TEXT NOT NULL,
                     chat_id INTEGER NOT NULL,
-                    via TEXT NOT NULL,
+                    via_input TEXT NOT NULL,
+                    via_output TEXT NOT NULL,
                     date TEXT NOT NULL)
                 ''')
 
@@ -46,7 +47,8 @@ def CreateTables(con):
                     content TEXT NOT NULL,
                     users_name TEXT NOT NULL,
                     chat_id INTEGER NOT NULL,
-                    via TEXT NOT NULL,
+                    via_input TEXT NOT NULL,
+                    via_output TEXT NOT NULL,
                     date TEXT NOT NULL,
                     FOREIGN KEY (users_name) REFERENCES users (name),
                     FOREIGN KEY (chat_id) REFERENCES users (chat_id))
@@ -64,17 +66,17 @@ def CreateTables(con):
                 ''')
 
 
-def InsertUserMessage(username, content, chatid, via, date):
+def InsertUserMessage(username, content, chatid, viaInput, date):
 
-    query = "INSERT INTO users (name, content, chat_id, via, date) VALUES (?, ?, ?, ?, ?)"
-    cur.execute(query, (username, content, chatid, via, date))
+    query = "INSERT INTO users (name, content, chat_id, via_input, date) VALUES (?, ?, ?, ?, ?)"
+    cur.execute(query, (username, content, chatid, viaInput, date))
     con.commit()
 
 
-def InsertAssistantMessage(username, content, chatid, via, date):
+def InsertAssistantMessage(username, content, chatid, viaInput, date):
 
-    query = "INSERT INTO bot (name, content, users_name, chat_id, via, date) VALUES (?, ?, ?, ?, ?, ?)"
-    cur.execute(query, ("assistant", content, username, chatid, via, date))
+    query = "INSERT INTO bot (name, content, users_name, chat_id, via_input, date) VALUES (?, ?, ?, ?, ?, ?)"
+    cur.execute(query, ("assistant", content, username, chatid, viaInput, date))
     con.commit()
 
 
