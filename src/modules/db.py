@@ -11,7 +11,7 @@ def TestDbConnection():
         global con
         global cur
         con = sqlcipher.connect(dbPath + "/" + dbName)
-        # con.execute(f'pragma key={dbKey}')
+        con.execute(f'pragma key={dbKey}')
         cur = con.cursor() 
         cur.execute(f"SELECT * from user WHERE ID=1")
         logtool.appLogger.info('Connection established succesfully')
@@ -23,7 +23,7 @@ def TestDbConnection():
         if cur.execute(f"SELECT * from user"):
             logtool.appLogger.info('Successful repair, connection established')
             con = sqlcipher.connect(dbPath + "/" + dbName)
-            # con.execute(f'pragma key={dbKey}')
+            con.execute(f'pragma key={dbKey}')
             cur = con.cursor()
         else:
             logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")

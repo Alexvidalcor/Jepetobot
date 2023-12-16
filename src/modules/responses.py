@@ -258,56 +258,61 @@ def TransformToBase64(imagePath):
 @security.UsersFirewall
 async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
-    # Get image id
-    imageId = update.message.photo[-1].file_id
-    imageReceived = await context.bot.get_file(imageId)
+    try:
+        # Get image id
+        imageId = update.message.photo[-1].file_id
+        imageReceived = await context.bot.get_file(imageId)
 
-    # Save image in local
-    userImagePath = f'src/temp/user_image-{update.message.from_user.username}-{update.message.chat_id}.jpg'
-    await imageReceived.download_to_drive(userImagePath)
+        # Save image in local
+        userImagePath = f'src/temp/user_image-{update.message.from_user.username}-{update.message.chat_id}.jpg'
+        await imageReceived.download_to_drive(userImagePath)
 
-    # Convert image to base64
-    imageBase64 = TransformToBase64(userImagePath)
+        # Convert image to base64
+        imageBase64 = TransformToBase64(userImagePath)
 
-    # Retrieve the text received alongside the image
-    captionImageText = update.message.caption
+        # Retrieve the text received alongside the image
+        captionImageText = update.message.caption
 
-    # Register vision tokens
-    stats.StatsNumTokensVision(update.message.from_user.username, update.message.from_user.id)
+        # Register vision tokens
+        stats.StatsNumTokensVision(update.message.from_user.username, update.message.from_user.id)
 
-    # Vision model in use via api
-    responseVision = openai.chat.completions.create(
-    model="gpt-4-vision-preview",
-    messages=[
-        {
-         "role": "system", 
-         "content": configBotResponses["Identity"]
-        },
-        {
-        "role": "user",
-        "content": [
-            {"type": "text", "text": captionImageText},
+        # Vision model in use via api
+        responseVision = openai.chat.completions.create(
+        model="gpt-4-vision-preview",
+        messages=[
             {
-            "type": "image_url",
-            "image_url": {
-                "url": f"data:image/jpeg;base64,{imageBase64}",
+            "role": "system", 
+            "content": configBotResponses["Identity"]
             },
+            {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": captionImageText},
+                {
+                "type": "image_url",
+                "image_url": {
+                    "url": f"data:image/jpeg;base64,{imageBase64}",
+                    "detail": "high"
+                },
+                }
+            ],
             }
         ],
-        }
-    ],
-    max_tokens=maxTokensResponse,
-    )
+        max_tokens=maxTokensResponse,
+        )
 
-    # Generate new Fernet Key
-    fernetFileKey = security.GenerateFernetKey(fileKey)
+        # Generate new Fernet Key
+        fernetFileKey = security.GenerateFernetKey(fileKey)
 
-    # Encrypt user image
-    security.EncryptFile(userImagePath, fernetFileKey)
+        # Encrypt user image
+        security.EncryptFile(userImagePath, fernetFileKey)
 
-    # Remove bot voice note
-    os.remove(userImagePath)
+        # Remove bot voice note
+        os.remove(userImagePath)
 
-    # Bot response
-    visionAnswerProvided = responseVision.choices[0].message.content
-    await update.message.reply_text(visionAnswerProvided)
+        # Bot response
+        visionAnswerProvided = responseVision.choices[0].message.content
+        await update.message.reply_text(visionAnswerProvided)
+    
+    except openai.BadRequestError:
+        await update.message.reply_text("What do you want to know about the photo? Please enter your request in the 'description' field when sending me the image.")

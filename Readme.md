@@ -70,6 +70,14 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 * This feature allows you to generate images from text messages and voice notes.
 
+
+### Easy access to Vision from Telegram
+
+* Support for the use of Vision in image recognition is included.
+
+* This feature allows you to ask about image elements.
+
+
 <br>
 
 ## Getting started 🚀

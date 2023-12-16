@@ -70,12 +70,12 @@ def StatsNumTokensTts(username, userId, botAudioReply, option="tts"):
 
 
 # Function that process the number of vision tokens
-def StatsNumTokensVision(username, userId, queryResults):
+def StatsNumTokensVision(username, userId):
 
     if db.OperateStatsToken(username, userId, 1, option="visionCheck") is None:
-        db.OperateStatsToken(username, userId, queryResults, option="visionInsert")
+        db.OperateStatsToken(username, userId, 1, option="visionInsert")
     else:
-        db.OperateStatsToken(username, userId, queryResults, option="visionUpdate")
+        db.OperateStatsToken(username, userId, 1, option="visionUpdate")
 
         
 

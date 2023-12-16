@@ -92,7 +92,14 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
         elif context.chat_data["settingSelected"] == "Costs":
             df = pd.read_sql_query(f'SELECT * FROM stats', db.con)
 
-            df['cost_dollars'] = round(df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.00255)
+            df['cost_dollars'] = round(df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.01105)
+
+            '''
+            NOTES:
+            - Vision:
+                The current bot is sending images with the following size: 1280x958
+                The cost was adjusted with this info.
+            '''
 
             # Get the current date
             currentDate = datetime.now()
