@@ -263,7 +263,7 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     imageReceived = await context.bot.get_file(imageId)
 
     # Save image in local
-    userImagePath = f'image_{imageId}.jpg'
+    userImagePath = f'src/temp/user_image-{update.message.from_user.username}-{update.message.chat_id}.jpg'
     await imageReceived.download_to_drive(userImagePath)
 
     # Convert image to base64
@@ -275,6 +275,7 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     # Register vision tokens
     stats.StatsNumTokensVision(update.message.from_user.username, update.message.from_user.id)
 
+    # Vision model in use via api
     responseVision = openai.chat.completions.create(
     model="gpt-4-vision-preview",
     messages=[
@@ -298,15 +299,15 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     max_tokens=maxTokensResponse,
     )
 
-
-
-    visionAnswerProvided = responseVision.choices[0].message.content
-
-
     # Generate new Fernet Key
     fernetFileKey = security.GenerateFernetKey(fileKey)
 
     # Encrypt user image
     security.EncryptFile(userImagePath, fernetFileKey)
 
+    # Remove bot voice note
+    os.remove(userImagePath)
+
+    # Bot response
+    visionAnswerProvided = responseVision.choices[0].message.content
     await update.message.reply_text(visionAnswerProvided)
