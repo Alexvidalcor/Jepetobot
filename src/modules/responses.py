@@ -3,8 +3,11 @@ import openai
 import urllib.request
 import os
 import datetime
+import requests
+import base64
 from tinytag import TinyTag
 from math import ceil
+from PIL import Image
 
 # Custom modules
 from main import *
@@ -80,7 +83,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     audioDuration = ceil(audio.duration / 60)
 
     # Calc user voice note tokens
-    stats.StatsNumTokensWhisper(update.message.from_user.username, audioDuration)
+    stats.StatsNumTokensWhisper(update.message.from_user.username, update.message.from_user.id, audioDuration)
 
     # Transcript voice note file to text
     audioTranscript = SpeechToText(userVoicePath)
@@ -100,9 +103,9 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Performs different actions if a specific voice command was detected
     if transcriptProcessed == "text":
 
-        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], "voice", option="tts")
+        botAudioReply = GenerateTextReply(update.message.from_user.username, audioTranscript.text, update.message.from_user.id, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], viaInput="voice", option="tts")
 
-        stats.StatsNumTokensTts(update.message.from_user.username, botAudioReply)
+        stats.StatsNumTokensTts(update.message.from_user.username, update.message.from_user.id, botAudioReply)
 
         botVoicePath = f"src/temp/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
 
@@ -117,7 +120,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
         os.remove(botVoicePath)
     
     elif transcriptProcessed == "image":
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], update.message.chat_id, viaInput="voice", viaOutput="image"))
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], update.message.from_user.id, update.message.chat_id, viaInput="voice", viaOutput="image"))
 
 
 '''
@@ -126,17 +129,15 @@ TEXT FUNCTIONS
 -------------------------------------------------------
 '''
 
-def FormatCompletionMessages(username, chatid, identity, promptUser, option="prerequest"):
+def FormatCompletionMessages(userId, chatId, identity, option="prerequest"):
 
-    logtool.userLogger.info(f'{username} sent a message')
-
-    results = db.GetUserMessagesToReply(username, chatid)
+    results = db.GetUserMessagesToReply(userId, chatId)
     resultsFormatted = eval(str(results).replace("None", "'None'"))
 
     conversationFormatted = [{"role": "system", "content": identity}]
     for row in resultsFormatted:
         conversationFormatted.append({"role": "user", "content": row[2]})
-        conversationFormatted.append({"role": "assistant", "content": row[8]})
+        conversationFormatted.append({"role": "assistant", "content": row[10]})
 
     if option == "prerequest":
         conversationFormatted.pop()
@@ -144,12 +145,14 @@ def FormatCompletionMessages(username, chatid, identity, promptUser, option="pre
     return conversationFormatted
 
 
-def GenerateTextReply(username, prompt, chatid, identity, temp, viaInput="text", viaOutput="text", option="gpt"):
+def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput="text", viaOutput="text", option="gpt"):
 
     currentDateTime = GetCurrentDatetime()
 
-    db.InsertUserMessage(username, prompt, chatid, viaInput, viaOutput currentDateTime)
-    messagesFormatted = FormatCompletionMessages(username, chatid, identity, prompt)
+    db.InsertUserMessage(username, prompt, userId, chatId, viaInput, viaOutput, currentDateTime)
+
+    messagesFormatted = FormatCompletionMessages(userId, chatId, identity)
+    logtool.userLogger.info(f'{username} sent a message')
 
     completions = openai.chat.completions.create(
         model="gpt-4-1106-preview",
@@ -162,12 +165,12 @@ def GenerateTextReply(username, prompt, chatid, identity, temp, viaInput="text",
 
     answerProvided = completions.choices[0].message.content
 
-    db.InsertAssistantMessage(username, answerProvided, chatid , viaInput, viaOutput, currentDateTime)
+    db.InsertAssistantMessage(answerProvided, username, userId, chatId , viaInput, viaOutput, currentDateTime)
 
-    messagesFormattedPost = FormatCompletionMessages(username, chatid, identity, prompt, option="postrequest")
+    messagesFormattedPost = FormatCompletionMessages(username, chatId, identity, option="postrequest")
 
     if option == "gpt":
-        stats.StatsNumTokensGpt(username, messagesFormattedPost)
+        stats.StatsNumTokensGpt(username, userId, messagesFormattedPost)
 
     logtool.userLogger.info(f'Jepetobot replied a {option} message')
 
@@ -179,11 +182,11 @@ async def TextInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if update.message.text.startswith("IMAGE:"):
     #Reply a dalle image
-        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, update.message.text.replace("IMAGE:",""), update.message.chat_id, viaInput="text", viaOutput="image"))
+        await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, update.message.text.replace("IMAGE:",""), update.message.from_user.id, update.message.chat_id, viaInput="text", viaOutput="image"))
 
     else:
     # Reply the user message.
-        await update.message.reply_text(GenerateTextReply(update.message.from_user.username, update.message.text, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], viaInput="text", viaOutput="text"))
+        await update.message.reply_text(GenerateTextReply(update.message.from_user.username, update.message.text, update.message.from_user.id, update.message.chat_id, configBotResponses["Identity"], configBotResponses["Temperature"], viaInput="text", viaOutput="text"))
 
 
 @security.UsersFirewall
@@ -216,14 +219,14 @@ IMAGE FUNCTIONS
 -------------------------------------------------------
 '''
 
-def GenerateImageReply(username, promptUser, chatid, viaInput="text", viaOutput="image"):
+def GenerateImageReply(username, promptUser, userId, chatId, viaInput="text", viaOutput="image"):
     try:
 
         # Get current datetime for database tasks
         currentDateTime = GetCurrentDatetime()    
 
-        db.InsertUserMessage(username, promptUser, chatid, viaInput, viaOutput, currentDateTime)
-        stats.StatsNumTokensDalle(username)
+        db.InsertUserMessage(username, promptUser, userId, chatId, viaInput, viaOutput, currentDateTime)
+        stats.StatsNumTokensDalle(username, userId)
 
         responseImage = openai.images.generate(
             model="dall-e-3",
@@ -239,9 +242,71 @@ def GenerateImageReply(username, promptUser, chatid, viaInput="text", viaOutput=
 
     except openai.BadRequestError:
         return "src/images/App-image1.png"
+    
+
+def TransformToBase64(imagePath):
+
+    with open(imagePath, "rb") as imagenFile:
+        imagenData = imagenFile.read()
+
+    # Convierte la imagen a base64
+    imageBase64 = base64.b64encode(imagenData).decode('utf-8')
+
+    return imageBase64
+
+
+@security.UsersFirewall
+async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+
+    # Get image id
+    imageId = update.message.photo[-1].file_id
+    imageReceived = await context.bot.get_file(imageId)
+
+    # Save image in local
+    userImagePath = f'image_{imageId}.jpg'
+    await imageReceived.download_to_drive(userImagePath)
+
+    # Convert image to base64
+    imageBase64 = TransformToBase64(userImagePath)
+
+    # Retrieve the text received alongside the image
+    captionImageText = update.message.caption
+
+    # Register vision tokens
+    stats.StatsNumTokensVision(update.message.from_user.username, update.message.from_user.id)
+
+    responseVision = openai.chat.completions.create(
+    model="gpt-4-vision-preview",
+    messages=[
+        {
+         "role": "system", 
+         "content": configBotResponses["Identity"]
+        },
+        {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": captionImageText},
+            {
+            "type": "image_url",
+            "image_url": {
+                "url": f"data:image/jpeg;base64,{imageBase64}",
+            },
+            }
+        ],
+        }
+    ],
+    max_tokens=maxTokensResponse,
+    )
 
 
 
+    visionAnswerProvided = responseVision.choices[0].message.content
 
 
+    # Generate new Fernet Key
+    fernetFileKey = security.GenerateFernetKey(fileKey)
 
+    # Encrypt user image
+    security.EncryptFile(userImagePath, fernetFileKey)
+
+    await update.message.reply_text(visionAnswerProvided)

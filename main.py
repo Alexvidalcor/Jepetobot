@@ -87,6 +87,10 @@ def main() -> None:
     # on non command i.e TEXT message - reply the message on Telegram
     application.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND, responses.TextInput))
+    
+    # on non command i.e IMAGE message - reply the message on Telegram
+    application.add_handler(MessageHandler(
+        filters.PHOTO & ~filters.COMMAND, responses.ImageInput))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()

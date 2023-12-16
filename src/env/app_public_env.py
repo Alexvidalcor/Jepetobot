@@ -1,7 +1,7 @@
 # Variables that do not need to be stored as secrets and modify the behavior of the application
 
 appName = "Jepetobot"
-dbName = "MainDb"
+dbName = "MainDb.sqlite"
 dbPath = "src/db"
 logsPath = "src/logs"
 maxGptTokenUser = 50000

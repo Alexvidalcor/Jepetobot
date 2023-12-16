@@ -6,6 +6,8 @@ cryptography
 tinytag
 pandas
 pdfkit
+requests
+Pillow
 
 # AWS libraries
 botocore
