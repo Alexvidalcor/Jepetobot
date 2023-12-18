@@ -143,9 +143,9 @@ Currently there are three Github Actions workflows prepared to automate the clou
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/deploy_resources.yaml)_
 
-Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch |
---- | --- | --- | --- | --- | --- |
-Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily |
+Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch | Lambda
+--- | --- | --- | --- | --- | --- | --- |
+Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily | Trigger custom task
 
 
 * _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_

@@ -10,7 +10,7 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-from env.cdk_public_env import appName
+from env.cdk_public_env import appName, startHour, startMinute, enableScheduler
 from env.cdk_secrets_env import envDeploy, awsRegion
 
 
@@ -40,11 +40,21 @@ class Lambda1Stack(Stack):
                                     role=lambdaRole)
 
 
-        # Define the event rule to execute the Lambda at time specified
-        rule = events.Rule(
-            self, appName + "_Lambda1_event1",
-            schedule=events.Schedule.cron(hour='07', minute='0'),
-        )
+        if enableScheduler:
+            try:
+                # Define the event rule to execute the Lambda at time specified
+                rule = events.Rule(
+                    self, appName + "_Lambda1_event1",
+                    schedule=events.Schedule.cron(hour=startHour, 
+                                                  minute=startMinute,
+                                                  month='*',
+                                                  week_day='MON-SUN',
+                                                  year='*'
+                                                )
+                )
 
-        # Associate the Lambda as the target of the event rule
-        rule.add_target(targets.LambdaFunction(function1))
+                # Associate the Lambda as the target of the event rule
+                rule.add_target(targets.LambdaFunction(function1))
+
+            except Exception:
+                raise Exception("Did you insert time variables?")
