@@ -82,9 +82,6 @@ def StatsNumTokensVision(username, userId):
 def CheckTokenLimit(username, userId):
     tokensUsed = db.OperateStatsToken(username, userId, 1, option="gptCheck")[3:8]
 
-    print(tokensUsed)
-    print(tokensUsed[0] < maxTokensUserGpt)
-
     if (tokensUsed[0] < maxTokensUserGpt and
     tokensUsed[1] < maxTokensUserDalle and
     tokensUsed[2] < maxTokensUserWhisper and
