@@ -4,18 +4,22 @@ import base64
 from cryptography.fernet import Fernet
 
 # Custom importation
+from src.modules import stats
 from src.env.app_secrets_env import idAdminAllowed, idUsersAllowed
 from main import *
+
+
+
 
 # User logging decorator
 def UsersFirewall(originalFunction):
     async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if update.message != None:
             user = update.message.from_user
-            if user["id"] in idUsersAllowed:
+            if user["id"] in idUsersAllowed and stats.CheckTokenLimit(user["username"], user["id"]):
                 return await originalFunction(update, context)
             await update.message.reply_html(
-                rf"Hi {user.mention_html()}!, you don't have permissions {user['id']}"
+                rf"Hi {user.mention_html()}! You don't have permissions or have exceeded a maximum token limit. ({user['id']})"
             )
         else:
             return await originalFunction(update, context) 
@@ -62,3 +66,17 @@ def EncryptFile(originalFilePath, key):
 
     with open(originalFilePath, 'wb') as encryptedFile:
         encryptedFile.write(encryptedFileData)
+
+
+# Function to decrypt a file
+def DecryptFile(encryptedFilePath, key):
+    cipherSuite = Fernet(key)
+    
+    with open(encryptedFilePath, 'rb') as file:
+        encryptedFileData = file.read()
+
+    decryptedFileData = cipherSuite.decrypt(encryptedFileData)
+
+    with open(encryptedFilePath, 'wb') as decryptedFile:
+        decryptedFile.write(decryptedFileData)
+        

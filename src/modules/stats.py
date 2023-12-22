@@ -3,7 +3,7 @@ import tiktoken
 
 # Custom modules
 from src.modules import logtool, db
-from src.env.app_public_env import maxGptTokenUser
+from src.env.app_public_env import maxTokensUserGpt, maxTokensUserDalle, maxTokensUserWhisper, maxTokensUserTts, maxTokensUserVision
 
 
 
@@ -76,6 +76,27 @@ def StatsNumTokensVision(username, userId):
         db.OperateStatsToken(username, userId, 1, option="visionInsert")
     else:
         db.OperateStatsToken(username, userId, 1, option="visionUpdate")
+
+
+# Check if the user has exceeded the token limits set in the configuration
+def CheckTokenLimit(username, userId):
+    tokensUsed = db.OperateStatsToken(username, userId, 1, option="gptCheck")[3:8]
+
+    print(tokensUsed)
+    print(tokensUsed[0] < maxTokensUserGpt)
+
+    if (tokensUsed[0] < maxTokensUserGpt and
+    tokensUsed[1] < maxTokensUserDalle and
+    tokensUsed[2] < maxTokensUserWhisper and
+    tokensUsed[3] < maxTokensUserTts and
+    tokensUsed[4] < maxTokensUserVision):
+        result = True
+    else:
+        result = False
+
+    return result
+    
+
 
         
 

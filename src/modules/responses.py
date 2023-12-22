@@ -13,7 +13,7 @@ from PIL import Image
 from main import *
 from src.modules import security, db, stats, logtool
 from src.env.app_secrets_env import openaiToken, fileKey
-from src.env.app_public_env import maxTokensResponse, configBotResponses, voiceChoice
+from src.env.app_public_env import maxTokensBotResponseGeneral, configBotResponses, voiceChoice
 
 # Get OpenAI token
 openai.api_key = openaiToken
@@ -157,7 +157,7 @@ def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput
     completions = openai.chat.completions.create(
         model="gpt-4-1106-preview",
         messages=messagesFormatted,
-        max_tokens=maxTokensResponse,
+        max_tokens=maxTokensBotResponseGeneral,
         n=1,
         stop=None,
         temperature=float(temp)
@@ -298,7 +298,7 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
             ],
             }
         ],
-        max_tokens=maxTokensResponse,
+        max_tokens=maxTokensBotResponseGeneral,
         )
 
         # Generate new Fernet Key

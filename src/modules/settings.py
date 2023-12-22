@@ -8,7 +8,7 @@ from datetime import datetime
 # Custom imports
 from main import *
 from src.modules import security, logtool, db
-from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses, dbName
+from src.env.app_public_env import maxTokensCustomIdentity, dbPath, configBotResponses, dbName
 from src.env.app_secrets_env import fileKey
 
 
@@ -216,14 +216,14 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     userCustomAnswer = update.message.text
     username = update.message.from_user.username
 
-    if len(list(userCustomAnswer)) <= maxTokensIdentity:
+    if len(list(userCustomAnswer)) <= maxTokensCustomIdentity:
         await update.message.reply_text(
             f"Inserted the following identity: {userCustomAnswer}",
             reply_markup=ReplyKeyboardRemove()
         )
     else:
         await update.message.reply_text(
-            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensIdentity}",
+            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensCustomIdentity}",
             reply_markup=ReplyKeyboardRemove()
         )
 
