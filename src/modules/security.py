@@ -16,7 +16,7 @@ def UsersFirewall(originalFunction):
     async def CheckPermissions(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         if update.message != None:
             user = update.message.from_user
-            if user["id"] in idUsersAllowed and stats.CheckTokenLimit(user["username"], user["id"]):
+            if user["id"] in idUsersAllowed and stats.CheckTokenLimit(user["username"], user["id"]) == None or stats.CheckTokenLimit(user["username"], user["id"]):
                 return await originalFunction(update, context)
             await update.message.reply_html(
                 rf"Hi {user.mention_html()}! You don't have permissions or have exceeded a maximum token limit. ({user['id']})"

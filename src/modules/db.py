@@ -83,38 +83,30 @@ def InsertAssistantMessage(content, username, userId, chatId, viaInput, viaOutpu
     con.commit()
 
 
-def OperateStatsToken(username, userId, numTokens, option="gptCheck"):
+def OperateStatsToken(username, userId, numTokens, option="statsCheck"):
 
-    if option == "gptCheck":
+    if option == "statsCheck":
         cur.execute(f'SELECT * FROM stats WHERE user_id = "{userId}"')
         return cur.fetchone()
+    
     elif option == "gptInsert":
         cur.execute(
             "INSERT INTO stats (tokens_gpt, user_name, user_id, tokens_dalle, tokens_whisper, tokens_tts, tokens_vision) VALUES (?, ?, ?, 0, 0, 0, 0);", (numTokens, username, userId))
     elif option == "gptUpdate":
         cur.execute(f'UPDATE stats SET tokens_gpt = tokens_gpt + {numTokens} WHERE user_id = "{userId}"')
     
-    elif option == "dalleCheck":
-        cur.execute(f'SELECT * FROM stats WHERE user_id = "{userId}"')
-        return cur.fetchone()
     elif option == "dalleInsert":
         cur.execute(
             f'INSERT INTO stats (user_name, user_id, tokens_dalle, tokens_gpt, tokens_whisper, tokens_tts, tokens_vision) VALUES ("{username}",{userId}, 1, 0, 0, 0, 0)')
     elif option == "dalleUpdate":
         cur.execute(f'UPDATE stats SET tokens_dalle = tokens_dalle + 1 WHERE user_id = "{userId}"')
 
-    elif option == "whisperCheck":
-        cur.execute(f'SELECT * FROM stats WHERE user_id = "{userId}"')
-        return cur.fetchone()
     elif option == "whisperInsert":
         cur.execute(
             "INSERT INTO stats (tokens_whisper, user_name, user_id, tokens_dalle, tokens_gpt, tokens_tts, tokens_vision) VALUES (?, ?, ?, 0, 0, 0, 0);", (numTokens, username, userId))
     elif option == "whisperUpdate":
         cur.execute(f'UPDATE stats SET tokens_whisper = tokens_whisper + {numTokens} WHERE user_id = "{userId}"')
 
-    elif option == "ttsCheck":
-        cur.execute(f'SELECT * FROM stats WHERE user_id = "{userId}"')
-        return cur.fetchone()
     elif option == "ttsInsert":
         cur.execute(
             "INSERT INTO stats (tokens_tts, user_name, user_id, tokens_dalle, tokens_whisper, tokens_gpt, tokens_vision) VALUES (?, ?, ?, 0, 0, 0, 0);", (numTokens, username, userId))
@@ -122,9 +114,6 @@ def OperateStatsToken(username, userId, numTokens, option="gptCheck"):
         cur.execute("UPDATE stats SET tokens_tts = ? WHERE  user_id = ?",
                     (numTokens, userId))
 
-    elif option == "visionCheck":
-        cur.execute(f'SELECT * FROM stats WHERE  user_id = "{userId}"')
-        return cur.fetchone()
     elif option == "visionInsert":
         cur.execute(
             f'INSERT INTO stats (user_name, user_id, tokens_dalle, tokens_gpt, tokens_whisper, tokens_tts, tokens_vision) VALUES ("{username}", {userId}, 1, 0, 0, 0, 0)')
