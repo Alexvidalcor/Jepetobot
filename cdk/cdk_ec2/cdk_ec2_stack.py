@@ -10,7 +10,7 @@ import json
 
 # Custom importation
 from env.cdk_public_env import showPublicIp, appName, createSG
-from env.cdk_secrets_env import awsRegion, vpcId, ec2Type, sgID, sgPorts, ec2Key, envDeploy
+from env.cdk_secrets_env import awsRegion, vpcId, ec2Type, sgID, sgPorts, ec2Key, envDeploy, tz
 
 # User data imported
 with open("./user_data/config.json") as fconfig:
@@ -21,7 +21,7 @@ with open("./user_data/install_docker.sh", "r") as fdocker:
     userData += f'echo \'{json.dumps(cloudwatchConfig)}\' > /opt/aws/amazon-cloudwatch-agent/bin/config.json'
     userData += "\n/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s"
 
-userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLACEAPPNAME", appName).replace("REPLACEENVNAME", envDeploy)
+userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLACEAPPNAME", appName).replace("REPLACEENVNAME", envDeploy).replace("REPLACETZ", tz)
 
 
 # AMI used

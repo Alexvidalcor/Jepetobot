@@ -3,12 +3,14 @@ from aws_cdk import (
     Stack,
     aws_lambda as lambda1,
     aws_s3 as _s3,
+    aws_events as events,
+    aws_events_targets as targets,
     aws_iam as iam
 )
 from constructs import Construct
 
 # Custom importation
-from env.cdk_public_env import appName
+from env.cdk_public_env import appName, startHour, startMinute, enableScheduler
 from env.cdk_secrets_env import envDeploy, awsRegion
 
 
@@ -31,8 +33,28 @@ class Lambda1Stack(Stack):
 
 
         # Create ec2_start lambda function
-        function = lambda1.Function(self, "ec2_start_lambda",
+        function1 = lambda1.Function(self, "ec2_start_lambda",
                                     runtime=lambda1.Runtime.PYTHON_3_10,
                                     handler="index.ec2_start_function",
                                     code=lambda1.Code.from_inline(lambdaDataProcessed),
                                     role=lambdaRole)
+
+
+        if enableScheduler:
+            try:
+                # Define the event rule to execute the Lambda at time specified
+                rule = events.Rule(
+                    self, appName + "_Lambda1_event1",
+                    schedule=events.Schedule.cron(hour=startHour, 
+                                                  minute=startMinute,
+                                                  month='*',
+                                                  week_day='MON-SUN',
+                                                  year='*'
+                                                )
+                )
+
+                # Associate the Lambda as the target of the event rule
+                rule.add_target(targets.LambdaFunction(function1))
+
+            except Exception:
+                raise Exception("Did you insert time variables?")

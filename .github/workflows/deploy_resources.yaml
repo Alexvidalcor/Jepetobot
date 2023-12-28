@@ -68,6 +68,8 @@ jobs:
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
         # ------
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+        # ------
+        TZ: ${{ secrets.TZ }}
 
     - name: Deploy secrets
       run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" &> /dev/null

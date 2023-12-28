@@ -1,6 +1,6 @@
 **THIS BRANCH IS ONLY FOR DEV PURPOSES**
 
-**CURRENT STATUS: STABLE**
+**CURRENT STATUS: UNSTABLE**
 
 <br><kbd>
 <br><img src="https://raw.githubusercontent.com/Alexvidalcor/jepetobot/master/src/images/Readme-logo1.png" width="500" />
@@ -46,7 +46,7 @@ Adapted to the latest chatgpt model | 'Identity' change from bot options | 'Temp
 
 
 ### Support for text and voice note conversations (tts-1 and whisper-1 models).
-This feature complements an advanced monitoring system.
+
 * The bot remembers the conversations of each user.
 
 * It is allowed to delete the stored conversations easily from the bot settings.
@@ -71,6 +71,14 @@ This feature complements an advanced monitoring system.
 * Support for the use of Dalle3 in image generation is included.
 
 * This feature allows you to generate images from text messages and voice notes.
+
+
+### Easy access to Vision from Telegram
+
+* Support for the use of Vision in image recognition is included.
+
+* This feature allows you to ask about image elements.
+
 
 <br>
 
@@ -137,9 +145,9 @@ Currently there are three Github Actions workflows prepared to automate the clou
 
 * _[cdk_deploy_resources.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/deploy_resources.yaml)_
 
-Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch |
---- | --- | --- | --- | --- | --- |
-Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily |
+Resources | EC2 | S3| secretmanager | codedeploy | cloudwatch | lambda
+--- | --- | --- | --- | --- | --- | --- |
+Purpose | Machine where the application is hosted | Bucket where application versions are stored | Secret Manager inside AWS | Automates the deployment of new versions of the application | Monitor logs easily | Trigger custom task
 
 
 * _[update_application.yaml](https://github.com/Alexvidalcor/jepetobot/blob/master/.github/workflows/update_application.yaml)_

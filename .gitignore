@@ -9,6 +9,7 @@ MainEnv/
 *.env
 *.log
 *.mp3
+*.jpg
 
 # Specific files
 auth.py

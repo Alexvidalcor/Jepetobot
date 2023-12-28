@@ -2,6 +2,12 @@
 python-telegram-bot
 python-dotenv
 sqlcipher3-binary
+cryptography
+tinytag
+pandas
+pdfkit
+requests
+Pillow
 
 # AWS libraries
 botocore
@@ -9,3 +15,4 @@ aws-secretsmanager-caching
 
 # OpenAI libraries
 openai
+tiktoken

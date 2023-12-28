@@ -1,10 +1,16 @@
 # Importing libraries
 import os
+import pandas as pd
+import pdfkit
+from datetime import datetime
+
 
 # Custom imports
 from main import *
-from src.modules import permissions, logtool, db
-from src.env.app_public_env import maxTokensIdentity, dbPath, configBotResponses
+from src.modules import security, logtool, db
+from src.env.app_public_env import maxTokensCustomIdentity, dbPath, configBotResponses, dbName
+from src.env.app_secrets_env import fileKey
+
 
 
 settingSelected, buttonSelected, customSelected, customAnswer = range(4)
@@ -22,14 +28,14 @@ identityOptions = {
 }
 
 
-@permissions.AdminFirewall
+@security.AdminFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
     username = update.message.from_user.username
     logtool.userLogger.info(f'{username} opened "settings"')
 
-    replyKeyboard = [["Identity", "Temperature", "Reset"]]
+    replyKeyboard = [["Identity", "Temperature", "Costs", "Reset"]]
 
     await update.message.reply_text(
         "Settings section! "
@@ -46,7 +52,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     return settingSelected
 
 
-@permissions.AdminFirewall
+@security.AdminFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
@@ -82,12 +88,65 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                 ]
             ]
 
+
+        elif context.chat_data["settingSelected"] == "Costs":
+            df = pd.read_sql_query(f'SELECT * FROM stats', db.con)
+
+            df['cost_dollars'] = round(df['tokens_gpt']/1000 * 0.03 + df['tokens_dalle'] * 0.040 + df["tokens_whisper"] * 0.006 + df["tokens_tts"]/1000 * 0.015 + df["tokens_vision"] * 0.01105)
+
+            '''
+            NOTES:
+            - Vision:
+                The current bot is sending images with the following size: 1280x958
+                The cost was adjusted with this info.
+            '''
+
+            # Get the current date
+            currentDate = datetime.now()
+
+            # Format the date
+            formatDate = currentDate.strftime('%Y-%m-%d_%H:%M:%S')
+
+            # Convert dataframe to html file
+            htmlDfPath = f"src/temp/costs_{formatDate}.html"
+            df.to_html(htmlDfPath, index=False)
+
+            # Convert dataframe to pdf file. The reason is to avoid incompatibilities when viewing the csv file by third-party programs
+            pdfDfPath = f"src/temp/costs_{formatDate}.pdf"
+            pdfkit.from_file(htmlDfPath, pdfDfPath)   
+
+            # Send option selected to user and remove keyboard selector
+            await update.message.reply_text(
+                "Costs selected", reply_markup=ReplyKeyboardRemove()
+            )  
+
+            # Send PDF file via Telegram bot
+            with open(pdfDfPath, 'rb') as filePdf:
+                await context.bot.send_document(chat_id=update.effective_chat.id, document=filePdf)
+
+            # Generate new Fernet Key
+            fernetFileKey = security.GenerateFernetKey(fileKey)
+
+            # Encrypt and delete costs HTML file
+            security.EncryptFile(htmlDfPath, fernetFileKey)
+            os.remove(htmlDfPath)
+
+            # Encrypt and delete costs PDF file
+            security.EncryptFile(pdfDfPath, fernetFileKey)
+            os.remove(pdfDfPath)
+
+            logtool.userLogger.info(f'{username} sent a costs file')
+
+            return ConversationHandler.END
+
+
         elif context.chat_data["settingSelected"] == "Reset":
-            if os.path.exists(dbPath):
-                os.remove(dbPath)
+            if os.path.exists(dbPath + "/" + dbName):
+                os.remove(dbPath + "/" + dbName)
                 db.TestDbConnection()
                 
                 # os.remove(f"{logsPath}/*.log")
+
                 # EnableLogging()
                 logtool.appLogger.info("------------Reseted")
                 logtool.userLogger.warning("------------Reseted")
@@ -157,14 +216,14 @@ async def CustomAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     userCustomAnswer = update.message.text
     username = update.message.from_user.username
 
-    if len(list(userCustomAnswer)) <= maxTokensIdentity:
+    if len(list(userCustomAnswer)) <= maxTokensCustomIdentity:
         await update.message.reply_text(
             f"Inserted the following identity: {userCustomAnswer}",
             reply_markup=ReplyKeyboardRemove()
         )
     else:
         await update.message.reply_text(
-            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensIdentity}",
+            f"Your custom identity has {len(list(userCustomAnswer))}, the max is {maxTokensCustomIdentity}",
             reply_markup=ReplyKeyboardRemove()
         )
 

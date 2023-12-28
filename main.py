@@ -8,12 +8,12 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 # Custom importation
 from src.env.app_public_env import appVersion
 from src.env.app_secrets_env import telegramToken
-from src.modules import settings, responses, permissions, db
+from src.modules import settings, responses, security, db
 
 
 
 # Start Function
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
     user = update.effective_user
@@ -25,7 +25,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # Help function
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text(
@@ -39,7 +39,7 @@ async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 # Cancel function
-@permissions.UsersFirewall
+@security.UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
 
@@ -87,6 +87,10 @@ def main() -> None:
     # on non command i.e TEXT message - reply the message on Telegram
     application.add_handler(MessageHandler(
         filters.TEXT & ~filters.COMMAND, responses.TextInput))
+    
+    # on non command i.e IMAGE message - reply the message on Telegram
+    application.add_handler(MessageHandler(
+        filters.PHOTO & ~filters.COMMAND, responses.ImageInput))
 
     # Run the bot until the user presses Ctrl-C
     application.run_polling()
