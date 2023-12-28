@@ -1,5 +1,5 @@
 # OS chosen
-FROM debian:bookworm AS compile-image
+FROM debian:bookworm-slim AS installation-image
 LABEL maintainer="Alexvidalcor"
 
 
