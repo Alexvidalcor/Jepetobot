@@ -88,20 +88,14 @@ class Ec2Stack(Stack):
                             )
 
         host.instance.add_property_override("BlockDeviceMappings", [{
-            "DeviceName": "/dev/xvda",
-            "Ebs": {
-                "VolumeSize": "1",
-                "VolumeType": "gp3",
-                "Iops": "100",
-                "DeleteOnTermination": "true"
+                "DeviceName": "/dev/xvda",
+                "Ebs": {
+                    "VolumeSize": "1",
+                    "VolumeType": "gp3",
+                    "Iops": "100",
+                    "DeleteOnTermination": "true"
+                }
             }
-        }, {
-            "DeviceName": "/dev/sdb",
-            "Ebs": {
-                "VolumeSize": "1",
-                "VolumeType": "gp3"
-            }
-        }
         ])
 
         # Print public ip of the instance
