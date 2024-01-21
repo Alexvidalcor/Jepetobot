@@ -90,7 +90,7 @@ class Ec2Stack(Stack):
         host.instance.add_property_override("BlockDeviceMappings", [{
             "DeviceName": "/dev/xvda",
             "Ebs": {
-                "VolumeSize": "8",
+                "VolumeSize": "1",
                 "VolumeType": "gp3",
                 "Iops": "100",
                 "DeleteOnTermination": "true"
@@ -98,7 +98,7 @@ class Ec2Stack(Stack):
         }, {
             "DeviceName": "/dev/sdb",
             "Ebs": {
-                "VolumeSize": "8",
+                "VolumeSize": "1",
                 "VolumeType": "gp3"
             }
         }
