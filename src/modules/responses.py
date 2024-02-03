@@ -7,7 +7,7 @@ from tinytag import TinyTag
 from math import ceil
 
 # Custom modules
-from main import Update, ContextTypes, InlineQueryResultArticle, CallbackContext
+from main import Update, ContextTypes, InlineQueryResultArticle, CallbackContext, InputTextMessageContent
 from src.modules.security import security_user, security_crypto, security_file
 from src.modules import db, logtool, stats
 from src.env.app_secrets_env import openaiToken
