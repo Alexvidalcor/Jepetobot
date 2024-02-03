@@ -10,7 +10,6 @@ from main import Update, ContextTypes, ReplyKeyboardMarkup, ReplyKeyboardRemove,
 from src.modules import logtool, db
 from src.modules.security import security_user, security_file, security_crypto
 from src.env.app_public_env import maxTokensCustomIdentity, dbPath, configBotResponses, dbName
-from src.env.app_secrets_env import fileKey
 
 
 
@@ -125,15 +124,13 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             with open(pdfDfPath, 'rb') as filePdf:
                 await context.bot.send_document(chat_id=update.effective_chat.id, document=filePdf)
 
-            # Generate new Fernet Key
-            fernetFileKey = security_crypto.GenerateFernetKey(fileKey)
 
             # Encrypt and delete costs HTML file
-            security_file.EncryptFile(htmlDfPath, fernetFileKey)
+            security_file.EncryptFile(htmlDfPath, security_crypto.fernetFileKey)
             os.remove(htmlDfPath)
 
             # Encrypt and delete costs PDF file
-            security_file.EncryptFile(pdfDfPath, fernetFileKey)
+            security_file.EncryptFile(pdfDfPath, security_crypto.fernetFileKey)
             os.remove(pdfDfPath)
 
             logtool.userLogger.info(f'{username} sent a costs file')

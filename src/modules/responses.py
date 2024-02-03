@@ -10,7 +10,7 @@ from math import ceil
 from main import Update, ContextTypes, InlineQueryResultArticle, CallbackContext
 from src.modules.security import security_user, security_crypto, security_file
 from src.modules import db, logtool, stats
-from src.env.app_secrets_env import openaiToken, fileKey
+from src.env.app_secrets_env import openaiToken
 from src.env.app_public_env import maxTokensBotResponseGeneral, configBotResponses, voiceChoice
 
 # Get OpenAI token
@@ -37,20 +37,19 @@ VOICE NOTE FUNCTIONS
 def SpeechToText(userVoicePath):
     audioFile= open(userVoicePath, "rb")
     transcript = openai.audio.transcriptions.create(
-    model="whisper-1", 
-    file=audioFile
+        model="whisper-1", 
+        file=audioFile
     )
     return transcript
 
 
 def TextToSpeech(userVoiceNoteTranscripted, botVoicePath, voiceChoice):
     response = openai.audio.speech.create(
-    model="tts-1",
-    voice=voiceChoice,
-    input=userVoiceNoteTranscripted,
+        model="tts-1",
+        voice=voiceChoice,
+        input=userVoiceNoteTranscripted
     )
-
-    response.stream_to_file(botVoicePath)
+    response.with_streaming_response.method(botVoicePath)
 
 
 def AudioTranscriptProcessor(userVoiceNoteTranscripted):
@@ -83,11 +82,8 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Transcript voice note file to text
     audioTranscript = SpeechToText(userVoicePath)
 
-    # Generate new Fernet Key
-    fernetFileKey = security_crypto.GenerateFernetKey(fileKey)
-
     # Encrypt user voice note
-    security_file.EncryptFile(userVoicePath, fernetFileKey)
+    security_file.EncryptFile(userVoicePath, security_crypto.fernetFileKey)
 
     # Remove user voice note
     os.remove(userVoicePath)
@@ -109,13 +105,16 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
         await update.message.reply_voice(botVoicePath)
 
         # Encrypt bot voice note
-        security_file.EncryptFile(botVoicePath, fernetFileKey)
+        security_file.EncryptFile(botVoicePath, security_crypto.fernetFileKey)
 
         # Remove bot voice note
         os.remove(botVoicePath)
     
     elif transcriptProcessed == "image":
         await update.message.reply_photo(GenerateImageReply(update.message.from_user.username, audioTranscript.text[5::], update.message.from_user.id, update.message.chat_id, viaInput="voice", viaOutput="image"))
+
+    del audioTranscript
+
 
 
 '''
@@ -136,6 +135,8 @@ def FormatCompletionMessages(userId, chatId, identity, option="prerequest"):
 
     if option == "prerequest":
         conversationFormatted.pop()
+
+    del resultsFormatted
 
     return conversationFormatted
 
@@ -168,6 +169,8 @@ def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput
         stats.StatsNumTokensGpt(username, userId, messagesFormattedPost)
 
     logtool.userLogger.info(f'Jepetobot replied a {option} message')
+
+    del messagesFormatted, messagesFormattedPost
 
     return answerProvided
 
@@ -206,6 +209,7 @@ async def TextInputInline(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     ]
 
     await update.inline_query.answer(results)
+
 
 
 '''
@@ -296,11 +300,8 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         max_tokens=maxTokensBotResponseGeneral,
         )
 
-        # Generate new Fernet Key
-        fernetFileKey = security_crypto.GenerateFernetKey(fileKey)
-
         # Encrypt user image
-        security_file.EncryptFile(userImagePath, fernetFileKey)
+        security_file.EncryptFile(userImagePath, security_crypto.fernetFileKey)
 
         # Remove bot voice note
         os.remove(userImagePath)

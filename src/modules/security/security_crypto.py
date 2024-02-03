@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 
 # Custom importation
 from src.modules.security import security_crypto
-from src.env.app_secrets_env import dbKey
+from src.env.app_secrets_env import dbKey, fileKey
 
 
 def GenerateFernetKey(fileKey):
@@ -21,5 +21,6 @@ def GenerateFernetKey(fileKey):
     return fernetKey
 
 fernetDbKey = security_crypto.GenerateFernetKey(dbKey)
+fernetFileKey = security_crypto.GenerateFernetKey(fileKey)
 
 
