@@ -6,8 +6,9 @@ from datetime import datetime
 
 
 # Custom imports
-from main import *
-from src.modules import security, logtool, db
+from main import Update, ContextTypes, ReplyKeyboardMarkup, ReplyKeyboardRemove, ConversationHandler, InlineKeyboardButton, InlineKeyboardMarkup
+from src.modules import logtool, db
+from src.modules.security import security_user, security_file, security_crypto
 from src.env.app_public_env import maxTokensCustomIdentity, dbPath, configBotResponses, dbName
 from src.env.app_secrets_env import fileKey
 
@@ -28,7 +29,7 @@ identityOptions = {
 }
 
 
-@security.AdminFirewall
+@security_user.AdminFirewall
 async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /settings is issued.
 
@@ -52,7 +53,7 @@ async def SettingsMenu(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     return settingSelected
 
 
-@security.AdminFirewall
+@security_user.AdminFirewall
 async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     try:
@@ -125,14 +126,14 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
                 await context.bot.send_document(chat_id=update.effective_chat.id, document=filePdf)
 
             # Generate new Fernet Key
-            fernetFileKey = security.GenerateFernetKey(fileKey)
+            fernetFileKey = security_crypto.GenerateFernetKey(fileKey)
 
             # Encrypt and delete costs HTML file
-            security.EncryptFile(htmlDfPath, fernetFileKey)
+            security_file.EncryptFile(htmlDfPath, fernetFileKey)
             os.remove(htmlDfPath)
 
             # Encrypt and delete costs PDF file
-            security.EncryptFile(pdfDfPath, fernetFileKey)
+            security_file.EncryptFile(pdfDfPath, fernetFileKey)
             os.remove(pdfDfPath)
 
             logtool.userLogger.info(f'{username} sent a costs file')

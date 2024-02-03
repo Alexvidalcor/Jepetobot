@@ -2,7 +2,7 @@
 import tiktoken
 
 # Custom modules
-from src.modules import logtool, db
+from src.modules import db
 from src.env.app_public_env import maxTokensUserGpt, maxTokensUserDalle, maxTokensUserWhisper, maxTokensUserTts, maxTokensUserVision
 
 

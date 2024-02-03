@@ -1,7 +1,6 @@
 # Python libraries
 python-telegram-bot
 python-dotenv
-sqlcipher3-binary
 cryptography
 tinytag
 pandas
@@ -16,5 +15,3 @@ aws-secretsmanager-caching
 # OpenAI libraries
 openai
 tiktoken
-
-# Others

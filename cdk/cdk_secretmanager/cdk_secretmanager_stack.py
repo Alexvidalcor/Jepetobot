@@ -41,11 +41,11 @@ class SecretManagerStack(Stack):
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_db":'randomPassword'}),
             generate_string_key="secret_db",
-            exclude_characters='!@#$%^&*()_-+=[]{}|;:"<>,.?/~`\'\\',
-            require_each_included_type=False,
-            exclude_numbers=True,
-            exclude_punctuation=True,
-            password_length=16
+            # exclude_characters='!@#$%^&*()_-+=[]{}|;:"<>,.?/~`\'\\',
+            # require_each_included_type=False,
+            # exclude_numbers=True,
+            # exclude_punctuation=True,
+            # password_length=16
             )
         )
 

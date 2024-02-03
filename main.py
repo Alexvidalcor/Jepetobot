@@ -1,19 +1,18 @@
-
 # Telegram libraries
 from telegram import ForceReply, Update, ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton, InlineQueryResultArticle, InputTextMessageContent, constants
-
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters, ConversationHandler, CallbackQueryHandler,  InlineQueryHandler, CallbackContext
 
 
 # Custom importation
 from src.env.app_public_env import appVersion
 from src.env.app_secrets_env import telegramToken
-from src.modules import settings, responses, security, db
+from src.modules import db, responses, settings
+from src.modules.security import security_user
 
 
 
 # Start Function
-@security.UsersFirewall
+@security_user.UsersFirewall
 async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /start is issued.
     user = update.effective_user
@@ -25,7 +24,7 @@ async def Start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 # Help function
-@security.UsersFirewall
+@security_user.UsersFirewall
 async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     # Send a message when the command /help is issued.
     await update.message.reply_text(
@@ -39,7 +38,7 @@ async def HelpCommand(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 # Cancel function
-@security.UsersFirewall
+@security_user.UsersFirewall
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Cancels and ends the conversation."""
 

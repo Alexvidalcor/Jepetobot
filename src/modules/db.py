@@ -1,17 +1,17 @@
 # Libraries used
-from sqlcipher3 import dbapi2 as sqlcipher
+import sqlite3
 
 # Modules imported
 from src.env.app_public_env import dbPath, dbName
 from src.env.app_secrets_env import dbKey
 from src.modules import logtool
+from src.modules.security import security_db
 
 def TestDbConnection():
     try:
         global con
         global cur
-        con = sqlcipher.connect(dbPath + "/" + dbName)
-        con.execute(f'pragma key={dbKey}')
+        con = sqlite3.connect(dbPath + "/" + dbName)
         cur = con.cursor() 
         cur.execute(f"SELECT * from user WHERE ID=1")
         logtool.appLogger.info('Connection established succesfully')
@@ -22,11 +22,10 @@ def TestDbConnection():
         CreateTables(con)
         if cur.execute(f"SELECT * from user"):
             logtool.appLogger.info('Successful repair, connection established')
-            con = sqlcipher.connect(dbPath + "/" + dbName)
-            con.execute(f'pragma key={dbKey}')
+            con = sqlite3.connect(dbPath + "/" + dbName)
             cur = con.cursor()
         else:
-            logtool.errorsLogger.critical(f"Failed DB fix, fatabase was not created")
+            logtool.errorsLogger.critical(f"Failed DB fix, database was not created")
 
 
 def CreateTables(con):
@@ -69,22 +68,22 @@ def CreateTables(con):
                 ''')
 
 
+@security_db.EncryptParams
 def InsertUserMessage(username, content, userId, chatId, viaInput, viaOutput, date):
 
     query = "INSERT INTO user (name, content, user_id, chat_id, via_input, via_output, date) VALUES (?, ?, ?, ?, ?, ?, ?)"
     cur.execute(query, (username, content, userId, chatId, viaInput, viaOutput, date))
     con.commit()
 
-
+@security_db.EncryptParams
 def InsertAssistantMessage(content, username, userId, chatId, viaInput, viaOutput, date):
 
     query = "INSERT INTO bot (name, content, user_name, user_id, chat_id, via_input, via_output, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
     cur.execute(query, ("assistant", content, username, userId, chatId, viaInput, viaOutput, date))
     con.commit()
 
-
+@security_db.EncryptParams
 def OperateStatsToken(username, userId, numTokens, option="statsCheck"):
-
     if option == "statsCheck":
         cur.execute(f'SELECT * FROM stats WHERE user_id = "{userId}"')
         return cur.fetchone()
@@ -123,6 +122,7 @@ def OperateStatsToken(username, userId, numTokens, option="statsCheck"):
     con.commit()
 
 
+@security_db.EncryptParams
 def GetUserMessagesToReply(userId, chatId):
 
     query = f'''
@@ -139,5 +139,9 @@ def GetUserMessagesToReply(userId, chatId):
     
     results = cur.fetchall()
     results.reverse()
- 
-    return results
+
+    decryptedResultsList = [security_db.DecryptList(conversation) for conversation in results]
+     
+    return decryptedResultsList
+
+

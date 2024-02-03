@@ -10,6 +10,8 @@ MainEnv/
 *.log
 *.mp3
 *.jpg
+*.html
+*.pdf
 
 # Specific files
 auth.py
