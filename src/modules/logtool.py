@@ -1,7 +1,6 @@
 # Python libraries
 import logging
 from logging.handlers import RotatingFileHandler
-import datetime
 import sys
 
 # Modules imported
