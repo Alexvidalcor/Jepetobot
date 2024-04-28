@@ -44,7 +44,7 @@ except KeyError:
     cache = SecretCache(config = cacheConfig, client = client)
 
     # Telegram secret
-    secret1 = cache.get_secret_string(appName + "-" + envDeploy + "_secret1")
+    secret1 = cache.get_secret_string(appName + "-" + envDeploy + "_Secretmanager-secret1")
     telegramToken = json.loads(secret1)["secret_telegram"]
 
     # OpenAI secret
@@ -57,11 +57,11 @@ except KeyError:
     idAdminAllowed = eval(json.loads(secret1)["secret_admins"])
 
     # Db key secret
-    secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_secret3")
+    secret3 = cache.get_secret_string(appName + "-" + envDeploy + "_Secretmanager-secret3")
     dbKey = json.loads(secret3)["secret_db"]
 
     # File key secret
-    secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_secret4")
+    secret4 = cache.get_secret_string(appName + "-" + envDeploy + "_Secretmanager-secret4")
     fileKey = json.loads(secret4)["secret_file"]
 
 

@@ -38,17 +38,17 @@ class Ec2Stack(Stack):
 
         # Existing VPC
         vpc = ec2.Vpc.from_lookup(
-            self, appName + "-" + envDeploy + "_VPC", vpc_id=vpcId, is_default=True)
+            self, appName + "-" + envDeploy + "_Ec2-vpc", vpc_id=vpcId, is_default=True)
 
         # Existing SG or create a new one
         if createSG:
             sg = ec2.SecurityGroup(
                 self,
-                id = appName + "_sg",
+                id = appName + "-" + envDeploy + "_Ec2-sg",
                 vpc = vpc,
                 allow_all_outbound=True,
                 description = "CDK Security Group",
-                security_group_name = appName + "-" + envDeploy + "_sg"
+                security_group_name = appName + "-" + envDeploy + "_Ec2-sg"
             )
 
             for element in range(len(sgPorts)):
@@ -60,10 +60,10 @@ class Ec2Stack(Stack):
 
         else:
             sg = ec2.SecurityGroup.from_security_group_id(
-                self, appName + "-" + envDeploy + "_SG", sgID, mutable=False)
+                self, appName + "-" + envDeploy + "_Ec2-sg", sgID, mutable=False)
 
         # Instance Role and managed Polices
-        role = iam.Role(self, appName + "_Ec2_Role",
+        role = iam.Role(self, appName + "-" + envDeploy + "_Ec2-role",
                         assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
         role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3FullAccess"))
@@ -72,14 +72,19 @@ class Ec2Stack(Stack):
         role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchLogsFullAccess"))
 
+        # Set Ec2 key pair
+        key_pair = ec2.KeyPair.from_key_pair_attributes(self, appName + "-" + envDeploy + "_Ec2-key1",
+            key_pair_name= ec2Key,
+        )
+
         # Ec2 instance creation
         host = ec2.Instance(self, appName + "-" + envDeploy + "_Ec2",
                             instance_type=ec2.InstanceType(
                                 instance_type_identifier=ec2Type),
-                            instance_name=appName + "-" + envDeploy + "_instance",
+                            instance_name=appName + "-" + envDeploy + "_Ec2-instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
-                            key_name=ec2Key,
+                            key_pair=key_pair,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),

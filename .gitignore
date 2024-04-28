@@ -12,6 +12,7 @@ MainEnv/
 *.jpg
 *.html
 *.pdf
+*.pem
 
 # Specific files
 auth.py

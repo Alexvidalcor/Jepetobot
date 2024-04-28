@@ -20,7 +20,7 @@ class S3stack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        bucket = s3.Bucket(self, appName + "-" + envDeploy + "_s3-bucket",
+        bucket = s3.Bucket(self, appName + "-" + envDeploy + "_S3-bucket",
                             bucket_name = (f"{appName.lower()}-{envDeploy.lower()}--s3-bucket-{random.randint(0,99)}-{random.randint(0,99)}"),
                             auto_delete_objects=True,
                             removal_policy=RemovalPolicy.DESTROY,

@@ -20,14 +20,14 @@ class SecretManagerStack(Stack):
 
         # It stores default secrets
         secret1 = secretsmanager.Secret(self, 
-        appName+ "-" + envDeploy + "_secret1",
-        secret_name=appName + "-" + envDeploy + "_secret1",
+        appName+ "-" + envDeploy + "_Secretmanager-secret1",
+        secret_name=appName + "-" + envDeploy + "_Secretmanager-secret1",
         )
 
         # It stores app secrets
         secret2 = secretsmanager.Secret(self, 
-        appName+ "-" + envDeploy + "_secret2",
-        secret_name=appName + "-" + envDeploy + "_secret2",
+        appName+ "-" + envDeploy + "_Secretmanager-secret2",
+        secret_name=appName + "-" + envDeploy + "_Secretmanager-secret2",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"app": appName + "-" + envDeploy}),
             generate_string_key="secret_app"
@@ -36,8 +36,8 @@ class SecretManagerStack(Stack):
 
         # It stores db secrets
         secret3 = secretsmanager.Secret(self, 
-        appName+ "-" + envDeploy + "_secret3",
-        secret_name=appName + "-" + envDeploy + "_secret3",
+        appName+ "-" + envDeploy + "_Secretmanager-secret3",
+        secret_name=appName + "-" + envDeploy + "_Secretmanager-secret3",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_db":'randomPassword'}),
             generate_string_key="secret_db",
@@ -51,8 +51,8 @@ class SecretManagerStack(Stack):
 
         # It stores files secrets
         secret4 = secretsmanager.Secret(self, 
-        appName+ "-" + envDeploy + "_secret4",
-        secret_name=appName + "-" + envDeploy + "_secret4",
+        appName+ "-" + envDeploy + "_Secretmanager-secret4",
+        secret_name=appName + "-" + envDeploy + "_Secretmanager-secret4",
         generate_secret_string=secretsmanager.SecretStringGenerator(
             secret_string_template=json.dumps({"secret_file":'randomPassword'}),
             generate_string_key="secret_file",

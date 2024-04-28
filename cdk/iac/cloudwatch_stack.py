@@ -22,8 +22,8 @@ class CloudWatchStack(Stack):
         super().__init__(scope, id, **kwargs)
 
         # Create the CloudWatch log group
-        logGroup = logs.LogGroup(self, f"{appName}-{envDeploy}_log-group",
-            log_group_name=f"{appName}-{envDeploy}_log-group",
+        logGroup = logs.LogGroup(self, f"{appName}-{envDeploy}_Cloudwatch-loggroup",
+            log_group_name=f"{appName}-{envDeploy}_Cloudwatch-loggroup",
             retention=logs.RetentionDays.TWO_WEEKS,
             removal_policy=RemovalPolicy.DESTROY,
         )
