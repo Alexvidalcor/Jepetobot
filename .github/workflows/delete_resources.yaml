@@ -10,7 +10,7 @@ jobs:
     environment: ${{ github.ref_name }}
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+      APP_NAME: ${{ secrets.APP_NAME }}
       ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
 
     steps:
@@ -20,9 +20,9 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        role-session-name: ${{ secrets.APP_NAME }}
 
     - name: Show Github actions custom variables
       run: |
@@ -30,7 +30,7 @@ jobs:
 
     - name: Delete stacks
       run: |
-        stackNames=$(aws cloudformation list-stacks --query "StackSummaries[?starts_with(StackName, '${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}') && StackStatus=='CREATE_COMPLETE'].StackName" --output text)
+        stackNames=$(aws cloudformation list-stacks --query "StackSummaries[?starts_with(StackName, '${APP_NAME}-${ENVIRONMENT_DEPLOY}') && StackStatus=='CREATE_COMPLETE'].StackName" --output text)
 
         for stackName in $stackNames; do
           echo "Deleting stack: $stackName"
