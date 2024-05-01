@@ -27,7 +27,8 @@ jobs:
       with:
         aws-region: ${{ secrets.AWS_REGION }}
         role-to-assume: ${{ secrets.AWS_ROLE }}
-        role-session-name: ${{ secrets.APP_NAME }}
+        mask-aws-account-id: true
+        role-duration-seconds: 600
 
     - name: Show Github actions custom variables
       run: |
