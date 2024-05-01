@@ -15,16 +15,16 @@ load_dotenv("env/.cdk.env")
 
 # AWS variables
 awsRegion = os.environ["AWS_REGION"]
-awsTagName = os.environ["AWS_TAG_NAME"]
+awsAccount = os.environ["AWS_ACCOUNT"]
 
 # EC2 variables
-sgPorts = eval(os.environ["AWS_SG_PORTS"]) # Must receive an array
+sgPorts = eval(os.environ["AWS_SGPORTS"]) # Must receive an array
 
 # Github Actions variables 
 envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
 
 # Custom variables
-tz = os.environ["TZ"]
+tz = os.environ["GENERIC_TZ"]
 appName = os.environ["APP_NAME"]
 
 

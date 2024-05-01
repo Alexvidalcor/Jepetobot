@@ -6,8 +6,7 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-from env.cdk_public_env import appName
-from env.cdk_secrets_env import envDeploy, awsTagName
+from env.cdk_secrets_env import envDeploy, appName
 
 
 # Main Class
@@ -23,7 +22,7 @@ class CodeDeployStack(Stack):
             deployment_group_name=f"{appName}-{envDeploy}_Codedeploy-group",
             install_agent=True,
             ec2_instance_tags=codedeploy.InstanceTagSet({
-                "Group": [awsTagName + "-" + envDeploy],
+                "Group": [appName + "-" + envDeploy],
                 "Name": [appName + "-" + envDeploy +"_Ec2"],
             })
         )
