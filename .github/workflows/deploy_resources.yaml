@@ -25,18 +25,17 @@ permissions:
   contents: read
 
 jobs:
-
   cdk-deploy-resources:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v3.5.2
+      uses: actions/checkout@v4.1.4
       
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4.0.2
       with:
-        node-version: "18.12.1"
+        node-version: "20.12.2"
 
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
@@ -84,7 +83,6 @@ jobs:
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
 
         
-
 
   cdk-deploy-application:
     if: ${{ github.event.inputs.deployApplication }} == 'true'
