@@ -7,7 +7,6 @@ General variables
 -------------------------------------------------------
 '''
 
-reusableStack = False
 showPublicIp = False
 ec2Type = "t4g.nano"
 

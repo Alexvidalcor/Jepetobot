@@ -4,10 +4,6 @@ import random
 from dotenv import load_dotenv
 
 
-# Custom importation
-from env.cdk_public_env import reusableStack
-
-
 # Variables from GithubSecrets/LocalEnvironment
 
 print("Using local env variables...")

@@ -3,14 +3,6 @@ name: Deploy resources
 on:
    workflow_dispatch:
      inputs:
-       reusableStack:
-        type: choice
-        description: 'Always detect changes between layers'
-        options: 
-        - True
-        - False
-        required: true
-        default: False
        deployAplication:
         type: choice
         description: 'Deploy the application when creating the infrastructure'
@@ -51,7 +43,6 @@ jobs:
 
     - name: Show Github actions custom variables
       run: |
-        echo "Reusable stacks: ${{ github.event.inputs.reusableStack }}"
         echo "Deploy app: ${{ github.event.inputs.deployAplication }}"
         echo "Environment chosen: ${{ github.ref_name }}"
     
@@ -59,7 +50,6 @@ jobs:
       run: cdk deploy --app "python app.py" --require-approval never --all &> /dev/null
       working-directory: ./cdk
       env:
-        REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
         GENERIC_TZ: ${{ secrets.TZ }}
         # ------

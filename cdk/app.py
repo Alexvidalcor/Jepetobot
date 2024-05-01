@@ -6,7 +6,7 @@ from aws_cdk import (
 )
 
 # Custom importation
-from env.cdk_secrets_env import envDeploy, awsRegion, awsAccount, appName, reusableStack, appName, random
+from env.cdk_secrets_env import envDeploy, awsRegion, awsAccount, appName, appName
 
 
 # Stacks importation
@@ -22,29 +22,23 @@ from iac.lambda2_stack import Lambda2Stack
 # Set AWS environment
 awsEnv = Environment(account=awsAccount, region=awsRegion)
 
-# Config deployment
-if reusableStack == True:
-    timestamp = random.randint(0,999999)
-else:
-    timestamp = "Managed"
-
 
 # Execute stacks
 app = App()
 
-CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Codedeploy-stack-{timestamp}", env=awsEnv)
+CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Codedeploy-stack", env=awsEnv)
 
-S3Layer = S3stack(app, f"{appName}-{envDeploy}--S3-stack-{timestamp}", env=awsEnv)
+S3Layer = S3stack(app, f"{appName}-{envDeploy}--S3-stack", env=awsEnv)
 
-SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Secretmanager-stack-{timestamp}", env=awsEnv)
+SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Secretmanager-stack", env=awsEnv)
 
-CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cloudwatch-stack-{timestamp}", env=awsEnv)
+CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cloudwatch-stack", env=awsEnv)
 
-Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--Lambda1-stack-{timestamp}", env=awsEnv)
+Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--Lambda1-stack", env=awsEnv)
 
-Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--Lambda2-stack-{timestamp}", env=awsEnv)
+Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--Lambda2-stack", env=awsEnv)
 
-Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Ec2-stack-{timestamp}", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Ec2-stack", env=awsEnv)
 
 
 # Add tags
