@@ -63,7 +63,8 @@ jobs:
         GENERIC_TZ: ${{ secrets.TZ }}
         # ------
         AWS_ROLE: ${{ secrets.AWS_ROLE }}
-        AWS_SGPORTS: ${{ secrets.AWS_SG_PORTS }}
+        AWS_SGPORTS: ${{ secrets.AWS_SGPORTS }}
+        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
         # ------
         APP_NAME: ${{ secrets.APP_NAME }}
 
