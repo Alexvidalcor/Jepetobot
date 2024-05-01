@@ -9,8 +9,8 @@ from constructs import Construct
 import json
 
 # Custom importation
-from env.cdk_public_env import showPublicIp, appName, createSG
-from env.cdk_secrets_env import awsRegion, vpcId, ec2Type, sgID, sgPorts, ec2Key, envDeploy, tz
+from env.cdk_public_env import showPublicIp, ec2Type
+from env.cdk_secrets_env import awsRegion, sgPorts, envDeploy, tz, appName
 
 # User data imported
 with open("./user_data/config.json") as fconfig:
@@ -36,31 +36,28 @@ class Ec2Stack(Stack):
     def __init__(self, scope: Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
 
-        # Existing VPC
-        vpc = ec2.Vpc.from_lookup(
-            self, appName + "-" + envDeploy + "_Ec2-vpc", vpc_id=vpcId, is_default=True)
+        # Create new VPC
+        vpc = ec2.Vpc(
+            self, appName + "-" + envDeploy + "_Ec2-vpc",
+            max_azs=1
+        )
 
-        # Existing SG or create a new one
-        if createSG:
-            sg = ec2.SecurityGroup(
-                self,
-                id = appName + "-" + envDeploy + "_Ec2-sg",
-                vpc = vpc,
-                allow_all_outbound=True,
-                description = "CDK Security Group",
-                security_group_name = appName + "-" + envDeploy + "_Ec2-sg"
+        # Create new security group
+        sg = ec2.SecurityGroup(
+            self,
+            id = appName + "-" + envDeploy + "_Ec2-sg",
+            vpc = vpc,
+            allow_all_outbound=True,
+            description = f"{appName} CDK Security Group",
+            security_group_name = appName + "-" + envDeploy + "_Ec2-sg"
+        )
+
+        for element in range(len(sgPorts)):
+            sg.add_ingress_rule(
+                peer=ec2.Peer.any_ipv4(),
+                connection=ec2.Port.tcp(sgPorts[element]),
+                description="CDK Rule",
             )
-
-            for element in range(len(sgPorts)):
-                sg.add_ingress_rule(
-                    peer=ec2.Peer.any_ipv4(),
-                    connection=ec2.Port.tcp(sgPorts[element]),
-                    description="CDK Rule",
-                )
-
-        else:
-            sg = ec2.SecurityGroup.from_security_group_id(
-                self, appName + "-" + envDeploy + "_Ec2-sg", sgID, mutable=False)
 
         # Instance Role and managed Polices
         role = iam.Role(self, appName + "-" + envDeploy + "_Ec2-role",
@@ -72,10 +69,6 @@ class Ec2Stack(Stack):
         role.add_managed_policy(
             iam.ManagedPolicy.from_aws_managed_policy_name("CloudWatchLogsFullAccess"))
 
-        # Set Ec2 key pair
-        key_pair = ec2.KeyPair.from_key_pair_attributes(self, appName + "-" + envDeploy + "_Ec2-key1",
-            key_pair_name= ec2Key,
-        )
 
         # Ec2 instance creation
         host = ec2.Instance(self, appName + "-" + envDeploy + "_Ec2",
@@ -84,7 +77,6 @@ class Ec2Stack(Stack):
                             instance_name=appName + "-" + envDeploy + "_Ec2-instance",
                             machine_image=amazonLinux,
                             vpc=vpc,
-                            key_pair=key_pair,
                             security_group=sg,
                             vpc_subnets=ec2.SubnetSelection(
                                 subnet_type=ec2.SubnetType.PUBLIC),

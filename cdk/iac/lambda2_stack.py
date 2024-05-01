@@ -10,8 +10,8 @@ from aws_cdk import (
 from constructs import Construct
 
 # Custom importation
-from env.cdk_public_env import appName, stopHour, stopMinute, enableScheduler
-from env.cdk_secrets_env import envDeploy, awsRegion
+from env.cdk_public_env import stopHour, stopMinute, enableScheduler
+from env.cdk_secrets_env import envDeploy, awsRegion, appName
 
 # MainClass
 class Lambda2Stack(Stack):

@@ -11,8 +11,7 @@ from constructs import Construct
 import random
 
 # Custom importation
-from env.cdk_public_env import appName
-from env.cdk_secrets_env import envDeploy
+from env.cdk_secrets_env import envDeploy, appName
 
 # MainClass
 class S3stack(Stack):

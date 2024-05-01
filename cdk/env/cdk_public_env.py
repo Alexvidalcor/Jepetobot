@@ -9,9 +9,7 @@ General variables
 
 reusableStack = False
 showPublicIp = False
-appName = "Jepetobot"
-createSG = True
-
+ec2Type = "t4g.nano"
 
 '''
 -------------------------------------------------------

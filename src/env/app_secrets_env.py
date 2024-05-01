@@ -8,8 +8,6 @@ import os
 import json
 from dotenv import load_dotenv
 
-# Import modules
-from src.env.app_public_env import appName
 
 # Variables from GithubSecrets/environment
 try:
@@ -29,6 +27,7 @@ try:
     awsRegion = os.environ["AWS_REGION"]
     dbKey = os.environ["DB_KEY"]
     fileKey = os.environ["FILE_KEY"]
+    appName = os.environ["APP_NAME"]
 
 except KeyError:
     print("Failed!\nUsing secretmanager...")

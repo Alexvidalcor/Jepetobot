@@ -6,8 +6,7 @@ from aws_cdk import (
 )
 
 # Custom importation
-from env.cdk_public_env import appName
-from env.cdk_secrets_env import envDeploy, awsRegion, awsAccount, awsTagName, reusableStack, random
+from env.cdk_secrets_env import envDeploy, awsRegion, awsAccount, appName, reusableStack, appName, random
 
 
 # Stacks importation
@@ -50,26 +49,26 @@ Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Ec2-stack-{timestamp}", env=aw
 
 # Add tags
 
-Tags.of(Ec2Layer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(Ec2Layer).add("Name", awsTagName + "-" + envDeploy + "_Ec2")
+Tags.of(Ec2Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(Ec2Layer).add("Name", appName + "-" + envDeploy + "_Ec2")
 
-Tags.of(CodeDeployLayer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(CodeDeployLayer).add("Name", awsTagName + "-" + envDeploy + "_Codedeploy")
+Tags.of(CodeDeployLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(CodeDeployLayer).add("Name", appName + "-" + envDeploy + "_Codedeploy")
 
-Tags.of(S3Layer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(S3Layer).add("Name", awsTagName + "-" + envDeploy + "_S3")
+Tags.of(S3Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(S3Layer).add("Name", appName + "-" + envDeploy + "_S3")
 
-Tags.of(SecretManagerLayer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(SecretManagerLayer).add("Name", awsTagName + "-" + envDeploy + "_Secretmanager")
+Tags.of(SecretManagerLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(SecretManagerLayer).add("Name", appName + "-" + envDeploy + "_Secretmanager")
 
-Tags.of(CloudWatchLayer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(CloudWatchLayer).add("Name", awsTagName + "-" + envDeploy + "_Cloudwatch")
+Tags.of(CloudWatchLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(CloudWatchLayer).add("Name", appName + "-" + envDeploy + "_Cloudwatch")
 
-Tags.of(Lambda1Layer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(Lambda1Layer).add("Name", awsTagName + "-" + envDeploy + "_Lambda1")
+Tags.of(Lambda1Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(Lambda1Layer).add("Name", appName + "-" + envDeploy + "_Lambda1")
 
-Tags.of(Lambda1Layer).add("Group", awsTagName + "-" + envDeploy)
-Tags.of(Lambda1Layer).add("Name", awsTagName + "-" + envDeploy + "_Lambda2")
+Tags.of(Lambda1Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(Lambda1Layer).add("Name", appName + "-" + envDeploy + "_Lambda2")
 
 
 # Execute deploy
