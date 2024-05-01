@@ -20,6 +20,10 @@ on:
         required: true
         default: True
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
 
   cdk-deploy-resources:
