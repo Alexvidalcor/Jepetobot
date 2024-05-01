@@ -17,7 +17,7 @@ jobs:
     environment: ${{ github.ref_name }}
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+      APP_NAME: ${{ secrets.APP_NAME }}
       ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
       
     steps:
@@ -29,10 +29,10 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
-
+        role-to-assume: ${{ secrets.AWS_ROLE }}
+        role-session-name: ${{ secrets.APP_NAME }}
+          
     - name: Show Github actions custom variables
       run: |
         echo "Environment chosen: ${{ github.ref_name }}"
@@ -56,7 +56,7 @@ jobs:
     - name: Compress Repository
       run: |
         echo "${VERSION_NUMBER}"
-        zip -r ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*'
+        zip -r ${APP_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip . -x './*.git*' './cdk/*' './.devcontainer/*'
 
     - name: Upload compressed file to S3
       id: tasks-s3
@@ -65,14 +65,14 @@ jobs:
         echo BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text) >> $GITHUB_OUTPUT
         export BUCKETNAME=$(aws s3api list-buckets --query "Buckets[?contains(Name, 'jepetobot-${ENVIRONMENT_DEPLOY}')].Name" --output text)
 
-        aws s3 cp ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
+        aws s3 cp ${APP_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip s3://$BUCKETNAME/ --region $AWS_REGION &> /dev/null
 
     - name: Codedeploy execution
       run: |
 
         set +x
 
-        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip --query deploymentId --output text)
+        export DEPLOYMENT_ID=$(aws deploy create-deployment --application-name "${APP_NAME}-${ENVIRONMENT_DEPLOY}_app-codedeploy" --deployment-config-name CodeDeployDefault.OneAtATime --deployment-group-name "${APP_NAME}-${ENVIRONMENT_DEPLOY}_group-codedeploy" --s3-location bucket=${{ steps.tasks-s3.outputs.BUCKETNAME }},bundleType=zip,key=${APP_NAME}-${ENVIRONMENT_DEPLOY}_${{ steps.latest-tag.outputs.latest_tag }}-${GITHUB_RUN_NUMBER}.zip --query deploymentId --output text)
 
         timeout 900s bash -c '
         while [ "$(aws deploy get-deployment --deployment-id $DEPLOYMENT_ID --query deploymentInfo.status --output text)" != "Succeeded" ]; do

@@ -37,10 +37,11 @@ jobs:
     - name: Configure aws credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          role-session-name: ${{ secrets.APP_NAME }}
+          
     - name: Install dependencies
       run: |
         pip install -r cdk/cdk_requirements.txt
@@ -57,30 +58,29 @@ jobs:
       run: cdk deploy --app "python app.py" --require-approval never --all &> /dev/null
       working-directory: ./cdk
       env:
-        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-        AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
-        AWS_VPC_ID: ${{ secrets.AWS_VPC_ID }}
-        AWS_SG: ${{ secrets.AWS_SG }}
-        AWS_SG_PORTS: ${{ secrets.AWS_SG_PORTS }}
-        AWS_KEY: ${{ secrets.AWS_KEY }}
-        # ------
         REUSABLE_STACK: ${{ github.event.inputs.reusableStack }}
-        # ------
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
+        GENERIC_TZ: ${{ secrets.TZ }}
         # ------
-        TZ: ${{ secrets.TZ }}
+        AWS_ROLE: ${{ secrets.AWS_ROLE }}
+        AWS_SGPORTS: ${{ secrets.AWS_SG_PORTS }}
+        # ------
+        APP_NAME: ${{ secrets.APP_NAME }}
 
     - name: Deploy secrets
-      run: aws secretsmanager put-secret-value --secret-id ${AWS_TAG_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${SECRET_TELEGRAM}\",\"secret_openai\":\"${SECRET_OPENAI}\",\"secret_users\":\"${SECRET_USERS}\",\"secret_admins\":\"${SECRET_ADMINS}\"}" &> /dev/null
+      run: aws secretsmanager put-secret-value --secret-id ${APP_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${TELEGRAM_TOKEN}\",\"secret_openai\":\"${OPENAI_TOKEN}\",\"secret_users\":\"${APP_USERSALLOWED}\",\"secret_admins\":\"${APP_ADMINSALLOWED}\"}" &> /dev/null
 
       env:
-        AWS_TAG_NAME: ${{ secrets.AWS_TAG_NAME }}
+        APP_NAME: ${{ secrets.APP_NAME }}
+        APP_USERSALLOWED: ${{ secrets.APP_USERSALLOWED }}
+        APP_ADMINSALLOWED: ${{ secrets.APP_ADMINSALLOWED }}
+        # ------
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
+        # ------
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
-        SECRET_TELEGRAM: ${{ secrets.SECRET_TELEGRAM }}
-        SECRET_OPENAI: ${{ secrets.SECRET_OPENAI }}
-        SECRET_USERS: ${{ secrets.SECRET_USERS }}
-        SECRET_ADMINS: ${{ secrets.SECRET_ADMINS }}
+
+        
 
 
   cdk-deploy-application:

@@ -151,7 +151,7 @@ def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput
     logtool.userLogger.info(f'{username} sent a message')
 
     completions = openai.chat.completions.create(
-        model="gpt-4-1106-preview",
+        model="gpt-4-turbo",
         messages=messagesFormatted,
         max_tokens=maxTokensBotResponseGeneral,
         n=1,
