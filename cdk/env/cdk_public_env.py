@@ -7,7 +7,6 @@ General variables
 -------------------------------------------------------
 '''
 
-showPublicIp = False
 ec2Type = "t4g.nano"
 
 '''

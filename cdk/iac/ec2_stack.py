@@ -9,7 +9,7 @@ from constructs import Construct
 import json
 
 # Custom importation
-from env.cdk_public_env import showPublicIp, ec2Type
+from env.cdk_public_env import ec2Type
 from env.cdk_secrets_env import awsRegion, sgPorts, envDeploy, tz, appName
 
 # User data imported
@@ -94,8 +94,3 @@ class Ec2Stack(Stack):
                 }
             }
         ])
-
-        # Print public ip of the instance
-        if showPublicIp:
-            CfnOutput(self, "Output",
-                      value=host.instance_public_ip)

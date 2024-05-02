@@ -52,12 +52,11 @@ jobs:
       run: cdk deploy --app "python app.py" --require-approval never --all &> /dev/null
       working-directory: ./cdk
       env:
+        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
+        AWS_SGPORTS: ${{ secrets.AWS_SGPORTS }}
+        # ------
         ENVIRONMENT_DEPLOY: ${{ github.ref_name }}
         GENERIC_TZ: ${{ secrets.TZ }}
-        # ------
-        AWS_ROLE: ${{ secrets.AWS_ROLE }}
-        AWS_SGPORTS: ${{ secrets.AWS_SGPORTS }}
-        AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
         # ------
         APP_NAME: ${{ secrets.APP_NAME }}
 

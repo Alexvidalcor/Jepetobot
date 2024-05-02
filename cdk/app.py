@@ -26,19 +26,19 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 # Execute stacks
 app = App()
 
-CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Codedeploy-stack", env=awsEnv)
+CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Cdk-codedeploystack", env=awsEnv)
 
-S3Layer = S3stack(app, f"{appName}-{envDeploy}--S3-stack", env=awsEnv)
+S3Layer = S3stack(app, f"{appName}-{envDeploy}--Cdk-s3stack", env=awsEnv)
 
-SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Secretmanager-stack", env=awsEnv)
+SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Cdk-secretmanagerstack", env=awsEnv)
 
-CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cloudwatch-stack", env=awsEnv)
+CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cdk-cloudwatchstack", env=awsEnv)
 
-Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--Lambda1-stack", env=awsEnv)
+Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--Cdk-lambda1stack", env=awsEnv)
 
-Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--Lambda2-stack", env=awsEnv)
+Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--Cdk-lambda2stack", env=awsEnv)
 
-Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Ec2-stack", env=awsEnv)
+Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Cdk-ec2stack", env=awsEnv)
 
 
 # Add tags
