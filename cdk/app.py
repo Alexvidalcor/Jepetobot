@@ -34,9 +34,9 @@ SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Cdk-secret
 
 CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cdk-cloudwatchstack", env=awsEnv)
 
-Lambda1Layer = Lambda1Stack(app, f"{appName}-{envDeploy}--Cdk-lambda1stack", env=awsEnv)
+LambdaLayer1 = Lambda1Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack1", env=awsEnv)
 
-Lambda2Layer = Lambda2Stack(app, f"{appName}-{envDeploy}--Cdk-lambda2stack", env=awsEnv)
+LambdaLayer2 = Lambda2Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack2", env=awsEnv)
 
 Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Cdk-ec2stack", env=awsEnv)
 
