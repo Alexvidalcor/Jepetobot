@@ -26,43 +26,43 @@ awsEnv = Environment(account=awsAccount, region=awsRegion)
 # Execute stacks
 app = App()
 
-CodeDeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Cdk-codedeploystack", env=awsEnv)
+codedeployLayer = CodeDeployStack(app, f"{appName}-{envDeploy}--Cdk-codedeploystack", env=awsEnv)
 
-S3Layer = S3stack(app, f"{appName}-{envDeploy}--Cdk-s3stack", env=awsEnv)
+s3Layer = S3stack(app, f"{appName}-{envDeploy}--Cdk-s3stack", env=awsEnv)
 
-SecretManagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Cdk-secretmanagerstack", env=awsEnv)
+secretmanagerLayer = SecretManagerStack(app, f"{appName}-{envDeploy}--Cdk-secretmanagerstack", env=awsEnv)
 
-CloudWatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cdk-cloudwatchstack", env=awsEnv)
+cloudwatchLayer = CloudWatchStack(app, f"{appName}-{envDeploy}--Cdk-cloudwatchstack", env=awsEnv)
 
-LambdaLayer1 = Lambda1Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack1", env=awsEnv)
+lambdaLayer1 = Lambda1Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack1", env=awsEnv)
 
-LambdaLayer2 = Lambda2Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack2", env=awsEnv)
+lambdaLayer2 = Lambda2Stack(app, f"{appName}-{envDeploy}--Cdk-lambdastack2", env=awsEnv)
 
-Ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Cdk-ec2stack", env=awsEnv)
+ec2Layer = Ec2Stack(app, f"{appName}-{envDeploy}--Cdk-ec2stack", env=awsEnv)
 
 
 # Add tags
 
-Tags.of(Ec2Layer).add("Group", appName + "-" + envDeploy)
-Tags.of(Ec2Layer).add("Name", appName + "-" + envDeploy + "_Ec2")
+Tags.of(ec2Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(ec2Layer).add("Name", appName + "-" + envDeploy + "_Ec2")
 
-Tags.of(CodeDeployLayer).add("Group", appName + "-" + envDeploy)
-Tags.of(CodeDeployLayer).add("Name", appName + "-" + envDeploy + "_Codedeploy")
+Tags.of(codedeployLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(codedeployLayer).add("Name", appName + "-" + envDeploy + "_Codedeploy")
 
-Tags.of(S3Layer).add("Group", appName + "-" + envDeploy)
-Tags.of(S3Layer).add("Name", appName + "-" + envDeploy + "_S3")
+Tags.of(s3Layer).add("Group", appName + "-" + envDeploy)
+Tags.of(s3Layer).add("Name", appName + "-" + envDeploy + "_S3")
 
-Tags.of(SecretManagerLayer).add("Group", appName + "-" + envDeploy)
-Tags.of(SecretManagerLayer).add("Name", appName + "-" + envDeploy + "_Secretmanager")
+Tags.of(secretmanagerLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(secretmanagerLayer).add("Name", appName + "-" + envDeploy + "_Secretmanager")
 
-Tags.of(CloudWatchLayer).add("Group", appName + "-" + envDeploy)
-Tags.of(CloudWatchLayer).add("Name", appName + "-" + envDeploy + "_Cloudwatch")
+Tags.of(cloudwatchLayer).add("Group", appName + "-" + envDeploy)
+Tags.of(cloudwatchLayer).add("Name", appName + "-" + envDeploy + "_Cloudwatch")
 
-Tags.of(Lambda1Layer).add("Group", appName + "-" + envDeploy)
-Tags.of(Lambda1Layer).add("Name", appName + "-" + envDeploy + "_Lambda1")
+Tags.of(lambdaLayer1).add("Group", appName + "-" + envDeploy)
+Tags.of(lambdaLayer1).add("Name", appName + "-" + envDeploy + "_Lambda1")
 
-Tags.of(Lambda1Layer).add("Group", appName + "-" + envDeploy)
-Tags.of(Lambda1Layer).add("Name", appName + "-" + envDeploy + "_Lambda2")
+Tags.of(lambdaLayer2).add("Group", appName + "-" + envDeploy)
+Tags.of(lambdaLayer2).add("Name", appName + "-" + envDeploy + "_Lambda2")
 
 
 # Execute deploy
