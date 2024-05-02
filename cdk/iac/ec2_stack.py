@@ -25,7 +25,7 @@ userDataProcessed = userData.replace("REPLACEREGION", awsRegion).replace("REPLAC
 
 
 # AMI used
-amazonLinux = ec2.MachineImage.latest_amazon_linux2(
+amazonLinux = ec2.MachineImage.latest_amazon_linux2023(
     cpu_type=ec2.AmazonLinuxCpuType.ARM_64,
     edition=ec2.AmazonLinuxEdition.STANDARD
 )

@@ -61,7 +61,7 @@ jobs:
         APP_NAME: ${{ secrets.APP_NAME }}
 
     - name: Deploy secrets
-      run: aws secretsmanager put-secret-value --secret-id ${APP_NAME}-${ENVIRONMENT_DEPLOY}_secret1 --secret-string "{\"secret_telegram\":\"${TELEGRAM_TOKEN}\",\"secret_openai\":\"${OPENAI_TOKEN}\",\"secret_users\":\"${APP_USERSALLOWED}\",\"secret_admins\":\"${APP_ADMINSALLOWED}\"}" &> /dev/null
+      run: aws secretsmanager put-secret-value --secret-id ${APP_NAME}-${ENVIRONMENT_DEPLOY}_Secretmanager-secret1 --secret-string "{\"secret_telegram\":\"${TELEGRAM_TOKEN}\",\"secret_openai\":\"${OPENAI_TOKEN}\",\"secret_users\":\"${APP_USERSALLOWED}\",\"secret_admins\":\"${APP_ADMINSALLOWED}\"}" &> /dev/null
 
       env:
         APP_NAME: ${{ secrets.APP_NAME }}
