@@ -21,7 +21,7 @@ service codedeploy-agent start
 dnf install -y amazon-cloudwatch-agent
 
 # Docker installation
-dnf install docker
+dnf install docker -y
 usermod -a -G docker ec2-user
 newgrp docker
 systemctl start docker
