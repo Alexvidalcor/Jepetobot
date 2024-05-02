@@ -22,6 +22,9 @@ ENV ENVIRONMENT_DEPLOY=$envDeploy
 ARG timezone
 ENV TZ=$timezone
 
+ARG appName
+ENV APP_NAME=$appName
+
 
 # Set custom logs (only errors and app info)
 RUN ln -sf /dev/stdout /home/application/src/logs/app.log \

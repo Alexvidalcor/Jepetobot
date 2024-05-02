@@ -15,12 +15,12 @@ try:
     load_dotenv("src/env/.app.env")
 
     # Telegram variables
-    idUsersAllowed = eval(os.environ["SECRET_USERS"])
-    idAdminAllowed= eval(os.environ["SECRET_ADMINS"])
+    idUsersAllowed = eval(os.environ["APP_USERSALLOWED"])
+    idAdminAllowed= eval(os.environ["APP_ADMINSALLOWED"])
 
     # Token variables
-    telegramToken = os.environ["SECRET_TELEGRAM"]
-    openaiToken = os.environ["SECRET_OPENAI"]
+    telegramToken = os.environ["TELEGRAM_TOKEN"]
+    openaiToken = os.environ["OPENAI_TOKEN"]
 
     #Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
@@ -35,6 +35,7 @@ except KeyError:
     # Custom variables
     envDeploy = os.environ["ENVIRONMENT_DEPLOY"]
     awsRegion = os.environ["AWS_REGION"]
+    appName = os.environ["APP_NAME"]
 
     # SecretManager connection
     session = botocore.session.Session()

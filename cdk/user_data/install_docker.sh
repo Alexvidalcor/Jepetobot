@@ -6,7 +6,8 @@ yum update -y
 # Set some environment vars
 echo export AWS_REGION=REPLACEREGION >> /etc/profile
 echo export ENVIRONMENT_DEPLOY=REPLACEENVNAME >> /etc/profile
-echo export TZ=REPLACETZ >> /etc/profile 
+echo export TZ=REPLACETZ >> /etc/profile
+echo export APP_NAME=REPLACEAPPNAME >> /etc/profile 
 
 # CodeDeploy agent installation 
 yum install -y ruby wget
