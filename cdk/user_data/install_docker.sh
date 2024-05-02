@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Update the instance
-yum update -y
+dnf update -y
 
 # Set some environment vars
 echo export AWS_REGION=REPLACEREGION >> /etc/profile
@@ -10,7 +10,7 @@ echo export TZ=REPLACETZ >> /etc/profile
 echo export APP_NAME=REPLACEAPPNAME >> /etc/profile 
 
 # CodeDeploy agent installation 
-yum install -y ruby wget
+dnf install -y ruby wget
 cd /home/ec2-user
 wget https://aws-codedeploy-REPLACEREGION.s3.REPLACEREGION.amazonaws.com/latest/install
 chmod +x ./install
@@ -18,10 +18,11 @@ chmod +x ./install
 service codedeploy-agent start
 
 # Cloudwatch agent installation
-yum install -y amazon-cloudwatch-agent
+dnf install -y amazon-cloudwatch-agent
 
 # Docker installation
-amazon-linux-extras install docker
-service docker start
+dnf install docker
 usermod -a -G docker ec2-user
+newgrp docker
+systemctl start docker
 systemctl enable docker
