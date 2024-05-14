@@ -151,7 +151,7 @@ def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput
     logtool.userLogger.info(f'{username} sent a message')
 
     completions = openai.chat.completions.create(
-        model="gpt-4-turbo",
+        model="gpt-4o",
         messages=messagesFormatted,
         max_tokens=maxTokensBotResponseGeneral,
         n=1,
@@ -277,7 +277,7 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
         # Vision model in use via api
         responseVision = openai.chat.completions.create(
-        model="gpt-4-vision-preview",
+        model="gpt-4o",
         messages=[
             {
             "role": "system", 
