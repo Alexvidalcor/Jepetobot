@@ -9,19 +9,19 @@
 			"version": "latest"
 		},
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"moby": true,
-			"azureDnsAutoDetection": true,
+			"moby": false,
+			"azureDnsAutoDetection": false,
 			"installDockerBuildx": true,
+			"installDockerComposeSwitch": false,
 			"version": "latest",
-			"dockerDashComposeVersion": "v2"
+			"dockerDashComposeVersion": "latest"
 		},
 		"ghcr.io/devcontainers/features/node:1": {
 			"nodeGypDependencies": true,
+			"installYarnUsingApt": true,
 			"version": "lts",
+			"pnpmVersion": "latest",
 			"nvmVersion": "latest"
-		},
-		"ghcr.io/devcontainers-contrib/features/aws-cdk:2": {
-			"version": "latest"
 		}
 	}
 
