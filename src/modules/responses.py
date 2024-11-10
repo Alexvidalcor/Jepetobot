@@ -67,7 +67,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
     # Get basic info about the voice note file and prepare it for downloading
     userVoiceNoteId = await context.bot.get_file(update.message.voice.file_id)
 
-    userVoicePath = f"src/temp/user_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
+    userVoicePath = f"src/temporal/user_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
 
     # Download the voice note as a file
     await userVoiceNoteId.download_to_drive(userVoicePath)
@@ -98,7 +98,7 @@ async def VoiceInput(update: Update, context: CallbackContext) -> None:
 
         stats.StatsNumTokensTts(update.message.from_user.username, update.message.from_user.id, botAudioReply)
 
-        botVoicePath = f"src/temp/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
+        botVoicePath = f"src/temporal/bot_voice_note-{update.message.from_user.username}-{update.message.chat_id}.mp3"
 
         TextToSpeech(botAudioReply, botVoicePath, voiceChoice)
 
@@ -151,7 +151,7 @@ def GenerateTextReply(username, prompt, userId, chatId, identity, temp, viaInput
     logtool.userLogger.info(f'{username} sent a message')
 
     completions = openai.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-4o-mini",
         messages=messagesFormatted,
         max_tokens=maxTokensBotResponseGeneral,
         n=1,
@@ -263,7 +263,7 @@ async def ImageInput(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
         imageReceived = await context.bot.get_file(imageId)
 
         # Save image in local
-        userImagePath = f'src/temp/user_image-{update.message.from_user.username}-{update.message.chat_id}.jpg'
+        userImagePath = f'src/temporal/user_image-{update.message.from_user.username}-{update.message.chat_id}.jpg'
         await imageReceived.download_to_drive(userImagePath)
 
         # Convert image to base64

@@ -108,11 +108,11 @@ async def ValueAnswer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
             formatDate = currentDate.strftime('%Y-%m-%d_%H:%M:%S')
 
             # Convert dataframe to html file
-            htmlDfPath = f"src/temp/costs_{formatDate}.html"
+            htmlDfPath = f"src/temporal/costs_{formatDate}.html"
             df.to_html(htmlDfPath, index=False)
 
             # Convert dataframe to pdf file. The reason is to avoid incompatibilities when viewing the csv file by third-party programs
-            pdfDfPath = f"src/temp/costs_{formatDate}.pdf"
+            pdfDfPath = f"src/temporal/costs_{formatDate}.pdf"
             pdfkit.from_file(htmlDfPath, pdfDfPath)   
 
             # Send option selected to user and remove keyboard selector
