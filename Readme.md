@@ -210,7 +210,6 @@ This is a personal project with academic origins and is not intended to be a com
 This project is licensed under the License (GNU GPL-V3) - see the [LICENSE.md](LICENSE.md) file for details.
 
 
-
 ---
 
 ⌨️ with ❤️ by [Alexvidalcor](https://github.com/Alexvidalcor) 😊
